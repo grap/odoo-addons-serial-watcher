@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+
+    <menuitem id="menu_oversight_root"
+        name="Oversight"
+        sequence="20"/>
+
+    <menuitem id="menu_oversight_setting"
+        name="Settings"
+        parent="menu_oversight_root"
+        sequence="1"/>
+
+</data></openerp>

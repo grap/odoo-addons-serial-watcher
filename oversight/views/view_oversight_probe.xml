@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <record id="view_oversight_probe_tree" model="ir.ui.view">
+        <field name="model">oversight.probe</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="probe_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_oversight_probe_form" model="ir.ui.view">
+        <field name="model">oversight.probe</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="button_execute" string="Execute" type="object" groups="oversight.group_oversight_manager"/>
+                </header>
+                <sheet>
+                    <h1>
+                        <field name="name" class="oe_inline" readonly="1"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="probe_type"/>
+                        </group>
+                        <group string="Settings">
+                            <field name="target"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="TODO">
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_oversight_probe" model="ir.actions.act_window">
+        <field name="name">Probes</field>
+        <field name="res_model">oversight.probe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_probe"
+        parent="menu_oversight_setting"
+        action="action_oversight_probe" 
+        sequence="1"/>
+
+</data></openerp>

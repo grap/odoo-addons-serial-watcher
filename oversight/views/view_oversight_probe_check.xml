@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <record id="view_oversight_probe_check_tree" model="ir.ui.view">
+        <field name="model">oversight.probe.check</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date_start"/>
+                <field name="probe_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_oversight_probe_check_form" model="ir.ui.view">
+        <field name="model">oversight.probe.check</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="probe_id"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_oversight_probe_check" model="ir.actions.act_window">
+        <field name="name">Checks</field>
+        <field name="res_model">oversight.probe.check</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_probe_check"
+        parent="menu_oversight_setting"
+        action="action_oversight_probe_check" 
+        sequence="2"/>
+
+</data></openerp>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+,,,,,,,
+access_oversight_probe_user,access_oversight_probe_user,model_oversight_probe,group_oversight_user,1,,,
+access_oversight_probe_manager,access_oversight_probe_manager,model_oversight_probe,group_oversight_manager,1,1,1,1
+,,,,,,,
+access_oversight_probe_check_user,access_oversight_probe_check_user,model_oversight_probe_check,group_oversight_user,1,,,
+access_oversight_probe_check_manager,access_oversight_probe_check_manager,model_oversight_probe_check,group_oversight_manager,1,1,1,1
