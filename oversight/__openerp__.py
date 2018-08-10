@@ -19,11 +19,12 @@
         'security/ir.model.access.csv',
         'views/menu.xml',
         'views/view_oversight_probe.xml',
+        'views/view_oversight_probe_check.xml',
     ],
     'demo': [
         'demo/res_groups.xml',
         'demo/oversight_probe.xml',
-        'demo/oversight_probe_check.xml',
+
     ],
     'images': [
     ],

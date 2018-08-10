@@ -8,6 +8,7 @@ from openerp import fields, models
 
 class OversightProbe(models.Model):
     _name = 'oversight.probe.check'
+    _order = 'date_start desc'
 
     # Field Section
     _SELECTION_STATE = [
