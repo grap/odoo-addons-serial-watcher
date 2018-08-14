@@ -12,11 +12,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="priority" eval="7"/>
         <field name="inherit_id" ref="view_oversight_probe_template_form"/>
         <field name="arch" type="xml">
-            <field name="probe_type" position="attributes">
-                <attribute name="invisible">1</attribute>
+            <field name="state" position="before">
+                <button name="button_execute_variant" string="Execute" type="object"
+                        groups="oversight.group_oversight_manager"/>
+                <button name="button_confirm_variant" states="draft" string="Confirm" type="object"
+                        groups="oversight.group_oversight_manager"/>
+                <button name="button_draft_variant" states="confirm" string="Set to Draft" type="object"
+                        groups="oversight.group_oversight_manager"/>
             </field>
             <group name="group_variant_settings" position="inside">
                 <field name="url"/>
+                <field name="info_code_list"/>
+                <field name="warning_code_list"/>
             </group>
         </field>
     </record>
@@ -42,7 +49,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <menuitem id="menu_oversight_probe_variant_http_code"
-        parent="menu_oversight_setting_variant"
+        parent="menu_oversight_setting_non_intrusive_variant"
         action="action_oversight_probe_variant_http_code"
         sequence="2"/>
 

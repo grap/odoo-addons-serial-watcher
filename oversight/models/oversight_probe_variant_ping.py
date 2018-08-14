@@ -9,23 +9,12 @@ from openerp import api, fields, models
 
 class OversightProbeVariantPing(models.Model):
     _name = 'oversight.probe.variant.ping'
-    _inherits = {'oversight.probe.template': 'probe_template_id'}
-    _order = 'name'
+    _inherit = ['oversight.probe.variant.mixin']
 
     _variant_probe_type = 'ping'
 
     destination = fields.Char(
         string='Destination Computer', required=True)
-
-    probe_template_id = fields.Many2one(
-        comodel_name='oversight.probe.template', string='Probe Template',
-        required=True, ondelete="cascade", select=True, auto_join=True)
-
-    @api.model
-    def default_get(self, fields):
-        res = super(OversightProbeVariantPing, self).default_get(fields)
-        res.update({'probe_type': self._variant_probe_type})
-        return res
 
     @api.multi
     def _run_oversight_variant(self):

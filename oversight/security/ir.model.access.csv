@@ -1,7 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 ,,,,,,,
+access_oversight_probe_ssh_key_user,access_oversight_probe_ssh_key_user,model_oversight_probe_ssh_key,group_oversight_user,1,,,
+access_oversight_probe_ssh_key_manager,access_oversight_probe_ssh_key_manager,model_oversight_probe_ssh_key,group_oversight_manager,1,1,1,1
 ,,,,,,,
-,,,,,,,
+access_oversight_probe_alert_user,access_oversight_probe_alert_user,model_oversight_probe_alert,group_oversight_user,1,,,
+access_oversight_probe_alert_manager,access_oversight_probe_alert_manager,model_oversight_probe_alert,group_oversight_manager,1,1,1,1
 ,,,,,,,
 access_oversight_check_user,access_oversight_check_user,model_oversight_check,group_oversight_user,1,,,
 access_oversight_check_manager,access_oversight_check_manager,model_oversight_check,group_oversight_manager,1,1,1,1

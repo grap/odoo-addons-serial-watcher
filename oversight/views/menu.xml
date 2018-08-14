@@ -21,10 +21,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         parent="menu_oversight_root"
         sequence="10"/>
 
-    <menuitem id="menu_oversight_setting_variant"
-        name="Probes Variants"
+    <menuitem id="menu_oversight_setting_non_intrusive_variant"
+        name="Non Intrusive Probes"
         parent="menu_oversight_setting"
-        sequence="1"/>
+        sequence="10"/>
 
+    <menuitem id="menu_oversight_setting_ssh_variant"
+        name="SSH Probes"
+        parent="menu_oversight_setting"
+        sequence="20"/>
 
 </data></openerp>

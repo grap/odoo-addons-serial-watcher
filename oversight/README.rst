@@ -2,49 +2,29 @@
    :target: https://www.gnu.org/licenses/agpl
    :alt: License: AGPL-3
 
-=======================
-Point of Sale - Sectors
-=======================
+=========
+Oversight
+=========
 
-This module extends the functionality of point of sale to support product
-sectors restricting products display in the Point of Sale, depending of the
-product sectors.
+This module extends the functionality of Odoo to allows users to oversight
+servers, configuration, etc.
 
-This module can be interesting if some cashiers have the right to sell
-some products, and not other cashiers.
 
 
 Configuration
 =============
 
-To configure this module, you need to:
+TODO
 
-* Go to Point of Sale / Configuration / Sectors
 
-* Create your PoS Sectors
+Road map / Know Issues
+======================
 
-.. figure:: /pos_sector/static/description/pos_sector_tree.png
-   :width: 800 px
-
-* Open your Point Of Sale configurations and set sectors
-
-.. figure:: /pos_sector/static/description/pos_config_form.png
-   :width: 800 px
-
-* Finally, edit your products and set a sector
-
-.. figure:: /pos_sector/static/description/product_form.png
-   :width: 800 px
-
-Usage
-=====
-
-To use this module, you need to
-
-* open the point of sale
-
-the products displayed will belong to the sectors of the current PoS config.
-(Also the products without sectors will be displayed)
+* write a doc, to mention how to create users with restricted access on
+  distant servers.
+* when migrating this module in v10, depends on the module web_auto_fresh.
+  For the time being, you can install the Firefox module Reloadmatic.
+  https://addons.mozilla.org/fr/firefox/addon/reloadmatic/
 
 Credits
 =======

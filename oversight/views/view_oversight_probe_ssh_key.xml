@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+        <record id="view_oversight_probe_ssh_key_search" model="ir.ui.view">
+        <field name="model">oversight.probe.ssh.key</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+        <record id="view_oversight_probe_ssh_key_tree" model="ir.ui.view">
+        <field name="model">oversight.probe.ssh.key</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="path"/>
+            </tree>
+        </field>
+    </record>
+
+        <record id="view_oversight_probe_ssh_key_form" model="ir.ui.view">
+        <field name="model">oversight.probe.ssh.key</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="path"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_oversight_probe_ssh_key" model="ir.actions.act_window">
+        <field name="name">SSH Keys</field>
+        <field name="res_model">oversight.probe.ssh.key</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_probe_ssh_key"
+        parent="menu_oversight_setting"
+        action="action_oversight_probe_ssh_key"
+        sequence="1"/>
+
+</data></openerp>

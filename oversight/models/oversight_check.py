@@ -3,7 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import fields, models
+from openerp import api, fields, models
 
 
 class OversightCheck(models.Model):
@@ -18,12 +18,28 @@ class OversightCheck(models.Model):
         ('critical', 'Critical'),
     ]
 
-    date_start = fields.Datetime(required=True)
+    date_start = fields.Datetime(required=True, readonly=True)
+
+    date_start_string = fields.Char(
+        compute='_compute_date_start_string', string='Date', store=True)
 
     state = fields.Selection(
-        selection=_SELECTION_STATE, string='State', required=True)
+        selection=_SELECTION_STATE, string='State', required=True,
+        readonly=True)
 
-    message = fields.Char(string='Message')
+    message = fields.Char(string='Message', readonly=True)
 
     probe_template_id = fields.Many2one(
-        comodel_name='oversight.probe.template', required=True)
+        comodel_name='oversight.probe.template', required=True,
+        readonly=True)
+
+    value_float = fields.Float(
+        string='Float Value', readonly=True, default=-1)
+
+    value_text = fields.Char(string='Text Value', readonly=True)
+
+    @api.multi
+    @api.depends('date_start')
+    def _compute_date_start_string(self):
+        for check in self:
+            check.date_start_string = check.date_start

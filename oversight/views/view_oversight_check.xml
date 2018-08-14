@@ -18,15 +18,26 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </field>
         </record>
 
-
     <record id="view_oversight_check_tree" model="ir.ui.view">
         <field name="model">oversight.check</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date_start"/>
                 <field name="probe_template_id"/>
+                <field name="value_float"/>
+                <field name="value_text"/>
                 <field name="state" bg_color="LimeGreen:state=='info'; Orange:state=='warning'; OrangeRed:state=='error'; Red: state=='critical'"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="view_oversight_check_graph" model="ir.ui.view">
+        <field name="model">oversight.check</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="date_start_string" type="row"/>
+                <field name="value_float" type="measure"/>
+            </graph>
         </field>
     </record>
 
@@ -40,6 +51,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             <field name="date_start"/>
                             <field name="probe_template_id"/>
                             <field name="state"/>
+                            <field name="value_float"/>
+                            <field name="value_text"/>
                             <field name="message"/>
                         </group>
                     </group>
@@ -52,7 +65,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <field name="name">Checks</field>
             <field name="res_model">oversight.check</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">graph,tree,form</field>
             <field name="context">{'search_default_probe_template_id': active_id}</field>
         </record>
 

@@ -39,19 +39,30 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         </h1>
                     </div>
                     <div class="oe_right oe_button_box" name="buttons">
-                        <button class="oe_inline oe_stat_button" type="action" name="%(action_oversight_probe_template_2_oversight_check)d"
-                            attrs="{'invisible': [('check_qty', '=', 0)]}" icon="fa-check">
-                            <field name="check_qty" widget="statinfo"/>
-                        </button>
                     </div>
                     <group>
                         <group>
-                            <field name="probe_type"/>
-                            <field name="last_check_state"/>
+                            <field name="probe_type" invisible="True"/>
+                            <field name="last_check_state" attrs="{'invisible': [('last_check_state', '=', 'not_set')]}"/>
+                            <field name="last_value_float" attrs="{'invisible': [('last_value_float', '=', -1)]}"/>
+                            <field name="last_value_text" attrs="{'invisible': [('last_value_text', '=', False)]}"/>
                         </group>
                     </group>
                     <notebook colspan="4">
                         <page name="probe_setting" string="Probe Settings">
+                            <group name="group_template_settings">
+                                <field name="alert_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="type"/>
+                                        <field name="send_mode"/>
+                                        <field name="partner_id"/>
+                                        <field name="active_info"/>
+                                        <field name="active_warning"/>
+                                        <field name="active_error"/>
+                                        <field name="active_critical"/>
+                                    </tree>
+                                </field>
+                            </group>
                             <group name="group_variant_settings" string="Variant Settings">
                             </group>
                         </page>
@@ -69,6 +80,61 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
+    <record id="view_oversight_probe_template_kanban" model="ir.ui.view">
+        <field name="model">oversight.probe.template</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_box oe_kanban_color_border">
+                            <div style="height:150px; width:200px; overflow:hidden;">
+                                <div style="height:40px; width:200px; border-bottom:1px solid #999999;"
+                                        t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}">
+                                    <div style="width:200px; text-align:center;">
+                                        <a type="open">
+                                            <field name="name"/>
+                                        </a>
+                                    </div>
+                                    <div style="width:200px; text-align:center; font-style:italic;color:gray;">
+                                        (<field name="last_check_state" />)
+                                    </div>
+                                </div>
+                                <div style="height:110px; width:200px;">
+                                    <table>
+                                        <tr>
+                                            <td style="height:110px; width:150px; text-align:center;">
+                                                <div style="padding: 5px 5px 5px 5px;">
+                                                    <img t-att-src="kanban_image('oversight.probe.template', 'image', record.id.value)" width="100px"/>
+                                                </div>
+                                            </td>
+                                            <td style="width:50px;text-align:center;vertical-align:middle;">
+                                                <t t-if="record.value_float" t-esc="record.value_float.string"/>
+                                                <t t-if="record.value_text" t-esc="record.value_text.string"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_oversight_probe_template_tree_only" model="ir.ui.view">
+        <field name="model">oversight.probe.template</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="7"/>
+        <field name="inherit_id" ref="view_oversight_probe_template_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_oversight_probe_template_form_only" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
@@ -76,21 +142,39 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="inherit_id" ref="view_oversight_probe_template_form"/>
         <field name="arch" type="xml">
             <field name="state" position="before">
-                <button name="button_execute" string="Execute" type="object"
+                <button name="button_execute_template" string="Execute" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_confirm" states="draft" string="Confirm" type="object"
+                <button name="button_confirm_template" states="draft" string="Confirm" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_draft" states="confirm" string="Set to Draft" type="object"
+                <button name="button_draft_template" states="confirm" string="Set to Draft" type="object"
                         groups="oversight.group_oversight_manager"/>
+                <button name="button_see_variant" string="Settings" type="object"/>
+            </field>
+            <xpath expr="//div[@name='buttons']" position="inside">
+                <button class="oe_inline oe_stat_button" type="action" name="%(action_oversight_probe_template_2_oversight_check)d"
+                        attrs="{'invisible': [('check_qty', '=', 0)]}" icon="fa-check">
+                    <field name="check_qty" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="//group[@name='group_variant_settings']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
+            <field name="probe_type" position="attributes">
+                <attribute name="invisible">False</attribute>
             </field>
         </field>
     </record>
+
+
 
     <record id="action_oversight_probe_template" model="ir.actions.act_window">
         <field name="name">Probes</field>
         <field name="res_model">oversight.probe.template</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
     </record>
 
     <menuitem id="menu_oversight_probe_template"

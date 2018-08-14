@@ -17,6 +17,7 @@ class OversightProbeTemplate(models.Model):
     _SELECTION_PROBE_TYPE = [
         ('ping', 'Ping'),
         ('http.code', 'HTTP Code'),
+        ('disk.usage', 'Disk Usage'),
     ]
 
     _SELECTION_STATE = [
@@ -72,10 +73,36 @@ class OversightProbeTemplate(models.Model):
         string='Checks Qty', compute='_compute_check_qty')
 
     last_check_state = fields.Selection(
-        selection=_SELECTION_LAST_CHECK_STATE, string="Last Check State",
+        selection=_SELECTION_LAST_CHECK_STATE, string='Last Check State',
         readonly=True, required=True, default='not_set')
 
-    # Compute Section
+    last_value_float = fields.Float(
+        string='Last Float Value', readonly=True)
+
+    last_value_text = fields.Text(
+        string='Last Text Value', readonly=True)
+
+    alert_ids = fields.One2many(
+        comodel_name='oversight.probe.alert', string='Alerts',
+        inverse_name='probe_template_id')
+
+    color = fields.Integer(compute='_compute_color')
+
+    # Compute section
+    @api.multi
+    def _compute_color(self):
+        for template in self:
+            if template.last_check_state == 'not_set':
+                template.color = 0
+            elif template.last_check_state == 'info':
+                template.color = 5
+            elif template.last_check_state == 'warning':
+                template.color = 3
+            elif template.last_check_state == 'error':
+                template.color = 2
+            elif template.last_check_state == 'critical':
+                template.color = 1
+
     @api.multi
     def _compute_check_qty(self):
         for probe in self:
@@ -83,21 +110,34 @@ class OversightProbeTemplate(models.Model):
 
     # View Section
     @api.multi
-    def button_execute(self):
+    def button_execute_template(self):
         return self._run_oversight()
 
     @api.multi
-    def button_confirm(self):
+    def button_confirm_template(self):
         cron_obj = self.env['ir.cron']
         for probe in self.filtered(lambda x: x.state == 'draft'):
             probe.cron_id = cron_obj.create(probe._prepare_cron())
             probe.state = 'confirm'
 
     @api.multi
-    def button_draft(self):
+    def button_draft_template(self):
         for probe in self.filtered(lambda x: x.state == 'confirm'):
             probe.cron_id.unlink()
             probe.state = 'draft'
+
+    @api.multi
+    def button_see_variant(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Settings'),
+            'res_model': self._get_variant_model()._name,
+            'res_id': self._get_variant().id,
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'current',
+            'nodestroy': True,
+        }
 
     @api.model
     def cron_execute(self, ids):
@@ -120,9 +160,14 @@ class OversightProbeTemplate(models.Model):
         }
 
     @api.multi
+    def _get_variant_model(self):
+        self.ensure_one()
+        return self.env['oversight.probe.variant.%s' % self.probe_type]
+
+    @api.multi
     def _get_variant(self):
         self.ensure_one()
-        model_obj = self.env['oversight.probe.variant.%s' % self.probe_type]
+        model_obj = self._get_variant_model()
         return model_obj.search([('probe_template_id', '=', self.id)])
 
     @api.multi
@@ -137,6 +182,15 @@ class OversightProbeTemplate(models.Model):
             }
             variant = probe._get_variant()
             check_value.update(variant._run_oversight_variant())
-            check_obj.create(check_value)
+            check = check_obj.create(check_value)
+            state_changed = False
             if check_value['state'] != probe.last_check_state:
+                state_changed = True
                 probe.last_check_state = check_value['state']
+            alerts = probe.alert_ids.filtered(
+                lambda x: getattr(
+                    x, 'active_%s' % probe.last_check_state) is True)
+            if not state_changed:
+                # Send Alerts
+                alerts = alerts.filtered(lambda x: x.send_mode == 'all')
+                alerts.send_alert(check)
