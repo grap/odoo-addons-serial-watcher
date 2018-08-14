@@ -11,9 +11,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         name="Oversight"
         sequence="20"/>
 
+    <menuitem id="menu_oversight_overview"
+        name="Overview"
+        parent="menu_oversight_root"
+        sequence="1"/>
+
     <menuitem id="menu_oversight_setting"
         name="Settings"
         parent="menu_oversight_root"
+        sequence="10"/>
+
+    <menuitem id="menu_oversight_setting_variant"
+        name="Probes Variants"
+        parent="menu_oversight_setting"
         sequence="1"/>
+
 
 </data></openerp>

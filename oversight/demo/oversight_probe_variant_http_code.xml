@@ -6,10 +6,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <openerp><data>
 
-    <record id="probe_ping_odoo" model="oversight.probe">
-        <field name="name">Odoo Server Is Up</field>
-        <field name="probe_type">ping</field>
-        <field name="target">www.odoo.com</field>
+    <record id="probe_http_code_odoo_good" model="oversight.probe.variant.http.code">
+        <field name="name">Odoo Website is OK</field>
+        <field name="probe_type">http.code</field>
+        <field name="url">https://www.odoo.com</field>
     </record>
 
 </data></openerp>

@@ -6,14 +6,16 @@
 from openerp import fields, models
 
 
-class OversightProbe(models.Model):
-    _name = 'oversight.probe.check'
+class OversightCheck(models.Model):
+    _name = 'oversight.check'
     _order = 'date_start desc'
 
     # Field Section
     _SELECTION_STATE = [
-        ('ok', 'OK'),
+        ('info', 'Info'),
+        ('warning', 'Warning'),
         ('error', 'Error'),
+        ('critical', 'Critical'),
     ]
 
     date_start = fields.Datetime(required=True)
@@ -21,5 +23,7 @@ class OversightProbe(models.Model):
     state = fields.Selection(
         selection=_SELECTION_STATE, string='State', required=True)
 
-    probe_id = fields.Many2one(
-        comodel_name='oversight.probe', required=True)
+    message = fields.Char(string='Message')
+
+    probe_template_id = fields.Many2one(
+        comodel_name='oversight.probe.template', required=True)

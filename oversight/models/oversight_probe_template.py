@@ -3,21 +3,20 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import os
 from datetime import datetime
 
 from openerp import _, api, fields, models, SUPERUSER_ID
 from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
-class OversightProbe(models.Model):
-    _name = 'oversight.probe'
+class OversightProbeTemplate(models.Model):
+    _name = 'oversight.probe.template'
     _order = 'name'
 
     # Field Section
     _SELECTION_PROBE_TYPE = [
         ('ping', 'Ping'),
-        ('http', 'HTTP'),
+        ('http.code', 'HTTP Code'),
     ]
 
     _SELECTION_STATE = [
@@ -34,6 +33,14 @@ class OversightProbe(models.Model):
         ('months', 'Months'),
     ]
 
+    _SELECTION_LAST_CHECK_STATE = [
+        ('not_set', 'Not Set'),
+        ('info', 'Info'),
+        ('warning', 'Warning'),
+        ('error', 'Error'),
+        ('critical', 'Critical'),
+    ]
+
     state = fields.Selection(
         selection=_SELECTION_STATE, string='state', readonly=True,
         default='draft')
@@ -41,9 +48,8 @@ class OversightProbe(models.Model):
     name = fields.Char(required=True)
 
     probe_type = fields.Selection(
-        selection=_SELECTION_PROBE_TYPE, string='Type', required=True)
-
-    target = fields.Char(required=True)
+        selection=_SELECTION_PROBE_TYPE, string='Type', required=True,
+        readonly=True)
 
     cron_id = fields.Many2one(
         comodel_name='ir.cron')
@@ -55,6 +61,25 @@ class OversightProbe(models.Model):
     interval_type = fields.Selection(
         string='Interval Unit', selection=_SELECTION_INTERVAL_TYPE,
         default='minutes', required=True)
+
+    image = fields.Binary()
+
+    check_ids = fields.One2many(
+        string='Checks',
+        comodel_name='oversight.check', inverse_name='probe_template_id')
+
+    check_qty = fields.Integer(
+        string='Checks Qty', compute='_compute_check_qty')
+
+    last_check_state = fields.Selection(
+        selection=_SELECTION_LAST_CHECK_STATE, string="Last Check State",
+        readonly=True, required=True, default='not_set')
+
+    # Compute Section
+    @api.multi
+    def _compute_check_qty(self):
+        for probe in self:
+            probe.check_qty = len(probe.check_ids)
 
     # View Section
     @api.multi
@@ -86,7 +111,7 @@ class OversightProbe(models.Model):
         return {
             'name': _('Probe %s') % (self.name),
             'user_id': SUPERUSER_ID,
-            'model': 'oversight.probe',
+            'model': 'oversight.probe.template',
             'function': 'cron_execute',
             'numbercall': -1,
             'args': repr(([self.id],)),
@@ -95,24 +120,23 @@ class OversightProbe(models.Model):
         }
 
     @api.multi
+    def _get_variant(self):
+        self.ensure_one()
+        model_obj = self.env['oversight.probe.variant.%s' % self.probe_type]
+        return model_obj.search([('probe_template_id', '=', self.id)])
+
+    @api.multi
     def _run_oversight(self):
-        check_obj = self.env['oversight.probe.check']
+        check_obj = self.env['oversight.check']
         for probe in self:
             # Recover generic information
-            date_start = datetime.now().strftime(
-                DEFAULT_SERVER_DATETIME_FORMAT)
-
-            # Type1. Ping Execution
-            if probe.probe_type == 'ping':
-                response = os.system("ping -c 1 %s" % probe.target)
-                if response == 0:
-                    state = 'ok'
-                else:
-                    state = 'error'
-
-            value = {
-                'date_start': date_start,
-                'state': state,
-                'probe_id': probe.id,
+            check_value = {
+                'date_start': datetime.now().strftime(
+                    DEFAULT_SERVER_DATETIME_FORMAT),
+                'probe_template_id': probe.id,
             }
-            check_obj.create(value)
+            variant = probe._get_variant()
+            check_value.update(variant._run_oversight_variant())
+            check_obj.create(check_value)
+            if check_value['state'] != probe.last_check_state:
+                probe.last_check_state = check_value['state']

@@ -18,13 +18,15 @@
         'security/res_groups.xml',
         'security/ir.model.access.csv',
         'views/menu.xml',
-        'views/view_oversight_probe.xml',
-        'views/view_oversight_probe_check.xml',
+        'views/view_oversight_check.xml',
+        'views/view_oversight_probe_template.xml',
+        'views/view_oversight_probe_variant_ping.xml',
+        'views/view_oversight_probe_variant_http_code.xml',
     ],
     'demo': [
         'demo/res_groups.xml',
-        'demo/oversight_probe.xml',
-
+        'demo/oversight_probe_variant_ping.xml',
+        'demo/oversight_probe_variant_http_code.xml',
     ],
     'images': [
     ],

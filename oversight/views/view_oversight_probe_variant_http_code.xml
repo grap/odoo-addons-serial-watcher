@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <record id="view_oversight_probe_variant_http_code_form" model="ir.ui.view">
+        <field name="model">oversight.probe.variant.http.code</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="7"/>
+        <field name="inherit_id" ref="view_oversight_probe_template_form"/>
+        <field name="arch" type="xml">
+            <field name="probe_type" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <group name="group_variant_settings" position="inside">
+                <field name="url"/>
+            </group>
+        </field>
+    </record>
+
+    <record id="view_oversight_probe_variant_http_code_tree" model="ir.ui.view">
+        <field name="model">oversight.probe.variant.http.code</field>
+        <field name="mode">primary</field>
+        <field name="priority" eval="7"/>
+        <field name="inherit_id" ref="view_oversight_probe_template_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="action_oversight_probe_variant_http_code" model="ir.actions.act_window">
+        <field name="name">HTTP Code</field>
+        <field name="res_model">oversight.probe.variant.http.code</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_probe_variant_http_code"
+        parent="menu_oversight_setting_variant"
+        action="action_oversight_probe_variant_http_code"
+        sequence="2"/>
+
+</data></openerp>
