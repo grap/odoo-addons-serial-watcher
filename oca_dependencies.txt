@@ -1,4 +1,0 @@
-account-fiscal-rule
-account-invoicing
-pos
-purchase-workflow

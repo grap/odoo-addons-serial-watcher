@@ -33,8 +33,10 @@
     ],
     'images': [
     ],
-    'python': [
-        'paramiko',
-    ],
+    'external_dependencies': {
+        'python': [
+            'paramiko',
+        ],
+    },
     'installable': True,
 }

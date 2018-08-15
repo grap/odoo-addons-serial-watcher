@@ -3,8 +3,16 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-import paramiko
+import logging
+
 from openerp import api, fields, models
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import paramiko
+except ImportError as err:
+    _logger.info(err)
 
 
 class OversightProbeSSHMixin(models.AbstractModel):

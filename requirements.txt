@@ -1,2 +1,1 @@
-viivakoodi
-cairosvg==1.0.22
+paramiko
