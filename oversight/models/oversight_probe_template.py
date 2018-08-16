@@ -42,6 +42,12 @@ class OversightProbeTemplate(models.Model):
         ('critical', 'Critical'),
     ]
 
+    _SELECTION_VALUE_TYPE = [
+        ('none', 'None'),
+        ('float', 'Float'),
+        ('text', 'Text'),
+    ]
+
     state = fields.Selection(
         selection=_SELECTION_STATE, string='state', readonly=True,
         default='draft')
@@ -88,7 +94,16 @@ class OversightProbeTemplate(models.Model):
 
     color = fields.Integer(compute='_compute_color')
 
+    value_type = fields.Selection(
+        selection=_SELECTION_VALUE_TYPE, compute='_compute_value_type')
+
     # Compute section
+    @api.multi
+    def _compute_value_type(self):
+        for template in self:
+            template.value_type =\
+                template._get_variant()._variant_value_type
+
     @api.multi
     def _compute_color(self):
         for template in self:
@@ -186,11 +201,16 @@ class OversightProbeTemplate(models.Model):
             state_changed = False
             if check_value['state'] != probe.last_check_state:
                 state_changed = True
-                probe.last_check_state = check_value['state']
+            probe.write({
+                'last_check_state': check.state,
+                'last_value_float': check.value_float,
+                'last_value_text': check.value_text,
+            })
+
+            # Send Alerts
             alerts = probe.alert_ids.filtered(
                 lambda x: getattr(
                     x, 'active_%s' % probe.last_check_state) is True)
             if not state_changed:
-                # Send Alerts
                 alerts = alerts.filtered(lambda x: x.send_mode == 'all')
-                alerts.send_alert(check)
+            alerts.send_alert(check)

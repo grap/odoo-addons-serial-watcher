@@ -11,6 +11,7 @@ class OversightProbeVariantPing(models.Model):
     _name = 'oversight.probe.variant.ping'
     _inherit = ['oversight.probe.variant.mixin']
 
+    _variant_value_type = False
     _variant_probe_type = 'ping'
 
     destination = fields.Char(

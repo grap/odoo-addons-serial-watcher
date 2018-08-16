@@ -13,6 +13,7 @@ class OversightProbeVariantDiskUsage(models.Model):
         'oversight.probe.variant.mixin',
     ]
 
+    _variant_value_type = 'float'
     _variant_probe_type = 'disk.usage'
 
     disk = fields.Char(required=True)

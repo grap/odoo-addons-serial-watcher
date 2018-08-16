@@ -26,6 +26,18 @@ Road map / Know Issues
   For the time being, you can install the Firefox module Reloadmatic.
   https://addons.mozilla.org/fr/firefox/addon/reloadmatic/
 
+New Probes
+----------
+
+* 'ssl.certificate' : check if the certificate is correct.
+* 'ftp' : Check if FTP service is UP.
+
+New Probes with call to external services
+-----------------------------------------
+
+* 'whois' : check if a domain will expire in a short while.
+* Call extra check. Ask to QD.
+
 Credits
 =======
 

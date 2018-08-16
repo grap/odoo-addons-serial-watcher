@@ -43,9 +43,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <group>
                         <group>
                             <field name="probe_type" invisible="True"/>
+                            <field name="value_type"/>
                             <field name="last_check_state" attrs="{'invisible': [('last_check_state', '=', 'not_set')]}"/>
-                            <field name="last_value_float" attrs="{'invisible': [('last_value_float', '=', -1)]}"/>
-                            <field name="last_value_text" attrs="{'invisible': [('last_value_text', '=', False)]}"/>
+                            <field name="last_value_float" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('probe_type', '!=', 'float')]}"/>
+                            <field name="last_value_text" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('probe_type', '!=', 'text')]}"/>
                         </group>
                     </group>
                     <notebook colspan="4">

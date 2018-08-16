@@ -11,6 +11,7 @@ class OversightProbeVariantHttpCode(models.Model):
     _name = 'oversight.probe.variant.http.code'
     _inherit = ['oversight.probe.variant.mixin']
 
+    _variant_value_type = 'text'
     _variant_probe_type = 'http.code'
 
     url = fields.Char(string='Url', required=True)
@@ -36,7 +37,7 @@ class OversightProbeVariantHttpCode(models.Model):
         value_text = False
         try:
             response = urllib.urlopen(self.url)
-            value_text = response.code
+            value_text = str(response.code)
             if value_text in self._get_info_codes():
                 state = 'info'
             elif value_text in self._get_warning_codes():

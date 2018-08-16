@@ -10,7 +10,8 @@ class OversightProbeVariantMixin(models.AbstractModel):
     _name = 'oversight.probe.variant.mixin'
     _inherits = {'oversight.probe.template': 'probe_template_id'}
 
-    _variant_probe_type = False
+    _variant_value_type = 'none'
+    _variant_probe_type = 'none'
 
     probe_template_id = fields.Many2one(
         comodel_name='oversight.probe.template', string='Probe Template',
