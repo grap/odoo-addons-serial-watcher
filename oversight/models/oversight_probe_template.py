@@ -11,6 +11,7 @@ from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class OversightProbeTemplate(models.Model):
     _name = 'oversight.probe.template'
+    _inherit = 'ir.needaction_mixin'
     _order = 'name'
 
     # Field Section
@@ -124,7 +125,14 @@ class OversightProbeTemplate(models.Model):
         for probe in self:
             probe.check_qty = len(probe.check_ids)
 
-    # View Section
+#    # View Section
+    @api.model
+    def _needaction_domain_get(self):
+        return [
+            ('state', '=', 'confirm'),
+            ('last_check_state', 'in', ['warning', 'error', 'critical']),
+        ]
+
     @api.multi
     def button_execute_template(self):
         return self._run_oversight()
