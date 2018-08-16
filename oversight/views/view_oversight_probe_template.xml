@@ -86,36 +86,78 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <kanban>
                 <field name="color"/>
+                <field name="has_image"/>
+                <field name="probe_type"/>
+                <field name="state"/>
+                <field name="last_check_state"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_box oe_kanban_color_border">
-                            <div style="height:150px; width:200px; overflow:hidden;">
-                                <div style="height:40px; width:200px; border-bottom:1px solid #999999;"
-                                        t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}">
-                                    <div style="width:200px; text-align:center;">
-                                        <a type="open">
-                                            <field name="name"/>
-                                        </a>
-                                    </div>
-                                    <div style="width:200px; text-align:center; font-style:italic;color:gray;">
-                                        (<field name="last_check_state" />)
-                                    </div>
-                                </div>
-                                <div style="height:110px; width:200px;">
-                                    <table>
-                                        <tr>
-                                            <td style="height:110px; width:150px; text-align:center;">
+                            <div style=" width:180px; height:120px;"
+                                    t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}">
+                                <table>
+                                    <tr>
+                                        <td style="width:120px; height:120px; text-align:center;vertical-align:middle; ">
+                                            <t t-if="record.has_image.raw_value === true">
                                                 <div style="padding: 5px 5px 5px 5px;">
-                                                    <img t-att-src="kanban_image('oversight.probe.template', 'image', record.id.value)" width="100px"/>
+                                                    <a type="open">
+                                                        <img t-att-src="kanban_image('oversight.probe.template', 'image', record.id.value)"
+                                                            width="100px"/>
+                                                    </a>
                                                 </div>
-                                            </td>
-                                            <td style="width:50px;text-align:center;vertical-align:middle;">
-                                                <t t-if="record.value_float" t-esc="record.value_float.string"/>
-                                                <t t-if="record.value_text" t-esc="record.value_text.string"/>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                            </t>
+                                            <t t-if="record.has_image.raw_value == false">
+                                                <a type="open">
+                                                    <field name="name"/>
+                                                </a>
+                                            </t>
+                                        </td>
+                                        <td style="width:60px; height:120px; text-align:center; vertical-align:middle;" >
+                                            <!-- Probe Type-->
+                                            <div style="padding: 5px 5px 5px 5px;" t-if="record.probe_type.raw_value == 'ping'">
+                                                <img t-att-src="'/oversight/static/src/img/image_probe_ping.png'"
+                                                    style="width:50px; height:50px;"/>
+                                            </div>
+                                            <div style="padding: 5px 5px 5px 5px;" t-if="record.probe_type.raw_value == 'reminder'">
+                                                <img t-att-src="'/oversight/static/src/img/image_probe_reminder.png'"
+                                                    style="width:50px; height:50px;"/>
+                                            </div>
+                                            <div style="padding: 5px 5px 5px 5px;" t-if="record.probe_type.raw_value == 'http.code'">
+                                                <img t-att-src="'/oversight/static/src/img/image_probe_http_code.png'"
+                                                    style="width:50px; height:50px;"/>
+                                            </div>
+                                            <div style="padding: 5px 5px 5px 5px;" t-if="record.probe_type.raw_value == 'disk.usage'">
+                                                <img t-att-src="'/oversight/static/src/img/image_probe_disk_usage.png'"
+                                                    style="width:50px; height:50px;"/>
+                                            </div>
+                                            <!-- Probe State -->
+                                            <t t-if="record.state.raw_value == 'draft'">
+                                                <div style="padding: 5px 5px 5px 5px;">
+                                                    <img t-att-src="'/oversight/static/src/img/image_state_not_set.png'"
+                                                        style="width:50px; height:50px;"/>
+                                                </div>
+                                            </t>
+                                            <t t-if="record.state.raw_value == 'confirm'">
+                                                <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'info'">
+                                                    <img t-att-src="'/oversight/static/src/img/image_state_info.png'"
+                                                        style="width:50px; height:50px;"/>
+                                                </div>
+                                                <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'warning'">
+                                                    <img t-att-src="'/oversight/static/src/img/animation_warning.gif'"
+                                                        style="width:50px; height:50px;"/>
+                                                </div>
+                                                <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'error'">
+                                                    <img t-att-src="'/oversight/static/src/img/animation_error.gif'"
+                                                        style="width:50px; height:50px;"/>
+                                                </div>
+                                                <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'critical'">
+                                                    <img t-att-src="'/oversight/static/src/img/animation_critical.gif'"
+                                                        style="width:50px; height:50px;"/>
+                                                </div>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </t>
@@ -123,6 +165,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </kanban>
         </field>
     </record>
+
+<!--                                <div style="height:40px; width:200px; border-bottom:1px solid #999999;"-->
+<!--                                        t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}">-->
+<!--                                    <div style="width:200px; text-align:center;">-->
+<!--                                        <a type="open">-->
+<!--                                            <field name="name"/>-->
+<!--                                        </a>-->
+<!--                                    </div>-->
+<!--                                    <div style="width:200px; text-align:center; font-style:italic;color:gray;">-->
+<!--                                        (<field name="has_image" />)-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
     <record id="view_oversight_probe_template_tree_only" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>

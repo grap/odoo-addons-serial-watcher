@@ -73,6 +73,8 @@ class OversightProbeTemplate(models.Model):
 
     image = fields.Binary()
 
+    has_image = fields.Boolean(compute='_compute_has_image', store=True)
+
     check_ids = fields.One2many(
         string='Checks',
         comodel_name='oversight.check', inverse_name='probe_template_id')
@@ -100,6 +102,12 @@ class OversightProbeTemplate(models.Model):
         selection=_SELECTION_VALUE_TYPE, compute='_compute_value_type')
 
     # Compute section
+    @api.multi
+    @api.depends('image')
+    def _compute_has_image(self):
+        for template in self:
+            template.has_image = template.image
+
     @api.multi
     def _compute_value_type(self):
         for template in self:
