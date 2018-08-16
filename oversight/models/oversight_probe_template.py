@@ -18,6 +18,7 @@ class OversightProbeTemplate(models.Model):
         ('ping', 'Ping'),
         ('http.code', 'HTTP Code'),
         ('disk.usage', 'Disk Usage'),
+        ('reminder', 'Reminder'),
     ]
 
     _SELECTION_STATE = [

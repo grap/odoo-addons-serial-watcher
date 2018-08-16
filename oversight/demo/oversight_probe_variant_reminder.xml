@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data>
+
+    <record id="probe_reminder" model="oversight.probe.variant.reminder">
+        <field name="name">3 Monthes reminder</field>
+        <field name="probe_type">reminder</field>
+        <field name="warning_date" eval="(DateTime.today() + relativedelta(months=1)).strftime('%Y-%m-%d %H:%M')"/>
+        <field name="error_date" eval="(DateTime.today() + relativedelta(months=3)).strftime('%Y-%m-%d %H:%M')"/>
+    </record>
+
+</data></openerp>

@@ -31,4 +31,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         parent="menu_oversight_setting"
         sequence="20"/>
 
+    <menuitem id="menu_oversight_setting_virtual_variant"
+        name="Virtual Probes"
+        parent="menu_oversight_setting"
+        sequence="30"/>
+
 </data></openerp>

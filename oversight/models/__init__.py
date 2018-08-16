@@ -9,3 +9,4 @@ from . import oversight_probe_template
 from . import oversight_probe_variant_http_code
 from . import oversight_probe_variant_ping
 from . import oversight_probe_variant_disk_usage
+from . import oversight_probe_variant_reminder

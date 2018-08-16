@@ -41,12 +41,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <div class="oe_right oe_button_box" name="buttons">
                     </div>
                     <group>
-                        <group>
-                            <field name="probe_type" invisible="True"/>
-                            <field name="value_type"/>
+                        <group col="4">
+                            <field name="probe_type" invisible="1"/>
+                            <field name="value_type" invisible="1"/>
                             <field name="last_check_state" attrs="{'invisible': [('last_check_state', '=', 'not_set')]}"/>
-                            <field name="last_value_float" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('probe_type', '!=', 'float')]}"/>
-                            <field name="last_value_text" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('probe_type', '!=', 'text')]}"/>
+                            <field name="last_value_float" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('value_type', '!=', 'float')]}"/>
+                            <field name="last_value_text" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('value_type', '!=', 'text')]}"/>
                         </group>
                     </group>
                     <notebook colspan="4">
@@ -158,13 +158,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 </button>
             </xpath>
             <xpath expr="//group[@name='group_variant_settings']" position="attributes">
-                <attribute name="invisible">True</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
             </xpath>
             <field name="probe_type" position="attributes">
-                <attribute name="invisible">False</attribute>
+                <attribute name="invisible">0</attribute>
             </field>
         </field>
     </record>
