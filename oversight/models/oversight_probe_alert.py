@@ -40,6 +40,9 @@ class OversightAlert(models.Model):
 
     active_critical = fields.Boolean(default=True)
 
+    retry = fields.Integer(
+        string='Retries', help="Number of retry, before rising the alert")
+
     # Custom Section
     def _get_translation(self, lang, text):
         context = {'lang': lang}  # noqa: _() checks page for locals
