@@ -90,7 +90,7 @@ class OversightAlert(models.Model):
         for alert in self:
             partner = alert.partner_id
             if partner.email:
-                subject, body = self._prepare_mail_subject(alert, check)
+                subject, body = alert._prepare_mail_subject(check)
                 mail_vals = {
                     'email_to': partner.email,
                     'subject': subject,
@@ -100,17 +100,27 @@ class OversightAlert(models.Model):
                 mail.send(auto_commit=True)
 
     @api.model
-    def _prepare_mail_subject(self, alert, check):
+    def _prepare_emoji(self, check):
+        if check.state == 'info':
+            return u'👍'
+        elif check.state == 'warning':
+            return u'⚠️'
+        elif check.state == 'error':
+            return u'👎🏿'
+        elif check.state == 'critical':
+            return u'🔥'
+        else:
+            return u'❓'
+
+    @api.multi
+    def _prepare_mail_subject(self, check):
+        self.ensure_one()
         hostname = socket.gethostname()
         probe = check.probe_template_id
-        partner = alert.partner_id
-        if check.state == 'info':
-            emoji = u'👍'
-        else:
-            emoji = u'🔥'
+        partner = self.partner_id
         subject = self._get_translation(partner.lang, _(
             '%s [%s] %s (%s)') % (
-            emoji, check.state, probe.name, hostname))
+            self._prepare_emoji(check), check.state, probe.name, hostname))
         body = self._get_translation(
             partner.lang, _(
                 "- Probe Name: %s\n"
@@ -122,7 +132,7 @@ class OversightAlert(models.Model):
                 probe.name,
                 check.state,
                 check.date_start,
-                alert.current_failed_qty,
+                self.current_failed_qty,
                 hostname))
 
         if check.value_float != -1:
