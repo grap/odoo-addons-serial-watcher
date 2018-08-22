@@ -6,6 +6,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <openerp><data>
 
+    <record id="view_oversight_probe_template_search" model="ir.ui.view">
+        <field name="model">oversight.probe.template</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="probe_type"/>
+                <field name="state"/>
+                <filter string="State" context="{'group_by':'state'}"/>
+                <filter string="Type" context="{'group_by':'probe_type'}"/>
+                <filter name="filter_not_ok" string="Last Check Not OK"
+                    domain="[('last_check_state','!=', 'info')]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="view_oversight_probe_template_tree" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
@@ -132,6 +148,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                                 <img t-att-src="'/oversight/static/src/img/image_probe_disk_usage.png'"
                                                     style="width:50px; height:50px;"/>
                                             </div>
+                                            <div style="padding: 5px 5px 5px 5px;" t-if="record.probe_type.raw_value == 'whois.expiration.jwa'">
+                                                <img t-att-src="'/oversight/static/src/img/image_probe_whois_expiration_jwa.png'"
+                                                    style="width:50px; height:50px;"/>
+                                            </div>
+
                                             <!-- Probe State -->
                                             <t t-if="record.state.raw_value == 'draft'">
                                                 <div style="padding: 5px 5px 5px 5px;">
@@ -232,6 +253,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="res_model">oversight.probe.template</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{"search_default_filter_not_ok":1}</field>
     </record>
 
     <menuitem id="menu_oversight_probe_template"

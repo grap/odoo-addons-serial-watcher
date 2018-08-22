@@ -106,7 +106,7 @@ class OversightAlert(models.Model):
         elif check.state == 'warning':
             return u'⚠️'
         elif check.state == 'error':
-            return u'👎🏿'
+            return u'👎'
         elif check.state == 'critical':
             return u'🔥'
         else:

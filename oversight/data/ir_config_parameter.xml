@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+@author: Sylvain LE GAL (https://twitter.com/legalsylvain)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<openerp><data noupdate="1">
+
+
+    <record id="jwa_login" model="ir.config_parameter">
+        <field name="key">oversight.probe.variant.whois.expiration.jwa.login</field>
+        <field name="value">JWA LOGIN</field>
+    </record>
+
+    <record id="jwa_password" model="ir.config_parameter">
+        <field name="key">oversight.probe.variant.whois.expiration.jwa.password</field>
+        <field name="value">JWA PASSWORD</field>
+    </record>
+
+</data></openerp>

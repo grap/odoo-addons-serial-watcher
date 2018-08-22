@@ -19,6 +19,7 @@ class OversightProbeTemplate(models.Model):
         ('ping', 'Ping'),
         ('http.code', 'HTTP Code'),
         ('disk.usage', 'Disk Usage'),
+        ('whois.expiration.jwa', 'Whois Expiration (JWA)'),
         ('reminder', 'Reminder'),
     ]
 
@@ -133,7 +134,7 @@ class OversightProbeTemplate(models.Model):
         for probe in self:
             probe.check_qty = len(probe.check_ids)
 
-#    # View Section
+    # View Section
     @api.model
     def _needaction_domain_get(self):
         return [
