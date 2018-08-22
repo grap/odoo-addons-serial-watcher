@@ -143,7 +143,7 @@ class OversightProbeTemplate(models.Model):
 
     @api.multi
     def button_execute_template(self):
-        return self._run_oversight()
+        return self._run_oversight_template()
 
     @api.multi
     def button_confirm_template(self):
@@ -174,7 +174,7 @@ class OversightProbeTemplate(models.Model):
     @api.model
     def cron_execute(self, ids):
         items = self.browse(ids)
-        items._run_oversight()
+        items._run_oversight_template()
 
     # Private Section
     @api.multi
@@ -203,7 +203,7 @@ class OversightProbeTemplate(models.Model):
         return model_obj.search([('probe_template_id', '=', self.id)])
 
     @api.multi
-    def _run_oversight(self):
+    def _run_oversight_template(self):
         check_obj = self.env['oversight.check']
         for probe in self:
             # Recover generic information
@@ -215,19 +215,12 @@ class OversightProbeTemplate(models.Model):
             variant = probe._get_variant()
             check_value.update(variant._run_oversight_variant())
             check = check_obj.create(check_value)
-            state_changed = False
-            if check_value['state'] != probe.last_check_state:
-                state_changed = True
+
             probe.write({
                 'last_check_state': check.state,
                 'last_value_float': check.value_float,
                 'last_value_text': check.value_text,
             })
 
-            # Send Alerts
-            alerts = probe.alert_ids.filtered(
-                lambda x: getattr(
-                    x, 'active_%s' % probe.last_check_state) is True)
-            if not state_changed:
-                alerts = alerts.filtered(lambda x: x.send_mode == 'all')
-            alerts.send_alert(check)
+            # Handle Alert
+            probe.alert_ids._handle_check(check)

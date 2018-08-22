@@ -53,14 +53,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <page name="probe_setting" string="Probe Settings">
                             <group name="group_template_settings">
                                 <field name="alert_ids" nolabel="1">
-                                    <tree editable="bottom">
+                                    <tree editable="bottom" colors="black:(current_failed_qty == 0); brown:(current_failed_qty &lt; max_try_qty); red: (current_failed_qty &gt;= max_try_qty)">
                                         <field name="type"/>
                                         <field name="send_mode"/>
+                                        <field name="max_try_qty"/>
                                         <field name="partner_id"/>
                                         <field name="active_info"/>
                                         <field name="active_warning"/>
                                         <field name="active_error"/>
                                         <field name="active_critical"/>
+                                        <field name="current_failed_qty"/>
                                     </tree>
                                 </field>
                             </group>
