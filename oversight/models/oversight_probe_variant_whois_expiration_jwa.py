@@ -20,7 +20,7 @@ class OversightProbeVariantWhoisExpirationJwa(models.Model):
     _variant_probe_type = 'whois.expiration.jwa'
 
     _base_json_url = "https://jsonwhoisapi.com/api/v1/whois?identifier="
-    _json_required_keys = ['expires', 'fromage']
+    _json_required_keys = ['expires']
     _json_auth_method = 'ir.config_parameter'
 
     url = fields.Char(required=True)
