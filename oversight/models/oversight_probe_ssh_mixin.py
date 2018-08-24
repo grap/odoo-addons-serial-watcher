@@ -32,12 +32,15 @@ class OversightProbeSSHMixin(models.AbstractModel):
         self.ensure_one()
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        if self.ssh_key_id:
+            key = paramiko.RSAKey.from_private_key_file(self.ssh_key_id.path)
+
         if self.password and self.ssh_key_id:
             ssh.connect(
                 self.server,
                 username=self.login,
                 password=self.password,
-                key_filename=self.ssh_key_id.path)
+                pkey=key)
         elif self.password:
             ssh.connect(
                 self.server,
@@ -47,7 +50,7 @@ class OversightProbeSSHMixin(models.AbstractModel):
             ssh.connect(
                 self.server,
                 username=self.login,
-                key_filename=self.ssh_key_id.path)
+                pkey=key)
         stdin, stdout, stderr = ssh.exec_command(command)
         res = stdout.readlines()
         ssh.close()
