@@ -25,12 +25,12 @@ class OversightProbeVariantMixin(models.AbstractModel):
 
     @api.multi
     def button_execute_variant(self):
-        return self.probe_template_id.button_execute_template()
+        return self.mapped('probe_template_id').button_execute_template()
 
     @api.multi
     def button_confirm_variant(self):
-        return self.probe_template_id.button_confirm_template()
+        return self.mapped('probe_template_id').button_confirm_template()
 
     @api.multi
     def button_draft_variant(self):
-        return self.probe_template_id.button_draft_template()
+        return self.mapped('probe_template_id').button_draft_template()

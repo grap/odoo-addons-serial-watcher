@@ -45,6 +45,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record id="action_execute_probe_variant_ping" model="ir.actions.server">
+        <field name="name">Execute</field>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="model_id" ref="oversight.model_oversight_probe_variant_ping" />
+        <field name="code">self.button_execute_variant(cr, uid, context.get('active_ids', []), context)</field>
+    </record>
+
+    <record id="value_execute_probe_variant_ping" model="ir.values">
+        <field name="name">Execute</field>
+        <field name="key">action</field>
+        <field name="key2">client_action_multi</field>
+        <field name="model">oversight.probe.variant.ping</field>
+        <field name="value" eval="'ir.actions.server,%d' % ref('action_execute_probe_variant_ping')" />
+    </record>
+
     <menuitem id="menu_oversight_probe_variant_ping"
         parent="menu_oversight_setting_non_intrusive_variant"
         action="action_oversight_probe_variant_ping"
