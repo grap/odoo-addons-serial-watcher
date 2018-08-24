@@ -52,7 +52,8 @@ class OversightProbeVariantWhoisExpirationJwa(models.Model):
         try:
             res = self._json_execute()
             if not res['registered']:
-                raise Exception(_("%s is not registered.\n\n%s") % (self.url, res))
+                raise Exception(_(
+                    "%s is not registered.\n\n%s") % (self.url, res))
             expire_date = datetime.strptime(
                 res['expires'], "%Y-%m-%d %H:%M:%S")
             value_integer = (expire_date - datetime.now()).days

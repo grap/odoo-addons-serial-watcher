@@ -3,7 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
+from openerp import _, api, fields, models
 
 
 class OversightProbeVariantMixin(models.AbstractModel):
@@ -28,9 +28,16 @@ class OversightProbeVariantMixin(models.AbstractModel):
         return self.mapped('probe_template_id').button_execute_template()
 
     @api.multi
-    def button_confirm_variant(self):
-        return self.mapped('probe_template_id').button_confirm_template()
+    def button_enable_variant(self):
+        return self.mapped('probe_template_id').button_enable_template()
 
     @api.multi
-    def button_draft_variant(self):
-        return self.mapped('probe_template_id').button_draft_template()
+    def button_disable_variant(self):
+        return self.mapped('probe_template_id').button_disable_template()
+
+    @api.multi
+    def copy(self, default=None):
+        self.ensure_one()
+        default = default and default or {}
+        default['name'] = _('%s (copy)') % self.name
+        return super(OversightProbeVariantMixin, self).copy(default=default)

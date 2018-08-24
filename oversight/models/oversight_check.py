@@ -31,7 +31,7 @@ class OversightCheck(models.Model):
 
     probe_template_id = fields.Many2one(
         comodel_name='oversight.probe.template', required=True,
-        readonly=True)
+        readonly=True, ondelete='cascade')
 
     value_integer = fields.Integer(
         string='Value (Integer)', readonly=True)

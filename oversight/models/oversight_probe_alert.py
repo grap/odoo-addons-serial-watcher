@@ -29,7 +29,8 @@ class OversightAlert(models.Model):
         default='changes')
 
     probe_template_id = fields.Many2one(
-        comodel_name='oversight.probe.template', required=True)
+        comodel_name='oversight.probe.template', required=True,
+        ondelete='cascade')
 
     partner_id = fields.Many2one(
         string='Partner', comodel_name='res.partner', required=True)

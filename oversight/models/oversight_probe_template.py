@@ -23,11 +23,6 @@ class OversightProbeTemplate(models.Model):
         ('reminder', 'Reminder'),
     ]
 
-    _SELECTION_STATE = [
-        ('draft', 'Draft'),
-        ('confirm', 'Confirmed'),
-    ]
-
     _SELECTION_INTERVAL_TYPE = [
         ('minutes', 'Minutes'),
         ('hours', 'Hours'),
@@ -52,9 +47,7 @@ class OversightProbeTemplate(models.Model):
         ('integer', 'Integer'),
     ]
 
-    state = fields.Selection(
-        selection=_SELECTION_STATE, string='state', readonly=True,
-        default='draft')
+    active = fields.Boolean(default=False, copy=False, readonly=True)
 
     name = fields.Char(required=True)
 
@@ -63,7 +56,7 @@ class OversightProbeTemplate(models.Model):
         readonly=True)
 
     cron_id = fields.Many2one(
-        comodel_name='ir.cron')
+        comodel_name='ir.cron', copy=False, readonly=True)
 
     interval_number = fields.Integer(
         string='Interval Number', default=1, required=True,
@@ -85,7 +78,8 @@ class OversightProbeTemplate(models.Model):
         string='Checks Qty', compute='_compute_check_qty')
 
     last_check_id = fields.Many2one(
-        comodel_name='oversight.check', string='Last Check', readonly=True)
+        comodel_name='oversight.check', string='Last Check', readonly=True,
+        copy=False)
 
     last_check_state = fields.Selection(
         selection=_SELECTION_LAST_CHECK_STATE, string='Last Check State',
@@ -151,26 +145,30 @@ class OversightProbeTemplate(models.Model):
     @api.model
     def _needaction_domain_get(self):
         return [
-            ('state', '=', 'confirm'),
+            ('active', '=', True),
             ('last_check_state', 'in', ['warning', 'error', 'critical']),
         ]
 
     @api.multi
     def button_execute_template(self):
-        return self._run_oversight_template()
+        for template in self:
+            template._run_oversight_template()
 
     @api.multi
-    def button_confirm_template(self):
+    def button_enable_template(self):
         cron_obj = self.env['ir.cron']
-        for probe in self.filtered(lambda x: x.state == 'draft'):
-            probe.cron_id = cron_obj.create(probe._prepare_cron())
-            probe.state = 'confirm'
+        for template in self.filtered(lambda x: not x.active):
+            if not template.cron_id:
+                template.cron_id = cron_obj.create(template._prepare_cron())
+            else:
+                template.cron_id.active = True
+            template.active = True
 
     @api.multi
-    def button_draft_template(self):
-        for probe in self.filtered(lambda x: x.state == 'confirm'):
-            probe.cron_id.unlink()
-            probe.state = 'draft'
+    def button_disable_template(self):
+        for template in self.filtered(lambda x: x.active):
+            template.cron_id.active = False
+            template.active = False
 
     @api.multi
     def button_see_variant(self):
@@ -189,6 +187,13 @@ class OversightProbeTemplate(models.Model):
     def cron_execute(self, ids):
         items = self.browse(ids)
         items._run_oversight_template()
+
+    # Overload Section
+    @api.multi
+    def unlink(self):
+        self.filtered(lambda x: x.cron_id).mapped('cron_id').unlink()
+        self.mapped('last_check_id').unlink()
+        return super(OversightProbeTemplate, self).unlink()
 
     # Private Section
     @api.multi

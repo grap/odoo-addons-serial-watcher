@@ -13,8 +13,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <search>
                 <field name="name"/>
                 <field name="probe_type"/>
-                <field name="state"/>
-                <filter string="State" context="{'group_by':'state'}"/>
+                <field name="active"/>
+                <filter string="State" context="{'group_by':'active'}"/>
                 <filter string="Type" context="{'group_by':'probe_type'}"/>
                 <filter name="filter_not_ok" string="Last Check Not OK"
                     domain="[('last_check_state','!=', 'info')]"/>
@@ -26,11 +26,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree colors="blue:(state == 'draft')">
+            <tree colors="gray:(active == False)">
                 <field name="name"/>
                 <field name="probe_type"/>
                 <field name="last_check_state" bg_color="LimeGreen:last_check_state=='info'; Orange:last_check_state=='warning'; OrangeRed:last_check_state=='error'; Red: last_check_state=='critical'"/>
-                <field name="state" invisible="1"/>
+                <field name="active" invisible="1"/>
             </tree>
         </field>
     </record>
@@ -40,9 +40,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <form>
-                <header>
-                    <field name="state" widget="statusbar"/>
-                </header>
+                <header />
                 <sheet>
                     <field name="image" widget="image" class="oe_left oe_avatar"
                             options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
@@ -58,6 +56,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     </div>
                     <group>
                         <group col="4">
+                            <field name="active"/>
                             <field name="probe_type" invisible="1"/>
                             <field name="value_type" invisible="1"/>
                             <field name="last_check_id" attrs="{'invisible': [('last_check_id', '=', False)]}"/>
@@ -106,7 +105,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="color"/>
                 <field name="has_image"/>
                 <field name="probe_type"/>
-                <field name="state"/>
+                <field name="active"/>
                 <field name="last_check_state"/>
                 <templates>
                     <t t-name="kanban-box">
@@ -163,27 +162,27 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                             </div>
 
                                             <!-- Probe State -->
-                                            <t t-if="record.state.raw_value == 'draft'">
+                                            <t t-if="record.active.raw_value == false">
                                                 <div style="padding: 5px 5px 5px 5px;">
                                                     <img t-att-src="'/oversight/static/src/img/image_state_not_set.png'"
                                                         style="width:50px; height:50px;"/>
                                                 </div>
                                             </t>
-                                            <t t-if="record.state.raw_value == 'confirm'">
+                                            <t t-if="record.active.raw_value == true">
                                                 <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'info'">
                                                     <img t-att-src="'/oversight/static/src/img/image_state_info.png'"
                                                         style="width:50px; height:50px;"/>
                                                 </div>
                                                 <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'warning'">
-                                                    <img t-att-src="'/oversight/static/src/img/animation_warning.gif'"
+                                                    <img t-att-src="'/oversight/static/src/img/image_state_warning.png'"
                                                         style="width:50px; height:50px;"/>
                                                 </div>
                                                 <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'error'">
-                                                    <img t-att-src="'/oversight/static/src/img/animation_error.gif'"
+                                                    <img t-att-src="'/oversight/static/src/img/image_state_error.png'"
                                                         style="width:50px; height:50px;"/>
                                                 </div>
                                                 <div style="padding: 5px 5px 5px 5px;" t-if="record.last_check_state.raw_value == 'critical'">
-                                                    <img t-att-src="'/oversight/static/src/img/animation_critical.gif'"
+                                                    <img t-att-src="'/oversight/static/src/img/image_state_critical.png'"
                                                         style="width:50px; height:50px;"/>
                                                 </div>
                                             </t>
@@ -216,15 +215,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="priority" eval="7"/>
         <field name="inherit_id" ref="view_oversight_probe_template_form"/>
         <field name="arch" type="xml">
-            <field name="state" position="before">
+            <xpath expr="//header" position="inside">
                 <button name="button_execute_template" string="Execute" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_confirm_template" states="draft" string="Confirm" type="object"
+                <button name="button_enable_template" attrs="{'invisible': [('active', '=', True)]}" string="Enable" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_draft_template" states="confirm" string="Set to Draft" type="object"
+                <button name="button_disable_template" attrs="{'invisible': [('active', '=', False)]}" string="Disable" type="object"
                         groups="oversight.group_oversight_manager"/>
                 <button name="button_see_variant" string="Settings" type="object"/>
-            </field>
+            </xpath>
             <xpath expr="//div[@name='buttons']" position="inside">
                 <button class="oe_inline oe_stat_button" type="action" name="%(action_oversight_probe_template_2_oversight_check)d"
                         attrs="{'invisible': [('check_qty', '=', 0)]}" icon="fa-check">

@@ -12,14 +12,14 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="priority" eval="7"/>
         <field name="inherit_id" ref="view_oversight_probe_template_form"/>
         <field name="arch" type="xml">
-            <field name="state" position="before">
+            <xpath expr="//header" position="inside">
                 <button name="button_execute_variant" string="Execute" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_confirm_variant" states="draft" string="Confirm" type="object"
+                <button name="button_enable_variant" attrs="{'invisible': [('active', '=', True)]}" string="Enable" type="object"
                         groups="oversight.group_oversight_manager"/>
-                <button name="button_draft_variant" states="confirm" string="Set to Draft" type="object"
+                <button name="button_disable_variant" attrs="{'invisible': [('active', '=', False)]}" string="Disable" type="object"
                         groups="oversight.group_oversight_manager"/>
-            </field>
+            </xpath>
             <group name="group_variant_settings" position="inside">
                 <field name="url"/>
                 <field name="info_code_list"/>
@@ -34,7 +34,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="priority" eval="7"/>
         <field name="inherit_id" ref="view_oversight_probe_template_tree"/>
         <field name="arch" type="xml">
-            <field name="state" position="attributes">
+            <field name="active" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
         </field>
