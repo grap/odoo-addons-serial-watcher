@@ -49,6 +49,7 @@ class OversightProbeTemplate(models.Model):
         ('none', 'None'),
         ('float', 'Float'),
         ('text', 'Text'),
+        ('integer', 'Integer'),
     ]
 
     state = fields.Selection(
@@ -83,15 +84,15 @@ class OversightProbeTemplate(models.Model):
     check_qty = fields.Integer(
         string='Checks Qty', compute='_compute_check_qty')
 
+    last_check_id = fields.Many2one(
+        comodel_name='oversight.check', string='Last Check', readonly=True)
+
     last_check_state = fields.Selection(
         selection=_SELECTION_LAST_CHECK_STATE, string='Last Check State',
-        readonly=True, required=True, default='not_set')
+        readonly=True, compute='_compute_last_check', store=True)
 
-    last_value_float = fields.Float(
-        string='Last Float Value', readonly=True)
-
-    last_value_text = fields.Text(
-        string='Last Text Value', readonly=True)
+    last_value_string = fields.Char(
+        string='Last Value', compute='_compute_last_check', store=True)
 
     alert_ids = fields.One2many(
         comodel_name='oversight.probe.alert', string='Alerts',
@@ -103,6 +104,18 @@ class OversightProbeTemplate(models.Model):
         selection=_SELECTION_VALUE_TYPE, compute='_compute_value_type')
 
     # Compute section
+    @api.multi
+    @api.depends('last_check_id')
+    def _compute_last_check(self):
+        for template in self.filtered(lambda x: x.last_check_id):
+            template.last_check_state = template.last_check_id.state
+            template.last_value_string =\
+                template._get_variant()._get_value_string(
+                    template.last_check_id)
+        for template in self.filtered(lambda x: not x.last_check_id):
+            template.last_check_state = 'not_set'
+            template.last_value_string = ''
+
     @api.multi
     @api.depends('image')
     def _compute_has_image(self):
@@ -218,9 +231,7 @@ class OversightProbeTemplate(models.Model):
             check = check_obj.create(check_value)
 
             probe.write({
-                'last_check_state': check.state,
-                'last_value_float': check.value_float,
-                'last_value_text': check.value_text,
+                'last_check_id': check.id,
             })
 
             # Handle Alert

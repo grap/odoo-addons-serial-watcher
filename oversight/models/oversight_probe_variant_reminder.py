@@ -18,6 +18,12 @@ class OversightProbeVariantReminder(models.Model):
 
     error_date = fields.Datetime(string='Error Date')
 
+    # Overload Section
+    @api.multi
+    def _get_value_string(self, check):
+        self.ensure_one()
+        return False
+
     @api.multi
     def _run_oversight_variant(self):
         self.ensure_one()

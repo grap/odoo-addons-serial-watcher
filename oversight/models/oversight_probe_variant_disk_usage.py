@@ -3,7 +3,7 @@
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import api, fields, models
+from openerp import _, api, fields, models
 
 
 class OversightProbeVariantDiskUsage(models.Model):
@@ -13,6 +13,7 @@ class OversightProbeVariantDiskUsage(models.Model):
         'oversight.probe.variant.mixin',
     ]
 
+    _undefined_value = -1
     _variant_value_type = 'float'
     _variant_probe_type = 'disk.usage'
 
@@ -22,11 +23,20 @@ class OversightProbeVariantDiskUsage(models.Model):
 
     error_threshold = fields.Float(required=True, default=90)
 
+    # Overload Section
+    @api.multi
+    def _get_value_string(self, check):
+        self.ensure_one()
+        if check.value_float == self._undefined_value:
+            return False
+        else:
+            return _('%.2f %%') % (check.value_float)
+
     @api.multi
     def _run_oversight_variant(self):
         self.ensure_one()
         message = False
-        value_float = -1
+        value_float = self._undefined_value
         try:
             res = self._ssh_execute('df %s' % self.disk)
             res = res[1].split(" ")

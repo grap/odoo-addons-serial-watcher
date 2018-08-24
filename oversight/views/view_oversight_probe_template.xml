@@ -60,9 +60,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <group col="4">
                             <field name="probe_type" invisible="1"/>
                             <field name="value_type" invisible="1"/>
-                            <field name="last_check_state" attrs="{'invisible': [('last_check_state', '=', 'not_set')]}"/>
-                            <field name="last_value_float" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('value_type', '!=', 'float')]}"/>
-                            <field name="last_value_text" attrs="{'invisible': ['|', ('last_check_state', '=', 'not_set'), ('value_type', '!=', 'text')]}"/>
+                            <field name="last_check_id" attrs="{'invisible': [('last_check_id', '=', False)]}"/>
+                            <field name="last_check_state" attrs="{'invisible': [('last_check_id', '=', False)]}"/>
+                            <field name="last_value_string" attrs="{'invisible': [('last_check_id', '=', False)]}"/>
                         </group>
                     </group>
                     <notebook colspan="4">
@@ -115,20 +115,29 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                     t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}">
                                 <table>
                                     <tr>
-                                        <td style="width:120px; height:120px; text-align:center;vertical-align:middle; ">
+                                        <td style="width:120px; height:120px; text-align:center;vertical-align:middle; overflow: hidden;">
                                             <t t-if="record.has_image.raw_value === true">
-                                                <div style="padding: 5px 5px 5px 5px;">
+                                                <div style="width:120px; height:100px; overflow: hidden;">
                                                     <a type="open">
                                                         <img t-att-src="kanban_image('oversight.probe.template', 'image', record.id.value)"
-                                                            width="100px"/>
+                                                            width="90"/>
                                                     </a>
                                                 </div>
                                             </t>
                                             <t t-if="record.has_image.raw_value == false">
-                                                <a type="open">
-                                                    <field name="name"/>
-                                                </a>
+                                                <div style="width:120px; height:100px; overflow: hidden;">
+                                                    <a type="open">
+                                                        <field name="name"/>
+                                                    </a>
+                                                </div>
                                             </t>
+                                            <div style="width:120px; height:20px; overflow: hidden;">
+                                                <t t-if="record.last_value_string.raw_value">
+                                                    <span class="badge">
+                                                        <field name="last_value_string"/>
+                                                    </span>
+                                                </t>
+                                            </div>
                                         </td>
                                         <td style="width:60px; height:120px; text-align:center; vertical-align:middle;" >
                                             <!-- Probe Type-->

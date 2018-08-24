@@ -11,7 +11,8 @@ class OversightProbeVariantHttpCode(models.Model):
     _name = 'oversight.probe.variant.http.code'
     _inherit = ['oversight.probe.variant.mixin']
 
-    _variant_value_type = 'text'
+    _undefined_value = 0
+    _variant_value_type = 'integer'
     _variant_probe_type = 'http.code'
 
     url = fields.Char(string='Url', required=True)
@@ -20,27 +21,26 @@ class OversightProbeVariantHttpCode(models.Model):
 
     warning_code_list = fields.Char('Warning Codes')
 
+    # Overload Section
     @api.multi
-    def _get_info_codes(self):
+    def _get_value_string(self, check):
         self.ensure_one()
-        return self.info_code_list and self.info_code_list.split(',') or []
-
-    @api.multi
-    def _get_warning_codes(self):
-        self.ensure_one()
-        return self.info_code_list and self.info_code_list.split(',') or []
+        if check.value_integer == self._undefined_value:
+            return False
+        else:
+            return str(check.value_integer)
 
     @api.multi
     def _run_oversight_variant(self):
         self.ensure_one()
         message = False
-        value_text = False
+        value_integer = self._undefined_value
         try:
             response = urllib.urlopen(self.url)
-            value_text = str(response.code)
-            if value_text in self._get_info_codes():
+            value_integer = response.code
+            if value_integer in self._get_info_codes():
                 state = 'info'
-            elif value_text in self._get_warning_codes():
+            elif value_integer in self._get_warning_codes():
                 state = 'warning'
             else:
                 state = 'error'
@@ -50,5 +50,18 @@ class OversightProbeVariantHttpCode(models.Model):
         return {
             'state': state,
             'message': message,
-            'value_text': value_text,
+            'value_integer': value_integer,
         }
+
+    # Custom Section
+    @api.multi
+    def _get_info_codes(self):
+        self.ensure_one()
+        res_list = self.info_code_list and self.info_code_list.split(',') or []
+        return [int(x) for x in res_list if x.isdigit()]
+
+    @api.multi
+    def _get_warning_codes(self):
+        self.ensure_one()
+        res_list = self.info_code_list and self.info_code_list.split(',') or []
+        return [int(x) for x in res_list if x.isdigit()]

@@ -33,10 +33,14 @@ class OversightCheck(models.Model):
         comodel_name='oversight.probe.template', required=True,
         readonly=True)
 
-    value_float = fields.Float(
-        string='Float Value', readonly=True, default=-1)
+    value_integer = fields.Integer(
+        string='Value (Integer)', readonly=True)
 
-    value_text = fields.Char(string='Text Value', readonly=True)
+    value_text = fields.Char(
+        string='Value (Text)', readonly=True)
+
+    value_float = fields.Float(
+        string='Value (Float)', readonly=True, default=-1)
 
     @api.multi
     @api.depends('date_start')

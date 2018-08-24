@@ -17,6 +17,12 @@ class OversightProbeVariantPing(models.Model):
     destination = fields.Char(
         string='Destination Computer', required=True)
 
+    # Overload Section
+    @api.multi
+    def _get_value_string(self, check):
+        self.ensure_one()
+        return False
+
     @api.multi
     def _run_oversight_variant(self):
         self.ensure_one()
