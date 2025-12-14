@@ -46,7 +46,7 @@ class OversightProbeVariantHttpCode(models.Model):
                 state = "error"
         except Exception as e:
             state = "critical"
-            message = e.message
+            message = str(e)
         return {
             "state": state,
             "message": message,
