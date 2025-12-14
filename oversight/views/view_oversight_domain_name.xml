@@ -28,10 +28,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button string="Update Data" name="button_update_data" type="object" />
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="domain_name"/>
+                            <field name="registrar"/>
+                            <field name="creation_datetime"/>
+                            <field name="expire_datetime"/>
                         </group>
                     </group>
                 </sheet>

@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_oversight_domain_name_user,access_oversight_domain_name_user,model_oversight_domain_name,group_oversight_user,1,0,0,0
 access_oversight_domain_name_manager,access_oversight_domain_name_manager,model_oversight_domain_name,group_oversight_manager,1,1,1,1
+access_oversight_url_user,access_oversight_url_user,model_oversight_url,group_oversight_user,1,0,0,0
+access_oversight_url_manager,access_oversight_url_manager,model_oversight_url,group_oversight_manager,1,1,1,1
