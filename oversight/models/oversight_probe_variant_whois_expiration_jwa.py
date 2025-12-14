@@ -4,7 +4,7 @@
 
 from datetime import datetime
 
-from openerp import _, fields, models
+from odoo import _, fields, models
 
 
 class OversightProbeVariantWhoisExpirationJwa(models.Model):
@@ -50,7 +50,7 @@ class OversightProbeVariantWhoisExpirationJwa(models.Model):
             if not res["registered"]:
                 raise Exception(
                     _(
-                        "%(url)s is not registered.\n\n%(result)s",
+                        "%(url)s is not rehgistered.\n\n%(result)s",
                         url=self.url,
                         result=res,
                     )

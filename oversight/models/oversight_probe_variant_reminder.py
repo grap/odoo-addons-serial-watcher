@@ -4,7 +4,7 @@
 
 from datetime import datetime
 
-from openerp import _, fields, models
+from odoo import _, fields, models
 
 
 class OversightProbeVariantReminder(models.Model):

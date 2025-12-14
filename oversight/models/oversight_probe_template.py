@@ -4,8 +4,8 @@
 
 from datetime import datetime
 
-from openerp import SUPERUSER_ID, _, api, fields, models
-from openerp.tools import DEFAULT_SERVER_DATETIME_FORMAT
+from odoo import SUPERUSER_ID, _, api, fields, models
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class OversightProbeTemplate(models.Model):
