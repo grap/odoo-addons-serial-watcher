@@ -4,7 +4,7 @@ Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
 @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
-<openerp><data>
+<odoo>
 
     <record id="view_oversight_probe_variant_ping_form" model="ir.ui.view">
         <field name="model">oversight.probe.variant.ping</field>
@@ -66,4 +66,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         action="action_oversight_probe_variant_ping"
         sequence="1"/>
 
-</data></openerp>
+</odoo>

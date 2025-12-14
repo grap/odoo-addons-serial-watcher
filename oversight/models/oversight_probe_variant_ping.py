@@ -1,42 +1,37 @@
-# coding: utf-8
 # Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import os
-from openerp import api, fields, models
+
+from openerp import fields, models
 
 
 class OversightProbeVariantPing(models.Model):
-    _name = 'oversight.probe.variant.ping'
-    _inherit = ['oversight.probe.variant.mixin']
+    _name = "oversight.probe.variant.ping"
+    _inherit = ["oversight.probe.variant.mixin"]
 
     _variant_value_type = False
-    _variant_probe_type = 'ping'
+    _variant_probe_type = "ping"
 
-    destination = fields.Char(
-        string='Destination Computer', required=True)
+    destination = fields.Char(string="Destination Computer", required=True)
 
     # Overload Section
-    @api.multi
+
     def _get_value_string(self, check):
         self.ensure_one()
         return False
 
-    @api.multi
     def _run_oversight_variant(self):
         self.ensure_one()
         message = False
         try:
-            response = os.system("ping %s -c 1" % (self.destination))
+            response = os.system(f"ping {self.destination} -c 1")
             if response == 0:
-                state = 'info'
+                state = "info"
             else:
-                state = 'error'
+                state = "error"
         except Exception as e:
-            state = 'critical'
+            state = "critical"
             message = e.message
-        return {
-            'state': state,
-            'message': message
-        }
+        return {"state": state, "message": message}

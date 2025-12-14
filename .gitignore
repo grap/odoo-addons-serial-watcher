@@ -1,7 +1,14 @@
+# <GRAP>
+# Do not share pdf file. (grap-odoo-business-supplier-invoice)
+*.pdf
+# </GRAP>
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
+/.venv
+/.pytest_cache
+/.ruff_cache
 
 # C extensions
 *.so
@@ -9,27 +16,32 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+bin/
 build/
 develop-eggs/
 dist/
-downloads/
 eggs/
-.eggs/
-lib/
 lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.eggs
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# Windows installers
+*.msi
+
+# Debian packages
+*.deb
+
+# Redhat packages
+*.rpm
+
+# MacOS packages
+*.dmg
+*.pkg
 
 # Installer logs
 pip-log.txt
@@ -39,63 +51,43 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
-.coverage.*
 .cache
 nosetests.xml
 coverage.xml
-*.cover
-.hypothesis/
 
 # Translations
 *.mo
-*.pot
+
+# Pycharm
+.idea
+
+# Eclipse
+.settings
+
+# Visual Studio cache/options directory
+.vs/
+.vscode
+
+# OSX Files
+.DS_Store
 
 # Django stuff:
 *.log
-local_settings.py
 
-# Flask stuff:
-instance/
-.webassets-cache
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
 
-# Scrapy stuff:
-.scrapy
+# Rope
+.ropeproject
 
 # Sphinx documentation
 docs/_build/
 
-# PyBuilder
-target/
+# Backup files
+*~
+*.swp
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# celery beat schedule file
-celerybeat-schedule
-
-# SageMath parsed files
-*.sage.py
-
-# dotenv
-.env
-
-# virtualenv
-.venv
-venv/
-ENV/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
+# OCA rules
+!static/lib/

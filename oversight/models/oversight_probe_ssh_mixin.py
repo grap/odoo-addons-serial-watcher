@@ -1,11 +1,10 @@
-# coding: utf-8
 # Copyright (C) 2018 -  Today: GRAP (http://www.grap.coop)
 # @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 import logging
 
-from openerp import api, fields, models
+from openerp import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -16,7 +15,7 @@ except ImportError as err:
 
 
 class OversightProbeSSHMixin(models.AbstractModel):
-    _name = 'oversight.probe.ssh.mixin'
+    _name = "oversight.probe.ssh.mixin"
 
     server = fields.Char(required=True)
 
@@ -25,9 +24,9 @@ class OversightProbeSSHMixin(models.AbstractModel):
     password = fields.Char(required=False)
 
     ssh_key_id = fields.Many2one(
-        comodel_name='oversight.probe.ssh.key', string='SSH Private Key')
+        comodel_name="oversight.probe.ssh.key", string="SSH Private Key"
+    )
 
-    @api.multi
     def _ssh_execute(self, command):
         self.ensure_one()
         ssh = paramiko.SSHClient()
@@ -37,20 +36,12 @@ class OversightProbeSSHMixin(models.AbstractModel):
 
         if self.password and self.ssh_key_id:
             ssh.connect(
-                self.server,
-                username=self.login,
-                password=self.password,
-                pkey=key)
+                self.server, username=self.login, password=self.password, pkey=key
+            )
         elif self.password:
-            ssh.connect(
-                self.server,
-                username=self.login,
-                password=self.password)
+            ssh.connect(self.server, username=self.login, password=self.password)
         else:
-            ssh.connect(
-                self.server,
-                username=self.login,
-                pkey=key)
+            ssh.connect(self.server, username=self.login, pkey=key)
         stdin, stdout, stderr = ssh.exec_command(command)
         res = stdout.readlines()
         ssh.close()

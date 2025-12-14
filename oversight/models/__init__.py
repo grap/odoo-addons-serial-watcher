@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from . import oversight_check
 from . import oversight_probe_json_mixin
 from . import oversight_probe_ssh_mixin

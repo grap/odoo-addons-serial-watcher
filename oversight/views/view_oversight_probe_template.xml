@@ -4,7 +4,7 @@ Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
 @author: Sylvain LE GAL (https://twitter.com/legalsylvain)
 License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
-<openerp><data>
+<odoo>
 
     <record id="view_oversight_probe_template_search" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
@@ -26,7 +26,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree colors="gray:(active == False)">
+            <tree decoration-muted="active == False">
                 <field name="name"/>
                 <field name="probe_type"/>
                 <field name="last_check_state" bg_color="LimeGreen:last_check_state=='info'; Orange:last_check_state=='warning'; OrangeRed:last_check_state=='error'; Red: last_check_state=='critical'"/>
@@ -68,7 +68,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <page name="probe_setting" string="Probe Settings">
                             <group name="group_template_settings">
                                 <field name="alert_ids" nolabel="1">
-                                    <tree editable="bottom" colors="black:(current_failed_qty == 0); brown:(current_failed_qty &lt; max_try_qty); red: (current_failed_qty &gt;= max_try_qty)">
+                                    <tree editable="bottom"
+                                        decoration-danger="current_failed_qty &gt;= max_try_qty"
+                                        decoration-warning="current_failed_qty &lt; max_try_qty">
                                         <field name="type"/>
                                         <field name="send_mode"/>
                                         <field name="max_try_qty"/>
@@ -271,4 +273,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         action="action_oversight_probe_template"
         sequence="1"/>
 
-</data></openerp>
+</odoo>
