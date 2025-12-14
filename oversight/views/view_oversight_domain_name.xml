@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="view_oversight_domain_name_search" model="ir.ui.view">
+    <field name="model">oversight.domain.name</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="domain_name"/>
+           </search>
+        </field>
+    </record>
+
+     <record id="view_oversight_domain_name_list" model="ir.ui.view">
+        <field name="model">oversight.domain.name</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="domain_name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_oversight_domain_name_form" model="ir.ui.view">
+        <field name="model">oversight.domain.name</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="domain_name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--     <record id="action_oversight_probe_template_2_oversight_domain_name" model="ir.actions.act_window">
+        <field name="name">Checks</field>
+        <field name="res_model">oversight.domain.name</field>
+        <field name="view_mode">list,form,graph</field>
+        <field name="context">{'search_default_probe_template_id': active_id}</field>
+    </record> -->
+
+
+    <record id="action_oversight_domain_name" model="ir.actions.act_window">
+        <field name="name">Domain Names</field>
+        <field name="res_model">oversight.domain.name</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_domain_name"
+        parent="menu_oversight_setting"
+        action="action_oversight_domain_name"
+        sequence="1"/>
+
+</odoo>

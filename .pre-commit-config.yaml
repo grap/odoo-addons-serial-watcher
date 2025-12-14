@@ -1,6 +1,7 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
+  ^oversight_bkp/|
   # END NOT INSTALLABLE ADDONS
   # <GRAP> Do no touch encrypted files
   .*\.encrypted|
