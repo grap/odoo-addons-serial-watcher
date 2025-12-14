@@ -16,6 +16,7 @@ except ImportError as err:
 
 class OversightProbeSSHMixin(models.AbstractModel):
     _name = "oversight.probe.ssh.mixin"
+    _description = "Oversight Probe SSH Mixin"
 
     server = fields.Char(required=True)
 

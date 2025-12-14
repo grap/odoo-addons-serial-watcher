@@ -7,6 +7,8 @@ from odoo import _, fields, models
 
 class OversightProbeVariantDiskUsage(models.Model):
     _name = "oversight.probe.variant.disk.usage"
+    _description = "Oversight Probe Variant Dist Usage"
+
     _inherit = [
         "oversight.probe.ssh.mixin",
         "oversight.probe.variant.mixin",

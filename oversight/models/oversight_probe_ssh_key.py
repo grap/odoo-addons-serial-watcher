@@ -7,6 +7,8 @@ from odoo import fields, models
 
 class OversightProbeSshKey(models.Model):
     _name = "oversight.probe.ssh.key"
+    _description = "Oversight Probe SSH Key"
+
     _order = "name"
 
     name = fields.Char(required=True)

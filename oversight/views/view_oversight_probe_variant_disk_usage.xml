@@ -32,11 +32,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-    <record id="view_oversight_probe_variant_disk_usage_tree" model="ir.ui.view">
+    <record id="view_oversight_probe_variant_disk_usage_list" model="ir.ui.view">
         <field name="model">oversight.probe.variant.disk.usage</field>
         <field name="mode">primary</field>
         <field name="priority" eval="7"/>
-        <field name="inherit_id" ref="view_oversight_probe_template_tree"/>
+        <field name="inherit_id" ref="view_oversight_probe_template_list"/>
         <field name="arch" type="xml">
             <field name="active" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -49,7 +49,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Disk Usage</field>
         <field name="res_model">oversight.probe.variant.disk.usage</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_oversight_probe_variant_disk_usage"

@@ -9,6 +9,7 @@ from odoo import fields, models
 
 class OversightProbeVariantHttpCode(models.Model):
     _name = "oversight.probe.variant.http.code"
+    _description = "Oversight Probe Variant HTTP Code"
     _inherit = ["oversight.probe.variant.mixin"]
 
     _undefined_value = 0

@@ -7,6 +7,7 @@ from odoo import _, api, fields, models
 
 class OversightProbeVariantMixin(models.AbstractModel):
     _name = "oversight.probe.variant.mixin"
+    _description = "Oversight Probe Variant Mixin"
     _inherits = {"oversight.probe.template": "probe_template_id"}
 
     _variant_value_type = "none"

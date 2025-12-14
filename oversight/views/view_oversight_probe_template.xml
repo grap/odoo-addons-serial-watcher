@@ -6,7 +6,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <odoo>
 
-    <record id="view_oversight_probe_template_search" model="ir.ui.view">
+<!--     <record id="view_oversight_probe_template_search" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
@@ -21,17 +21,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </search>
         </field>
     </record>
-
-    <record id="view_oversight_probe_template_tree" model="ir.ui.view">
+ -->
+    <record id="view_oversight_probe_template_list" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <tree decoration-muted="active == False">
+            <list decoration-muted="active == False">
                 <field name="name"/>
                 <field name="probe_type"/>
                 <field name="last_check_state" bg_color="LimeGreen:last_check_state=='info'; Orange:last_check_state=='warning'; OrangeRed:last_check_state=='error'; Red: last_check_state=='critical'"/>
                 <field name="active" invisible="1"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -68,7 +68,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <page name="probe_setting" string="Probe Settings">
                             <group name="group_template_settings">
                                 <field name="alert_ids" nolabel="1">
-                                    <tree editable="bottom"
+                                    <list editable="bottom"
                                         decoration-danger="current_failed_qty &gt;= max_try_qty"
                                         decoration-warning="current_failed_qty &lt; max_try_qty">
                                         <field name="type"/>
@@ -80,7 +80,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                                         <field name="active_error"/>
                                         <field name="active_critical"/>
                                         <field name="current_failed_qty"/>
-                                    </tree>
+                                    </list>
                                 </field>
                             </group>
                             <group name="group_variant_settings" string="Variant Settings">
@@ -199,13 +199,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-    <record id="view_oversight_probe_template_tree_only" model="ir.ui.view">
+    <record id="view_oversight_probe_template_list_only" model="ir.ui.view">
         <field name="model">oversight.probe.template</field>
         <field name="mode">primary</field>
         <field name="priority" eval="7"/>
-        <field name="inherit_id" ref="view_oversight_probe_template_tree"/>
+        <field name="inherit_id" ref="view_oversight_probe_template_list"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="attributes">
+            <xpath expr="//list" position="attributes">
                 <attribute name="create">false</attribute>
             </xpath>
         </field>
@@ -248,7 +248,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Probes</field>
         <field name="res_model">oversight.probe.template</field>
         <field name="view_type">form</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="context">{'active_test': False, 'search_default_filter_not_ok':1}</field>
     </record>
 

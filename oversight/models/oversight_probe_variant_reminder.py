@@ -9,6 +9,7 @@ from odoo import _, fields, models
 
 class OversightProbeVariantReminder(models.Model):
     _name = "oversight.probe.variant.reminder"
+    _description = "Oversight Probe Variant Reminder"
     _inherit = ["oversight.probe.variant.mixin"]
 
     _variant_value_type = False

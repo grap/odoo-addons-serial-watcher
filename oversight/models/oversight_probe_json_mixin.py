@@ -10,6 +10,7 @@ from odoo import models
 
 class OversightProbeJsonMixin(models.AbstractModel):
     _name = "oversight.probe.json.mixin"
+    _description = "Oversight Probe JSON Mixin"
 
     # To Overload Section
     _json_auth_method = False

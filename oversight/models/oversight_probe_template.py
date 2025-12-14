@@ -10,7 +10,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 class OversightProbeTemplate(models.Model):
     _name = "oversight.probe.template"
-    _inherit = "ir.needaction_mixin"
+    _description = "Oversight Probe Template"
     _order = "name"
 
     # Field Section
@@ -147,16 +147,8 @@ class OversightProbeTemplate(models.Model):
             probe.check_qty = len(probe.check_ids)
 
     # View Section
-    @api.model
-    def _needaction_domain_get(self):
-        return [
-            ("active", "=", True),
-            ("last_check_state", "in", ["warning", "error", "critical"]),
-        ]
-
     def button_execute_template(self):
-        for template in self:
-            template._run_oversight_template()
+        self._run_oversight_template()
 
     def button_enable_template(self):
         cron_obj = self.env["ir.cron"]
@@ -190,14 +182,12 @@ class OversightProbeTemplate(models.Model):
         items._run_oversight_template()
 
     # Overload Section
-
     def unlink(self):
         self.filtered(lambda x: x.cron_id).mapped("cron_id").unlink()
         self.mapped("last_check_id").unlink()
         return super().unlink()
 
     # Private Section
-
     def _prepare_cron(self):
         self.ensure_one()
         return {
@@ -232,11 +222,7 @@ class OversightProbeTemplate(models.Model):
             check_value.update(variant._run_oversight_variant())
             check = check_obj.create(check_value)
 
-            probe.write(
-                {
-                    "last_check_id": check.id,
-                }
-            )
+            probe.write({"last_check_id": check.id})
 
             # Handle Alert
             probe.alert_ids._handle_check(check)

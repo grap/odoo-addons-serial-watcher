@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class OversightCheck(models.Model):
     _name = "oversight.check"
+    _description = "Oversight Check"
     _order = "date_start desc"
 
     # Field Section

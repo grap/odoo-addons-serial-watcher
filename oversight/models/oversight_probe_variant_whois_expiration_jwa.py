@@ -9,6 +9,7 @@ from odoo import _, fields, models
 
 class OversightProbeVariantWhoisExpirationJwa(models.Model):
     _name = "oversight.probe.variant.whois.expiration.jwa"
+    _description = "Oversight Probe Variant Whois Expiration JWA"
     _inherit = [
         "oversight.probe.json.mixin",
         "oversight.probe.variant.mixin",

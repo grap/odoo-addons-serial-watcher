@@ -9,6 +9,7 @@ from odoo import fields, models
 
 class OversightProbeVariantPing(models.Model):
     _name = "oversight.probe.variant.ping"
+    _description = "Oversight Probe Variant Ping"
     _inherit = ["oversight.probe.variant.mixin"]
 
     _variant_value_type = False

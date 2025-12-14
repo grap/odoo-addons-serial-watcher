@@ -9,7 +9,7 @@ from odoo import _, api, fields, models
 
 class OversightAlert(models.Model):
     _name = "oversight.probe.alert"
-
+    _description = "Oversight Probe Alert"
     _SELECTION_TYPE = [
         ("mail", "EMail"),
     ]
