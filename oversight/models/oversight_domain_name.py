@@ -80,7 +80,7 @@ class OversightDomainName(models.Model):
             if len(vals) == 0:
                 message = _(
                     "Unable to recover registrar Information"
-                    " for the Domain Name '%(domain_name)s",
+                    " for the Domain Name '%(domain_name)s'.",
                     domain_name=domain_name.domain_name,
                 )
                 _logger.error(message)

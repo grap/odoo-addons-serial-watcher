@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-15 20:55+0000\n"
-"PO-Revision-Date: 2025-12-15 20:55+0000\n"
+"POT-Creation-Date: 2025-12-15 21:53+0000\n"
+"PO-Revision-Date: 2025-12-15 21:53+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,20 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
+msgid "Certificate SSL"
+msgstr "Certificat SSL"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__company_id
 msgid "Company"
 msgstr "Société"
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_url.py:0
+msgid "ConnectionRefusedError: Certificate Not found on '%(url)s'."
+msgstr "ConnectionRefusedError: Certificat non trouvé pour l'URL '%(url)s'."
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__create_uid
@@ -85,7 +96,9 @@ msgid "Expire Datetime"
 msgstr "Date d'expiration"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "General Information"
 msgstr "Information Générale"
 
@@ -177,9 +190,26 @@ msgid "Registrar"
 msgstr "Bureau"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+msgid "Registrar Information"
+msgstr "Information du bureau d'enregistrement"
+
+#. module: oversight
 #: model:ir.model,name:oversight.model_oversight_ssh_authentication
 msgid "SSH Authentication"
 msgstr "Authentification SSH"
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_url.py:0
+msgid "SSLEOFError: Unable to get certificate of '%(url)s'."
+msgstr "SSLEOFError: Impossible d'obtenir le certificat SSL de l'URL '%(url)s'."
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_url.py:0
+msgid "SSLError: Unable to get certificate of '%(url)s'."
+msgstr "SSLError: Impossible d'obtenir le certificat SSL de l'URL '%(url)s'."
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__server_id
@@ -209,7 +239,7 @@ msgstr ""
 
 #. module: oversight
 #: model:ir.ui.menu,name:oversight.menu_oversight_setting
-msgid "Settings"
+msgid "Setting"
 msgstr "Configuration"
 
 #. module: oversight
@@ -256,6 +286,19 @@ msgid "URLs"
 msgstr ""
 
 #. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_url.py:0
+msgid "Unable to deduce server IP from the URL '%(url)s'"
+msgstr "Impossible de déduire l'IP du serveur à partir de l'URL '%(url)s'"
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_domain_name.py:0
+msgid ""
+"Unable to recover registrar Information for the Domain Name '%(domain_name)s'."
+msgstr "Impossible de récupérer les informations du bureau d'enregistrement pour le domaine '%(domain_name)s'."
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Update Cert info"
 msgstr "Mettre à jour le certificat"
@@ -293,3 +336,9 @@ msgstr "Utilisateur"
 #: model:ir.model,name:oversight.model_oversight_server
 msgid "server"
 msgstr "serveur"
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/oversight_url.py:0
+msgid "socket.gaierror: URL '%(url)s' not found."
+msgstr "socket.gaierror: URL '%(url)s' non trouvée."
