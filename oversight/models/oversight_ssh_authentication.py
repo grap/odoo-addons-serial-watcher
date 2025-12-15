@@ -7,6 +7,7 @@ from odoo import fields, models
 
 class OversightSshAuthentication(models.Model):
     _name = "oversight.ssh.authentication"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "SSH Authentication"
     _rec_name = "login"
 

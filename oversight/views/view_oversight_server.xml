@@ -23,7 +23,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="ip" optional="hide"/>
                 <field name="technical_name" optional="hide"/>
                 <field name="services" optional="show"/>
-
+                <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="invoice_partner_id" optional="show"/>
                 <field name="monthly_cost" sum="Total" optional="show"/>
                 <field name="supplier_partner_id" optional="show"/>
@@ -79,6 +79,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         </page>
                     </notebook>
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>

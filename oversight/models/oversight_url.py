@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class OversightUrl(models.Model):
     _name = "oversight.url"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "URL"
     _rec_name = "url"
 
