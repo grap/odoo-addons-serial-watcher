@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="view_oversight_server_search" model="ir.ui.view">
+    <field name="model">oversight.server</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter string="Is Ours" name="filter_is_ours" domain="[('is_ours','=', True)]"/>
+           </search>
+        </field>
+    </record>
+
+     <record id="view_oversight_server_list" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="ip" optional="hide"/>
+                <field name="technical_name" optional="hide"/>
+                <field name="services" optional="show"/>
+                <field name="url_qty" optional="show"/>
+                <field name="is_ours" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_oversight_server_form" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="ip" readonly="id != False"/>
+                            <field name="technical_name"/>
+                            <field name="services"/>
+                            <field name="is_ours" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="page_urls" string="URLs">
+                            <group>
+                                <field name="url_ids" nolabel="1">
+                                    <list>
+                                        <field name="url" widget="url"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_oversight_server" model="ir.actions.act_window">
+        <field name="name">Servers</field>
+        <field name="res_model">oversight.server</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_is_ours':1}</field>
+    </record>
+
+    <menuitem id="menu_oversight_server"
+        parent="menu_oversight_setting"
+        action="action_oversight_server"
+        sequence="1"/>
+
+</odoo>

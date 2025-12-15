@@ -16,9 +16,13 @@
         # "data/test.xml",
         "views/menu.xml",
         "views/view_oversight_domain_name.xml",
+        "views/view_oversight_url.xml",
+        "views/view_oversight_server.xml",
+        # "views/view_oversight_ssh_authentication.xml",
     ],
     "demo": [
-        # "demo/test.xml",
+        "demo/demo_oversight_domain_name.xml",
+        "demo/demo_oversight_url.xml",
     ],
     "external_dependencies": {},
 }

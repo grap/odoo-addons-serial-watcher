@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="oversight_domain_name_grap_coop" model="oversight.domain.name">
+        <field name="domain_name">grap.coop</field>
+    </record>
+
+</odoo>

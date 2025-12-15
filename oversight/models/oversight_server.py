@@ -1,0 +1,43 @@
+# Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+
+
+from odoo import api, fields, models
+
+
+class OversightServer(models.Model):
+    _name = "oversight.server"
+    _description = "server"
+
+    name = fields.Char(compute="_compute_name", store=True)
+
+    technical_name = fields.Char()
+
+    services = fields.Char()
+
+    ip = fields.Char(required=True)
+
+    ssh_authentication = fields.Many2one(comodel_name="oversight.ssh.authentication")
+
+    is_ours = fields.Boolean()
+
+    url_ids = fields.One2many(
+        comodel_name="oversight.url", inverse_name="server_id", readonly=True
+    )
+
+    url_qty = fields.Integer(compute="_compute_url_qty", store=True)
+
+    @api.depends("ip", "technical_name")
+    def _compute_name(self):
+        for server in self:
+            if server.technical_name:
+                server.name = f"{server.ip} ({server.technical_name})"
+            elif server.ip:
+                server.name = f"{server.ip}"
+            else:
+                server.name = "/"
+
+    @api.depends("url_ids.server_id")
+    def _compute_url_qty(self):
+        for server in self:
+            server.url_qty = len(server.url_ids)
