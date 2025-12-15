@@ -41,22 +41,23 @@ class OversightUrl(models.Model):
                 vals["url"] = self._clean_url(vals["url"])
         return super().create(vals_list)
 
-    def _clean_url(self):
-        self.ensure_one()
-        url = self.url
+    @api.model
+    def _clean_url(self, url):
+        if not url:
+            return False
         while url.endswith("/"):
             url = url[:-1]
-        url.replace("http://", "").replace("https://", "")
+        url = url.replace("http://", "").replace("https://", "")
         return url
 
     @api.depends("url")
     def _compute_domain_name_id(self):
         OversightDomainName = self.env["oversight.domain.name"]
         for url in self:
-            if not url.url or "." not in url._clean_url():
+            if not self._clean_url(url.url) or "." not in self._clean_url(url.url):
                 url.domain_name_id = False
                 continue
-            domain = ".".join(url._clean_url().split(".")[-2:])
+            domain = ".".join(self._clean_url(url.url).split(".")[-2:])
 
             domain_name = OversightDomainName.search(
                 [("domain_name", "=", domain)], limit=1
@@ -69,14 +70,18 @@ class OversightUrl(models.Model):
     def _compute_server_id(self):
         OversightServer = self.env["oversight.server"]
         for url in self:
-            if not url.url or "." not in url._clean_url():
+            if not self._clean_url(url.url) or "." not in self._clean_url(url.url):
                 url.server_id = False
                 continue
-            ip = socket.gethostbyname(url._clean_url())
-            server = OversightServer.search([("ip", "=", ip)], limit=1)
-            if not server:
-                server = OversightServer.create({"ip": ip})
-            url.server_id = server
+            try:
+                ip = socket.gethostbyname(self._clean_url(url.url))
+                server = OversightServer.search([("ip", "=", ip)], limit=1)
+                if not server:
+                    server = OversightServer.create({"ip": ip})
+                url.server_id = server
+            except socket.gaierror:
+                url.server_id = False
+                continue
 
     def button_update_cert_info(self):
         for url in self:

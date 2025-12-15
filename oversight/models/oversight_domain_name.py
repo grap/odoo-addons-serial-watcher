@@ -1,12 +1,15 @@
 # Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import logging
 import re
 import subprocess
 
 from dateutil.parser import parse
 
 from odoo import fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class OversightDomainName(models.Model):
@@ -24,12 +27,16 @@ class OversightDomainName(models.Model):
 
     def button_update_registrar_info(self):
         infos = {
-            "registrar": [r"Registrar:\s?(.*)"],
-            "creation_datetime": [r"Creation Date:\s?(.*)"],
+            "registrar": [r"Registrar:\s?(.*)", r"registrar:\s?(.*)"],
+            "creation_datetime": [r"Creation Date:\s?(.*)", r"created:\s?(.*)"],
             "expire_datetime": [r"Expiry Date:\s?(.*)", r"Expiration Date:\s?(.*)"],
         }
 
-        for domain_name in self:
+        for index, domain_name in enumerate(self, start=1):
+            _logger.info(
+                f"{index}/{len(self)}"
+                f" - Updating Registrar Information of {domain_name.domain_name} ..."
+            )
             vals = {}
             with subprocess.Popen(
                 ["whois", domain_name.domain_name],
