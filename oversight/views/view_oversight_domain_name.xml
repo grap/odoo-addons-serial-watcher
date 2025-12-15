@@ -19,15 +19,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_domain_name_list" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
-            <list default_order="expire_datetime desc">
+            <list default_order="expire_datetime">
                 <field name="domain_name"/>
                 <field name="registrar" optional="show"/>
-                <field name="expire_datetime" optional="hide"/>
-                <field name="url_qty" optional="show"/>
+                <field name="day_before_expiration" optional="show" invisible="expire_datetime == False"
+                    options="{'bg_color': 'orange: day_before_expiration &lt; 15 ; red: day_before_expiration &lt; 0'}"/>
+                <field name="expire_datetime" optional="show"/>
+                <field name="url_qty" optional="hide"/>
             </list>
         </field>
     </record>
-
 
     <record id="view_oversight_domain_name_form" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>

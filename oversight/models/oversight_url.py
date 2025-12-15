@@ -23,6 +23,8 @@ class OversightUrl(models.Model):
 
     expire_datetime = fields.Datetime(readonly=True)
 
+    day_before_expiration = fields.Integer(compute="_compute_day_before_expiration")
+
     domain_name_id = fields.Many2one(
         compute="_compute_domain_name_id",
         store=True,
@@ -52,6 +54,15 @@ class OversightUrl(models.Model):
             url = url[:-1]
         url = url.replace("http://", "").replace("https://", "")
         return url
+
+    @api.depends("expire_datetime")
+    def _compute_day_before_expiration(self):
+        for url in self.filtered(lambda x: x.expire_datetime):
+            url.day_before_expiration = (
+                url.expire_datetime - fields.datetime.now()
+            ).days
+        for url in self.filtered(lambda x: not x.expire_datetime):
+            url.day_before_expiration = 0
 
     @api.depends("url")
     def _compute_domain_name_id(self):

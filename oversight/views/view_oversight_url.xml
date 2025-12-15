@@ -19,11 +19,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_url_list" model="ir.ui.view">
         <field name="model">oversight.url</field>
         <field name="arch" type="xml">
-            <list>
+            <list default_order="expire_datetime">
                 <field name="url"/>
                 <field name="server_id" optional="hide"/>
                 <field name="domain_name_id" optional="hide"/>
                 <field name="ssl_tls_version" optional="hide"/>
+                <field name="day_before_expiration" optional="show" invisible="expire_datetime == False"
+                    options="{'bg_color': 'orange: day_before_expiration &lt; 15 ; red: day_before_expiration &lt; 0'}"/>
                 <field name="expire_datetime"/>
 
             </list>
