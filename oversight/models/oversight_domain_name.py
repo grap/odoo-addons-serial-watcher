@@ -7,7 +7,7 @@ import subprocess
 
 from dateutil.parser import parse
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -77,4 +77,13 @@ class OversightDomainName(models.Model):
                         vals[field_name] = parse(min(result)).replace(tzinfo=None)
                     else:
                         vals[field_name] = min(result)
-            domain_name.write(vals)
+            if len(vals) == 0:
+                message = _(
+                    "Unable to recover registrar Information"
+                    " for the Domain Name '%(domain_name)s",
+                    domain_name=domain_name.domain_name,
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
+            else:
+                domain_name.write(vals)

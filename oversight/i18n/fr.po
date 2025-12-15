@@ -174,7 +174,7 @@ msgstr "Aperçu"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__registrar
 msgid "Registrar"
-msgstr "Bureau d'enregistrement"
+msgstr "Bureau"
 
 #. module: oversight
 #: model:ir.model,name:oversight.model_oversight_ssh_authentication
@@ -210,7 +210,7 @@ msgstr ""
 #. module: oversight
 #: model:ir.ui.menu,name:oversight.menu_oversight_setting
 msgid "Settings"
-msgstr "Paramétrages"
+msgstr "Configuration"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__ssh_authentication

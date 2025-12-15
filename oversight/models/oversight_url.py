@@ -7,7 +7,7 @@ import ssl
 
 from cryptography import x509
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -102,6 +102,12 @@ class OversightUrl(models.Model):
                     server = OversightServer.create({"ip": ip})
                 url.server_id = server
             except socket.gaierror:
+                message = _(
+                    "Unable to deduce server IP from the URL '%(url)s'",
+                    url=self._clean_url(url.url),
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 url.server_id = False
                 continue
 
@@ -114,14 +120,14 @@ class OversightUrl(models.Model):
             try:
                 # See: https://stackoverflow.com/a/71153638
                 # create default context
-                context = ssl.create_default_context()
+                _context = ssl.create_default_context()
 
                 # override context so that it can get expired cert
-                context.check_hostname = False
-                context.verify_mode = ssl.CERT_NONE
+                _context.check_hostname = False
+                _context.verify_mode = ssl.CERT_NONE
 
                 with socket.create_connection((url.url, 443)) as sock:
-                    with context.wrap_socket(sock, server_hostname=url.url) as ssock:
+                    with _context.wrap_socket(sock, server_hostname=url.url) as ssock:
                         # get cert in DER format
                         data = ssock.getpeercert(True)
 
@@ -138,16 +144,29 @@ class OversightUrl(models.Model):
                         }
                         url.write(vals)
             except socket.gaierror:
-                _logger.error(f"socket.gaierror: {url.url} not found.")
+                message = _("socket.gaierror: URL '%(url)s' not found.", url=url.url)
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ConnectionRefusedError:
-                _logger.error(
-                    f"ConnectionRefusedError: Certificate Not found on {url.url}."
+                message = _(
+                    "ConnectionRefusedError: Certificate Not found on '%(url)s'.",
+                    url=url.url,
                 )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ssl.SSLEOFError:
-                _logger.error(f"SSLEOFError: Unable to get certificate of {url.url}.")
+                message = _(
+                    "SSLEOFError: Unable to get certificate of '%(url)s'.", url=url.url
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ssl.SSLError:
-                _logger.error(f"SSLError: Unable to get certificate of {url.url}.")
+                message = _(
+                    "SSLError: Unable to get certificate of '%(url)s'.", url=url.url
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue

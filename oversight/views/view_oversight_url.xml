@@ -43,7 +43,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <sheet>
                     <group>
                         <group string="General Information">
-                            <field name="url" widget="url"/>
+                            <field name="url" widget="url" readonly="id != False"/>
                             <field name="domain_name_id"/>
                             <field name="server_id"/>
                         </group>
@@ -74,8 +74,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <menuitem id="menu_oversight_url"
-        parent="menu_oversight_setting"
+        parent="menu_oversight_overview"
         action="action_oversight_url"
-        sequence="20"/>
+        sequence="10"/>
 
 </odoo>
