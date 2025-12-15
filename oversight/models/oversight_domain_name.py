@@ -7,7 +7,7 @@ import subprocess
 
 from dateutil.parser import parse
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -24,6 +24,17 @@ class OversightDomainName(models.Model):
     creation_datetime = fields.Datetime(readonly=True)
 
     expire_datetime = fields.Datetime(readonly=True)
+
+    url_ids = fields.One2many(
+        comodel_name="oversight.url", inverse_name="domain_name_id", readonly=True
+    )
+
+    url_qty = fields.Integer(compute="_compute_url_qty", store=True)
+
+    @api.depends("url_ids.server_id")
+    def _compute_url_qty(self):
+        for server in self:
+            server.url_qty = len(server.url_ids)
 
     def button_update_registrar_info(self):
         infos = {

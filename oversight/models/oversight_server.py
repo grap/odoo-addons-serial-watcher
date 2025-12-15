@@ -21,7 +21,9 @@ class OversightServer(models.Model):
 
     is_ours = fields.Boolean()
 
-    url_ids = fields.One2many(comodel_name="oversight.url", inverse_name="server_id")
+    url_ids = fields.One2many(
+        comodel_name="oversight.url", inverse_name="server_id", readonly=True
+    )
 
     url_qty = fields.Integer(compute="_compute_url_qty", store=True)
 

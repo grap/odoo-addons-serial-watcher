@@ -1,12 +1,15 @@
 # Copyright 2022 Sharuzzaman Ahmat Raslan <sharuzzaman@gmail.com>
 # Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import logging
 import socket
 import ssl
 
 from cryptography import x509
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class OversightUrl(models.Model):
@@ -16,16 +19,16 @@ class OversightUrl(models.Model):
 
     url = fields.Char(required=True)
 
+    ssl_tls_version = fields.Char(readonly=True)
+
+    expire_datetime = fields.Datetime(readonly=True)
+
     domain_name_id = fields.Many2one(
         compute="_compute_domain_name_id",
         store=True,
         comodel_name="oversight.domain.name",
         ondelete="restrict",
     )
-
-    ssl_tls_version = fields.Char(readonly=True)
-
-    expire_datetime = fields.Datetime(readonly=True)
 
     server_id = fields.Many2one(
         compute="_compute_server_id",
@@ -84,31 +87,48 @@ class OversightUrl(models.Model):
                 continue
 
     def button_update_cert_info(self):
-        for url in self:
-            # See: https://stackoverflow.com/a/71153638
-            # create default context
-            context = ssl.create_default_context()
+        for index, url in enumerate(self, start=1):
+            _logger.info(
+                f"{index}/{len(self)}"
+                f" - Updating Certification Information of {url.url} ..."
+            )
+            try:
+                # See: https://stackoverflow.com/a/71153638
+                # create default context
+                context = ssl.create_default_context()
 
-            # override context so that it can get expired cert
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
+                # override context so that it can get expired cert
+                context.check_hostname = False
+                context.verify_mode = ssl.CERT_NONE
 
-            with socket.create_connection((url.url, 443)) as sock:
-                with context.wrap_socket(sock, server_hostname=url.url) as ssock:
-                    # get cert in DER format
-                    data = ssock.getpeercert(True)
+                with socket.create_connection((url.url, 443)) as sock:
+                    with context.wrap_socket(sock, server_hostname=url.url) as ssock:
+                        # get cert in DER format
+                        data = ssock.getpeercert(True)
 
-                    # convert cert to PEM format
-                    pem_data = ssl.DER_cert_to_PEM_cert(data)
+                        # convert cert to PEM format
+                        pem_data = ssl.DER_cert_to_PEM_cert(data)
 
-                    # pem_data in string. convert to bytes using str.encode()
-                    # extract cert info from PEM format
-                    cert_data = x509.load_pem_x509_certificate(str.encode(pem_data))
-                    url.write(
-                        {
+                        # pem_data in string. convert to bytes using str.encode()
+                        # extract cert info from PEM format
+                        cert_data = x509.load_pem_x509_certificate(str.encode(pem_data))
+                        expire_datetime = cert_data.not_valid_after_utc
+                        vals = {
                             "ssl_tls_version": ssock.version(),
-                            "expire_datetime": cert_data.not_valid_after_utc.replace(
-                                tzinfo=None
-                            ),
+                            "expire_datetime": expire_datetime.replace(tzinfo=None),
                         }
-                    )
+                        url.write(vals)
+            except socket.gaierror:
+                _logger.error(f"socket.gaierror: {url.url} not found.")
+                continue
+            except ConnectionRefusedError:
+                _logger.error(
+                    f"ConnectionRefusedError: Certificate Not found on {url.url}."
+                )
+                continue
+            except ssl.SSLEOFError:
+                _logger.error(f"SSLEOFError: Unable to get certificate of {url.url}.")
+                continue
+            except ssl.SSLError:
+                _logger.error(f"SSLError: Unable to get certificate of {url.url}.")
+                continue

@@ -11,6 +11,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <search>
                 <field name="domain_name"/>
                 <field name="expire_datetime"/>
+                <filter string="Not Updated" name="filter_not_updated" domain="[('registrar','=', False)]"/>
            </search>
         </field>
     </record>
@@ -22,6 +23,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="domain_name"/>
                 <field name="registrar" optional="show"/>
                 <field name="expire_datetime" optional="hide"/>
+                <field name="url_qty" optional="show"/>
             </list>
         </field>
     </record>
@@ -43,6 +45,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             <field name="expire_datetime"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="page_urls" string="URLs">
+                            <group>
+                                <field name="url_ids" nolabel="1">
+                                    <list>
+                                        <field name="url" widget="url"/>
+                                    </list>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
