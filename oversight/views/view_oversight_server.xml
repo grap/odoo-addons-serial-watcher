@@ -43,7 +43,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="monthly_price"/>
+                            <field name="monthly_cost"/>
                             <field name="invoice_partner_id"/>
                             <field name="supplier_partner_id"/>
                             <field name="data_center"/>
