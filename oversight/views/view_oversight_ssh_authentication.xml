@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="view_oversight_ssh_authentication_search" model="ir.ui.view">
+    <field name="model">oversight.ssh.authentication</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="login"/>
+           </search>
+        </field>
+    </record>
+
+     <record id="view_oversight_ssh_authentication_list" model="ir.ui.view">
+        <field name="model">oversight.ssh.authentication</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="login"/>
+
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_oversight_ssh_authentication_form" model="ir.ui.view">
+        <field name="model">oversight.ssh.authentication</field>
+        <field name="arch" type="xml">
+            <form>
+                <header/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="login"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_oversight_ssh_authentication" model="ir.actions.act_window">
+        <field name="name">URLs</field>
+        <field name="res_model">oversight.ssh.authentication</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_oversight_ssh_authentication"
+        parent="menu_oversight_setting"
+        action="action_oversight_ssh_authentication"
+        sequence="30"/>
+
+</odoo>

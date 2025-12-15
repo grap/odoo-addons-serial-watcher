@@ -10,6 +10,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <search>
                 <field name="domain_name"/>
+                <field name="expire_datetime"/>
            </search>
         </field>
     </record>
@@ -17,8 +18,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_domain_name_list" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
-            <list>
+            <list default_order="expire_datetime desc">
                 <field name="domain_name"/>
+                <field name="registrar" optional="show"/>
+                <field name="expire_datetime" optional="hide"/>
             </list>
         </field>
     </record>
@@ -29,7 +32,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button string="Update Data" name="button_update_data" type="object" />
+                    <button string="Update Registrar Info" name="button_update_registrar_info" type="object" />
                 </header>
                 <sheet>
                     <group>
@@ -44,6 +47,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             </form>
         </field>
     </record>
+
+        <record id="action_oversight_domain_name_button_update_registrar_info" model="ir.actions.server">
+            <field name="name">Update Registrar Info</field>
+            <field name="model_id" ref="oversight.model_oversight_domain_name"/>
+            <field name="groups_id" eval="[(4, ref('oversight.group_manager'))]"/>
+            <field name="binding_model_id" ref="oversight.model_oversight_domain_name" />
+            <field name="state">code</field>
+            <field name="code">records.button_update_registrar_info()</field>
+        </record>
 
 <!--     <record id="action_oversight_probe_template_2_oversight_domain_name" model="ir.actions.act_window">
         <field name="name">Checks</field>
@@ -62,6 +74,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <menuitem id="menu_oversight_domain_name"
         parent="menu_oversight_setting"
         action="action_oversight_domain_name"
-        sequence="1"/>
+        sequence="10"/>
 
 </odoo>

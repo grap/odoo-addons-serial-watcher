@@ -19,6 +19,11 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list>
                 <field name="url"/>
+                <field name="server_id" optional="hide"/>
+                <field name="domain_name_id" optional="hide"/>
+                <field name="ssl_tls_version" optional="hide"/>
+                <field name="expire_datetime"/>
+
             </list>
         </field>
     </record>
@@ -29,13 +34,16 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <form>
                 <header>
-<!--                     <button string="Update Data" name="button_update_data" type="object" /> -->
+                    <button string="Update Cert info" name="button_update_cert_info" type="object" />
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="url"/>
                             <field name="domain_name_id"/>
+                            <field name="server_id"/>
+                            <field name="ssl_tls_version"/>
+                            <field name="expire_datetime"/>
                         </group>
                     </group>
                 </sheet>
@@ -44,7 +52,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <record id="action_oversight_url" model="ir.actions.act_window">
-        <field name="name">URL</field>
+        <field name="name">URLs</field>
         <field name="res_model">oversight.url</field>
         <field name="view_mode">list,form</field>
     </record>
@@ -52,6 +60,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <menuitem id="menu_oversight_url"
         parent="menu_oversight_setting"
         action="action_oversight_url"
-        sequence="2"/>
+        sequence="20"/>
 
 </odoo>

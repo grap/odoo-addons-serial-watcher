@@ -17,6 +17,8 @@
         "views/menu.xml",
         "views/view_oversight_domain_name.xml",
         "views/view_oversight_url.xml",
+        "views/view_oversight_server.xml",
+        # "views/view_oversight_ssh_authentication.xml",
     ],
     "demo": [
         "demo/demo_oversight_domain_name.xml",

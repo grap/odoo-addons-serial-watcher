@@ -22,8 +22,8 @@ class OversightDomainName(models.Model):
 
     expire_datetime = fields.Datetime(readonly=True)
 
-    def button_update_data(self):
-        iana = {
+    def button_update_registrar_info(self):
+        infos = {
             "registrar": [r"Registrar:\s?(.*)"],
             "creation_datetime": [r"Creation Date:\s?(.*)"],
             "expire_datetime": [r"Expiry Date:\s?(.*)", r"Expiration Date:\s?(.*)"],
@@ -39,7 +39,7 @@ class OversightDomainName(models.Model):
                 raw_result = processHandle.communicate(timeout=10)[0].decode(
                     errors="ignore"
                 )
-            for field_name, regex_values in iana.items():
+            for field_name, regex_values in infos.items():
                 for regex_value in regex_values:
                     result = re.findall(regex_value, raw_result)
                     if not result:
