@@ -34,14 +34,29 @@ class OversightUrl(models.Model):
         ondelete="restrict",
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "url" in vals:
+                vals["url"] = self._clean_url(vals["url"])
+        return super().create(vals_list)
+
+    def _clean_url(self):
+        self.ensure_one()
+        url = self.url
+        while url.endswith("/"):
+            url = url[:-1]
+        url.replace("http://", "").replace("https://", "")
+        return url
+
     @api.depends("url")
     def _compute_domain_name_id(self):
         OversightDomainName = self.env["oversight.domain.name"]
         for url in self:
-            if not url.url or "." not in url.url:
+            if not url.url or "." not in url._clean_url():
                 url.domain_name_id = False
                 continue
-            domain = ".".join(url.url.split(".")[-2:])
+            domain = ".".join(url._clean_url().split(".")[-2:])
 
             domain_name = OversightDomainName.search(
                 [("domain_name", "=", domain)], limit=1
@@ -54,10 +69,10 @@ class OversightUrl(models.Model):
     def _compute_server_id(self):
         OversightServer = self.env["oversight.server"]
         for url in self:
-            if not url.url or "." not in url.url:
+            if not url.url or "." not in url._clean_url():
                 url.server_id = False
                 continue
-            ip = socket.gethostbyname(url.url)
+            ip = socket.gethostbyname(url._clean_url())
             server = OversightServer.search([("ip", "=", ip)], limit=1)
             if not server:
                 server = OversightServer.create({"ip": ip})
