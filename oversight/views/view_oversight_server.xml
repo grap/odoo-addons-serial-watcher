@@ -34,7 +34,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="url_qty" optional="show"/>
                 <field name="is_ours" widget="boolean_toggle" optional="hide"/>
 
-                <field name="currency_id" invisible="1"/>
+                <field name="currency_id" column_invisible="1"/>
             </list>
         </field>
     </record>
