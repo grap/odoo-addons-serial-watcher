@@ -25,11 +25,22 @@ class OversightDomainName(models.Model):
 
     expire_datetime = fields.Datetime(readonly=True)
 
+    day_before_expiration = fields.Integer(compute="_compute_day_before_expiration")
+
     url_ids = fields.One2many(
         comodel_name="oversight.url", inverse_name="domain_name_id", readonly=True
     )
 
     url_qty = fields.Integer(compute="_compute_url_qty", store=True)
+
+    @api.depends("expire_datetime")
+    def _compute_day_before_expiration(self):
+        for domain_name in self.filtered(lambda x: x.expire_datetime):
+            domain_name.day_before_expiration = (
+                domain_name.expire_datetime - fields.datetime.now()
+            ).days
+        for domain_name in self.filtered(lambda x: not x.expire_datetime):
+            domain_name.day_before_expiration = 0
 
     @api.depends("url_ids.server_id")
     def _compute_url_qty(self):
