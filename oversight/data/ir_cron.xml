@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="1">
+
+    <record model="ir.cron" id="cron_oversight_domain_name_update_registrar_info">
+        <field name="name">Oversight Domain Names: Update Registrar Information</field>
+        <field name="model_id" ref="model_oversight_domain_name" />
+        <field name="state">code</field>
+        <field name="code">model.cron_update_registrar_info()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+
+    <record model="ir.cron" id="cron_oversight_url_update_cert_info">
+        <field name="name">Oversight URLs: Update Certification Information</field>
+        <field name="model_id" ref="model_oversight_url" />
+        <field name="state">code</field>
+        <field name="code">model.cron_update_cert_info()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+
+</odoo>

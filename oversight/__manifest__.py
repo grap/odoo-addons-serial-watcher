@@ -18,7 +18,7 @@
         "security/ir_module_category.xml",
         "security/res_groups.xml",
         "security/ir.model.access.csv",
-        # "data/test.xml",
+        "data/ir_cron.xml",
         "views/menu.xml",
         "views/view_oversight_domain_name.xml",
         "views/view_oversight_url.xml",

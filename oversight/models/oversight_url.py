@@ -112,6 +112,10 @@ class OversightUrl(models.Model):
                 url.server_id = False
                 continue
 
+    @api.model
+    def cron_update_cert_info(self):
+        self.search([]).button_update_cert_info()
+
     def button_update_cert_info(self):
         for index, url in enumerate(self, start=1):
             _logger.info(

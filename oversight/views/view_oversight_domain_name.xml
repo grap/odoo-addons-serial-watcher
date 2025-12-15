@@ -21,7 +21,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list default_order="expire_datetime">
                 <field name="domain_name"/>
-                    <field name="activity_ids" optional="show" widget="list_activity"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="registrar" optional="show"/>
                 <field name="day_before_expiration" optional="show" invisible="expire_datetime == False"
                     options="{'bg_color': 'orange: day_before_expiration &lt; 15 ; red: day_before_expiration &lt; 0'}"/>

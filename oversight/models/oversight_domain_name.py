@@ -48,11 +48,25 @@ class OversightDomainName(models.Model):
         for server in self:
             server.url_qty = len(server.url_ids)
 
+    @api.model
+    def cron_update_registrar_info(self):
+        self.search([]).button_update_registrar_info()
+
     def button_update_registrar_info(self):
         infos = {
-            "registrar": [r"Registrar:\s?(.*)", r"registrar:\s?(.*)"],
-            "creation_datetime": [r"Creation Date:\s?(.*)", r"created:\s?(.*)"],
-            "expire_datetime": [r"Expiry Date:\s?(.*)", r"Expiration Date:\s?(.*)"],
+            "registrar": [
+                r"Registrar:\s?(.*)",
+                r"registrar:\s?(.*)",
+            ],
+            "creation_datetime": [
+                r"Creation Date:\s?(.*)",
+                r"created:\s?(.*)",
+            ],
+            "expire_datetime": [
+                r"Expiry Date:\s?(.*)",
+                r"Expiration Date:\s?(.*)",
+                r"Registry Expiry Date:\s?(.*)",
+            ],
         }
 
         for index, domain_name in enumerate(self, start=1):
@@ -61,14 +75,10 @@ class OversightDomainName(models.Model):
                 f" - Updating Registrar Information of {domain_name.domain_name} ..."
             )
             vals = {}
-            with subprocess.Popen(
-                ["whois", domain_name.domain_name],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-            ) as processHandle:
-                raw_result = processHandle.communicate(timeout=10)[0].decode(
-                    errors="ignore"
-                )
+            raw_result = subprocess.check_output(
+                ["whois", domain_name.domain_name], stderr=subprocess.STDOUT, timeout=60
+            ).decode(errors="ignore")
+
             for field_name, regex_values in infos.items():
                 for regex_value in regex_values:
                     result = re.findall(regex_value, raw_result)
