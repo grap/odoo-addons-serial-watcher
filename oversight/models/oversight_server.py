@@ -55,7 +55,7 @@ class OversightServer(models.Model):
     def _compute_name(self):
         for server in self:
             if server.technical_name:
-                server.name = f"{server.ip} ({server.technical_name})"
+                server.name = f"{server.technical_name} ({server.ip})"
             elif server.ip:
                 server.name = f"{server.ip}"
             else:

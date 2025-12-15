@@ -20,15 +20,21 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="monthly_cost" sum="Total" optional="show"/>
                 <field name="ip" optional="hide"/>
                 <field name="technical_name" optional="hide"/>
                 <field name="services" optional="show"/>
+
+                <field name="invoice_partner_id" optional="show"/>
+                <field name="monthly_cost" sum="Total" optional="show"/>
+                <field name="supplier_partner_id" optional="show"/>
+                <field name="data_center" optional="show"/>
+                <field name="server_identifier" optional="hide"/>
+                <field name="server_model_name" optional="hide"/>
+
                 <field name="url_qty" optional="show"/>
                 <field name="is_ours" widget="boolean_toggle" optional="hide"/>
-                <field name="invoice_partner_id" optional="hide"/>
-                <field name="supplier_partner_id" optional="hide"/>
 
+                <field name="currency_id" invisible="1"/>
             </list>
         </field>
     </record>
@@ -40,21 +46,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <form>
                 <header />
                 <sheet>
-                    <group>
-                        <group>
-                            <field name="name"/>
-                            <field name="monthly_cost"/>
-                            <field name="invoice_partner_id"/>
-                            <field name="supplier_partner_id"/>
-                            <field name="data_center"/>
-                            <field name="server_identifier"/>
-                            <field name="server_model_name"/>
-                            <field name="currency_id"/>
-                            <field name="company_id"/>
+                    <group col="3">
+                        <group string="General Information">
+                            <field name="name" invisible="1"/>
                             <field name="ip" readonly="id != False"/>
                             <field name="technical_name"/>
                             <field name="services"/>
                             <field name="is_ours" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Invoicing">
+                            <field name="monthly_cost"/>
+                            <field name="invoice_partner_id"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Supplier">
+                            <field name="supplier_partner_id"/>
+                            <field name="data_center"/>
+                            <field name="server_identifier"/>
+                            <field name="server_model_name"/>
                         </group>
                     </group>
                     <notebook>

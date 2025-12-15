@@ -8,7 +8,12 @@
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-serial-watcher",
     "license": "AGPL-3",
-    "depends": ["mail"],
+    "depends": [
+        # Odoo
+        "mail",
+        # OCA
+        "web_notify",
+    ],
     "data": [
         "security/ir_module_category.xml",
         "security/res_groups.xml",

@@ -7,7 +7,7 @@ import ssl
 
 from cryptography import x509
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -26,17 +26,15 @@ class OversightUrl(models.Model):
     day_before_expiration = fields.Integer(compute="_compute_day_before_expiration")
 
     domain_name_id = fields.Many2one(
-        compute="_compute_domain_name_id",
-        store=True,
         comodel_name="oversight.domain.name",
         ondelete="restrict",
+        readonly=True,
     )
 
     server_id = fields.Many2one(
-        compute="_compute_server_id",
-        store=True,
         comodel_name="oversight.server",
         ondelete="restrict",
+        readonly=True,
     )
 
     @api.model_create_multi
@@ -44,7 +42,19 @@ class OversightUrl(models.Model):
         for vals in vals_list:
             if "url" in vals:
                 vals["url"] = self._clean_url(vals["url"])
-        return super().create(vals_list)
+        urls = super().create(vals_list)
+        urls._compute_domain_name_id()
+        urls._compute_server_id()
+        return urls
+
+    def write(self, vals):
+        if "url" in vals:
+            vals["url"] = self._clean_url(vals["url"])
+        res = super().write(vals)
+        if "url" in vals:
+            self._compute_domain_name_id()
+            self._compute_server_id()
+        return res
 
     @api.model
     def _clean_url(self, url):
@@ -64,7 +74,6 @@ class OversightUrl(models.Model):
         for url in self.filtered(lambda x: not x.expire_datetime):
             url.day_before_expiration = 0
 
-    @api.depends("url")
     def _compute_domain_name_id(self):
         OversightDomainName = self.env["oversight.domain.name"]
         for url in self:
@@ -80,7 +89,6 @@ class OversightUrl(models.Model):
                 domain_name = OversightDomainName.create({"domain_name": domain})
             url.domain_name_id = domain_name
 
-    @api.depends("url")
     def _compute_server_id(self):
         OversightServer = self.env["oversight.server"]
         for url in self:
@@ -94,6 +102,12 @@ class OversightUrl(models.Model):
                     server = OversightServer.create({"ip": ip})
                 url.server_id = server
             except socket.gaierror:
+                message = _(
+                    "Unable to deduce server IP from the URL '%(url)s'",
+                    url=self._clean_url(url.url),
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 url.server_id = False
                 continue
 
@@ -106,14 +120,14 @@ class OversightUrl(models.Model):
             try:
                 # See: https://stackoverflow.com/a/71153638
                 # create default context
-                context = ssl.create_default_context()
+                _context = ssl.create_default_context()
 
                 # override context so that it can get expired cert
-                context.check_hostname = False
-                context.verify_mode = ssl.CERT_NONE
+                _context.check_hostname = False
+                _context.verify_mode = ssl.CERT_NONE
 
                 with socket.create_connection((url.url, 443)) as sock:
-                    with context.wrap_socket(sock, server_hostname=url.url) as ssock:
+                    with _context.wrap_socket(sock, server_hostname=url.url) as ssock:
                         # get cert in DER format
                         data = ssock.getpeercert(True)
 
@@ -130,16 +144,29 @@ class OversightUrl(models.Model):
                         }
                         url.write(vals)
             except socket.gaierror:
-                _logger.error(f"socket.gaierror: {url.url} not found.")
+                message = _("socket.gaierror: URL '%(url)s' not found.", url=url.url)
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ConnectionRefusedError:
-                _logger.error(
-                    f"ConnectionRefusedError: Certificate Not found on {url.url}."
+                message = _(
+                    "ConnectionRefusedError: Certificate Not found on '%(url)s'.",
+                    url=url.url,
                 )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ssl.SSLEOFError:
-                _logger.error(f"SSLEOFError: Unable to get certificate of {url.url}.")
+                message = _(
+                    "SSLEOFError: Unable to get certificate of '%(url)s'.", url=url.url
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
             except ssl.SSLError:
-                _logger.error(f"SSLError: Unable to get certificate of {url.url}.")
+                message = _(
+                    "SSLError: Unable to get certificate of '%(url)s'.", url=url.url
+                )
+                _logger.error(message)
+                self.env.user.notify_danger(message)
                 continue
