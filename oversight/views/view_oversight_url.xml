@@ -42,10 +42,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 </header>
                 <sheet>
                     <group>
-                        <group>
+                        <group string="General Information">
                             <field name="url" widget="url"/>
                             <field name="domain_name_id"/>
                             <field name="server_id"/>
+                        </group>
+                        <group string="Certificate SSL">
                             <field name="ssl_tls_version"/>
                             <field name="expire_datetime"/>
                         </group>

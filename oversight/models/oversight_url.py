@@ -26,17 +26,15 @@ class OversightUrl(models.Model):
     day_before_expiration = fields.Integer(compute="_compute_day_before_expiration")
 
     domain_name_id = fields.Many2one(
-        compute="_compute_domain_name_id",
-        store=True,
         comodel_name="oversight.domain.name",
         ondelete="restrict",
+        readonly=True,
     )
 
     server_id = fields.Many2one(
-        compute="_compute_server_id",
-        store=True,
         comodel_name="oversight.server",
         ondelete="restrict",
+        readonly=True,
     )
 
     @api.model_create_multi
@@ -44,7 +42,19 @@ class OversightUrl(models.Model):
         for vals in vals_list:
             if "url" in vals:
                 vals["url"] = self._clean_url(vals["url"])
-        return super().create(vals_list)
+        urls = super().create(vals_list)
+        urls._compute_domain_name_id()
+        urls._compute_server_id()
+        return urls
+
+    def write(self, vals):
+        if "url" in vals:
+            vals["url"] = self._clean_url(vals["url"])
+        res = super().write(vals)
+        if "url" in vals:
+            self._compute_domain_name_id()
+            self._compute_server_id()
+        return res
 
     @api.model
     def _clean_url(self, url):
@@ -64,7 +74,6 @@ class OversightUrl(models.Model):
         for url in self.filtered(lambda x: not x.expire_datetime):
             url.day_before_expiration = 0
 
-    @api.depends("url")
     def _compute_domain_name_id(self):
         OversightDomainName = self.env["oversight.domain.name"]
         for url in self:
@@ -80,7 +89,6 @@ class OversightUrl(models.Model):
                 domain_name = OversightDomainName.create({"domain_name": domain})
             url.domain_name_id = domain_name
 
-    @api.depends("url")
     def _compute_server_id(self):
         OversightServer = self.env["oversight.server"]
         for url in self:
