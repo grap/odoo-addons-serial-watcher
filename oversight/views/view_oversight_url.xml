@@ -21,6 +21,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list default_order="expire_datetime">
                 <field name="url"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="server_id" optional="hide"/>
                 <field name="domain_name_id" optional="hide"/>
                 <field name="ssl_tls_version" optional="hide"/>
@@ -53,6 +54,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         </group>
                     </group>
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>

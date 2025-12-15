@@ -29,5 +29,5 @@
         "demo/demo_oversight_domain_name.xml",
         "demo/demo_oversight_url.xml",
     ],
-    "external_dependencies": {},
+    "external_dependencies": {"bin": ["whois"]},
 }

@@ -19,7 +19,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list>
                 <field name="login"/>
-
+                <field name="activity_ids" optional="show" widget="list_activity"/>
             </list>
         </field>
     </record>
@@ -37,6 +37,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         </group>
                     </group>
                 </sheet>
+                <chatter />
             </form>
         </field>
     </record>

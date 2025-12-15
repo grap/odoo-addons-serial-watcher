@@ -7,6 +7,7 @@ from odoo import api, fields, models
 
 class OversightServer(models.Model):
     _name = "oversight.server"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "server"
 
     name = fields.Char(compute="_compute_name", store=True)

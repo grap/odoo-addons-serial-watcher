@@ -14,6 +14,7 @@ _logger = logging.getLogger(__name__)
 
 class OversightDomainName(models.Model):
     _name = "oversight.domain.name"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "Domain Name"
     _rec_name = "domain_name"
 
