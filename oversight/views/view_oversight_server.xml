@@ -49,18 +49,24 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="monthly_cost"/>
-                            <field name="invoice_partner_id"/>
-                            <field name="supplier_partner_id"/>
-                            <field name="data_center"/>
-                            <field name="server_identifier"/>
-                            <field name="server_model_name"/>
-                            <field name="currency_id" invisible="1"/>
-                            <field name="company_id"/>
                             <field name="ip" readonly="id != False"/>
                             <field name="technical_name"/>
                             <field name="services"/>
                             <field name="is_ours" widget="boolean_toggle"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <group string="Invoicing">
+                                <field name="monthly_cost"/>
+                                <field name="invoice_partner_id"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                            <group string="Supplier">
+                                <field name="supplier_partner_id"/>
+                                <field name="data_center"/>
+                                <field name="server_identifier"/>
+                                <field name="server_model_name"/>
+                            </group>
                         </group>
                     </group>
                     <notebook>
