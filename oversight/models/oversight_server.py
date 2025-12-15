@@ -27,6 +27,30 @@ class OversightServer(models.Model):
 
     url_qty = fields.Integer(compute="_compute_url_qty", store=True)
 
+    monthly_cost = fields.Monetary(currency_field="currency_id")
+
+    currency_id = fields.Many2one(
+        comodel_name="res.currency", related="company_id.currency_id"
+    )
+
+    company_id = fields.Many2one(
+        comodel_name="res.company", default=lambda x: x.env.company.id
+    )
+
+    invoice_partner_id = fields.Many2one(
+        comodel_name="res.partner", domain=[("is_company", "=", True)]
+    )
+
+    supplier_partner_id = fields.Many2one(
+        comodel_name="res.partner", domain=[("is_company", "=", True)]
+    )
+
+    data_center = fields.Char()
+
+    server_identifier = fields.Char()
+
+    server_model_name = fields.Char()
+
     @api.depends("ip", "technical_name")
     def _compute_name(self):
         for server in self:
