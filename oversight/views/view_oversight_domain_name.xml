@@ -9,9 +9,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
             <search>
-                <field name="domain_name"/>
-                <field name="expire_datetime"/>
-                <filter string="Not Updated" name="filter_not_updated" domain="[('registrar','=', False)]"/>
+                <field name="name"/>
+                <field name="registrar_expire_datetime"/>
+                <filter string="Not Updated" name="filter_not_updated" domain="[('registrar_name','=', False)]"/>
            </search>
         </field>
     </record>
@@ -19,13 +19,22 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_domain_name_list" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
-            <list default_order="expire_datetime">
-                <field name="domain_name"/>
+            <list default_order="registrar_probe_last_state, registrar_expire_datetime">
+                <field name="name"/>
                 <field name="activity_ids" optional="show" widget="list_activity"/>
-                <field name="registrar" optional="show"/>
-                <field name="day_before_expiration" optional="show" invisible="expire_datetime == False"
-                    options="{'bg_color': 'orange: day_before_expiration &lt; 15 ; red: day_before_expiration &lt; 0'}"/>
-                <field name="expire_datetime" optional="show"/>
+                <field name="registrar_name" optional="show"/>
+                <field name="registrar_expire_datetime" optional="hide"/>
+                <field name="registrar_day_before_expiration" optional="show"  widget="badge"
+                    invisible="registrar_expire_datetime == False"
+                    decoration-success="registrar_probe_state == 'success'"
+                    decoration-warning="registrar_probe_state == 'warning'"
+                    decoration-danger="registrar_probe_state == 'error'"
+                    />
+                <field name="registrar_probe_last_state" optional="show" widget="badge"
+                    decoration-muted="registrar_probe_last_state == '01_probe_undefined'"
+                    decoration-danger="registrar_probe_last_state == '02_probe_failed'"
+                    decoration-success="registrar_probe_last_state == '03_probe_ok'"
+                  />
                 <field name="url_qty" optional="hide"/>
             </list>
         </field>
@@ -41,12 +50,12 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <sheet>
                     <group>
                         <group string="General Information">
-                            <field name="domain_name" readonly="id != False"/>
+                            <field name="name" readonly="id != False"/>
                         </group>
                         <group string="Registrar Information">
-                            <field name="registrar"/>
-                            <field name="creation_datetime"/>
-                            <field name="expire_datetime"/>
+                            <field name="registrar_name" string="Name"/>
+                            <field name="registrar_creation_datetime" string="Registar Date"/>
+                            <field name="registrar_expire_datetime" string="Expiration Date"/>
                         </group>
                     </group>
                     <notebook>
@@ -54,9 +63,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             <group>
                                 <field name="url_ids" nolabel="1">
                                     <list>
-                                        <field name="url" widget="url"/>
+                                        <field name="name" widget="url"/>
                                     </list>
                                 </field>
+                            </group>
+                        </page>
+                        <page name="page_probe_registrar" string="Registrar Probe Check">
+                            <group>
+                                <field name="registrar_probe_last_state" string="Last State" />
+                                <field name="registrar_probe_last_error_message" string="Last Error Message"/>
                             </group>
                         </page>
                     </notebook>

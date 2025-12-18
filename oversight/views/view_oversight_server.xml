@@ -71,9 +71,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                         <page name="page_urls" string="URLs">
                             <group>
                                 <field name="url_ids" nolabel="1">
-                                    <list>
-                                        <field name="url" widget="url"/>
-                                    </list>
+                                    <list />
                                 </field>
                             </group>
                         </page>

@@ -3,9 +3,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
 import socket
-import ssl
-
-from cryptography import x509
 
 from odoo import _, api, fields, models
 
@@ -14,17 +11,10 @@ _logger = logging.getLogger(__name__)
 
 class OversightUrl(models.Model):
     _name = "oversight.url"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["probe.mixin.certificate"]
     _description = "URL"
-    _rec_name = "url"
 
-    url = fields.Char(required=True)
-
-    ssl_tls_version = fields.Char(readonly=True)
-
-    expire_datetime = fields.Datetime(readonly=True)
-
-    day_before_expiration = fields.Integer(compute="_compute_day_before_expiration")
+    name = fields.Char(required=True)
 
     domain_name_id = fields.Many2one(
         comodel_name="oversight.domain.name",
@@ -41,18 +31,18 @@ class OversightUrl(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if "url" in vals:
-                vals["url"] = self._clean_url(vals["url"])
+            if "name" in vals:
+                vals["name"] = self._clean_url(vals["name"])
         urls = super().create(vals_list)
         urls._compute_domain_name_id()
         urls._compute_server_id()
         return urls
 
     def write(self, vals):
-        if "url" in vals:
-            vals["url"] = self._clean_url(vals["url"])
+        if "name" in vals:
+            vals["name"] = self._clean_url(vals["name"])
         res = super().write(vals)
-        if "url" in vals:
+        if "name" in vals:
             self._compute_domain_name_id()
             self._compute_server_id()
         return res
@@ -66,38 +56,27 @@ class OversightUrl(models.Model):
         url = url.replace("http://", "").replace("https://", "")
         return url
 
-    @api.depends("expire_datetime")
-    def _compute_day_before_expiration(self):
-        for url in self.filtered(lambda x: x.expire_datetime):
-            url.day_before_expiration = (
-                url.expire_datetime - fields.datetime.now()
-            ).days
-        for url in self.filtered(lambda x: not x.expire_datetime):
-            url.day_before_expiration = 0
-
     def _compute_domain_name_id(self):
         OversightDomainName = self.env["oversight.domain.name"]
         for url in self:
-            if not self._clean_url(url.url) or "." not in self._clean_url(url.url):
+            if not self._clean_url(url.name) or "." not in self._clean_url(url.name):
                 url.domain_name_id = False
                 continue
-            domain = ".".join(self._clean_url(url.url).split(".")[-2:])
+            domain = ".".join(self._clean_url(url.name).split(".")[-2:])
 
-            domain_name = OversightDomainName.search(
-                [("domain_name", "=", domain)], limit=1
-            )
+            domain_name = OversightDomainName.search([("name", "=", domain)], limit=1)
             if not domain_name:
-                domain_name = OversightDomainName.create({"domain_name": domain})
+                domain_name = OversightDomainName.create({"name": domain})
             url.domain_name_id = domain_name
 
     def _compute_server_id(self):
         OversightServer = self.env["oversight.server"]
         for url in self:
-            if not self._clean_url(url.url) or "." not in self._clean_url(url.url):
+            if not self._clean_url(url.name) or "." not in self._clean_url(url.name):
                 url.server_id = False
                 continue
             try:
-                ip = socket.gethostbyname(self._clean_url(url.url))
+                ip = socket.gethostbyname(self._clean_url(url.name))
                 server = OversightServer.search([("ip", "=", ip)], limit=1)
                 if not server:
                     server = OversightServer.create({"ip": ip})
@@ -105,7 +84,7 @@ class OversightUrl(models.Model):
             except socket.gaierror:
                 message = _(
                     "Unable to deduce server IP from the URL '%(url)s'",
-                    url=self._clean_url(url.url),
+                    url=self._clean_url(url.name),
                 )
                 _logger.error(message)
                 self.env.user.notify_danger(message)
@@ -114,64 +93,7 @@ class OversightUrl(models.Model):
 
     @api.model
     def cron_update_cert_info(self):
-        self.search([]).button_update_cert_info()
+        self.search([])._probe_certificate_get_information()
 
     def button_update_cert_info(self):
-        for index, url in enumerate(self, start=1):
-            _logger.info(
-                f"{index}/{len(self)}"
-                f" - Updating Certification Information of {url.url} ..."
-            )
-            try:
-                # See: https://stackoverflow.com/a/71153638
-                # create default context
-                _context = ssl.create_default_context()
-
-                # override context so that it can get expired cert
-                _context.check_hostname = False
-                _context.verify_mode = ssl.CERT_NONE
-
-                with socket.create_connection((url.url, 443)) as sock:
-                    with _context.wrap_socket(sock, server_hostname=url.url) as ssock:
-                        # get cert in DER format
-                        data = ssock.getpeercert(True)
-
-                        # convert cert to PEM format
-                        pem_data = ssl.DER_cert_to_PEM_cert(data)
-
-                        # pem_data in string. convert to bytes using str.encode()
-                        # extract cert info from PEM format
-                        cert_data = x509.load_pem_x509_certificate(str.encode(pem_data))
-                        expire_datetime = cert_data.not_valid_after_utc
-                        vals = {
-                            "ssl_tls_version": ssock.version(),
-                            "expire_datetime": expire_datetime.replace(tzinfo=None),
-                        }
-                        url.write(vals)
-            except socket.gaierror:
-                message = _("socket.gaierror: URL '%(url)s' not found.", url=url.url)
-                _logger.error(message)
-                self.env.user.notify_danger(message)
-                continue
-            except ConnectionRefusedError:
-                message = _(
-                    "ConnectionRefusedError: Certificate Not found on '%(url)s'.",
-                    url=url.url,
-                )
-                _logger.error(message)
-                self.env.user.notify_danger(message)
-                continue
-            except ssl.SSLEOFError:
-                message = _(
-                    "SSLEOFError: Unable to get certificate of '%(url)s'.", url=url.url
-                )
-                _logger.error(message)
-                self.env.user.notify_danger(message)
-                continue
-            except ssl.SSLError:
-                message = _(
-                    "SSLError: Unable to get certificate of '%(url)s'.", url=url.url
-                )
-                _logger.error(message)
-                self.env.user.notify_danger(message)
-                continue
+        self._probe_certificate_get_information()

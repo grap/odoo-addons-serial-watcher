@@ -6,7 +6,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <record id="oversight_url_www_grap_coop" model="oversight.url">
-        <field name="url">www.grap.coop</field>
+        <field name="name">www.grap.coop</field>
     </record>
 
 </odoo>

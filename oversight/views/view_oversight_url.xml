@@ -9,8 +9,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     <field name="model">oversight.url</field>
         <field name="arch" type="xml">
             <search>
-                <field name="url"/>
-                <filter string="Not Updated" name="filter_not_updated" domain="[('ssl_tls_version','=', False)]"/>
+                <field name="name"/>
+                <filter string="Not Updated" name="filter_not_updated" domain="[('certificate_ssl_tls_version','=', False)]"/>
 
            </search>
         </field>
@@ -19,20 +19,28 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_url_list" model="ir.ui.view">
         <field name="model">oversight.url</field>
         <field name="arch" type="xml">
-            <list default_order="expire_datetime">
-                <field name="url"/>
+            <list default_order="certificate_expire_datetime">
+                <field name="name" widget="url"/>
                 <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="server_id" optional="hide"/>
                 <field name="domain_name_id" optional="hide"/>
-                <field name="ssl_tls_version" optional="hide"/>
-                <field name="day_before_expiration" optional="show" invisible="expire_datetime == False"
-                    options="{'bg_color': 'orange: day_before_expiration &lt; 15 ; red: day_before_expiration &lt; 0'}"/>
-                <field name="expire_datetime"/>
+                <field name="certificate_ssl_tls_version" optional="hide"/>
+                <field name="certificate_expire_datetime" optional="hide"/>
 
+                <field name="certificate_day_before_expiration" optional="show"  widget="badge"
+                    invisible="certificate_expire_datetime == False"
+                    decoration-success="certificate_probe_state == 'success'"
+                    decoration-warning="certificate_probe_state == 'warning'"
+                    decoration-danger="certificate_probe_state == 'error'"
+                    />
+                <field name="certificate_probe_last_state" optional="show" widget="badge"
+                    decoration-muted="certificate_probe_last_state == '01_probe_undefined'"
+                    decoration-danger="certificate_probe_last_state == '02_probe_failed'"
+                    decoration-success="certificate_probe_last_state == '03_probe_ok'"
+                  />
             </list>
         </field>
     </record>
-
 
     <record id="view_oversight_url_form" model="ir.ui.view">
         <field name="model">oversight.url</field>
@@ -44,13 +52,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <sheet>
                     <group>
                         <group string="General Information">
-                            <field name="url" widget="url" readonly="id != False"/>
+                            <field name="name" widget="url" readonly="id != False"/>
                             <field name="domain_name_id"/>
                             <field name="server_id"/>
                         </group>
                         <group string="Certificate SSL">
-                            <field name="ssl_tls_version"/>
-                            <field name="expire_datetime"/>
+                            <field name="certificate_ssl_tls_version"/>
+                            <field name="certificate_expire_datetime"/>
                         </group>
                     </group>
                 </sheet>

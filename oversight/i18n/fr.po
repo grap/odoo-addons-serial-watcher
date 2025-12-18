@@ -388,8 +388,8 @@ msgstr "Aperçu"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__registrar
-msgid "Registrar"
-msgstr "Bureau"
+msgid "Registrar Name"
+msgstr "Nom du bureau"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
