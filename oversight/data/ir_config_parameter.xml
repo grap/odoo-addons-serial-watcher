@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo noupdate="1">
+
+    <record model="ir.config_parameter" id="config_parameter_registrar_warning_threshold">
+        <field name="key">oversight.registrar_warning_threshold</field>
+        <field name="value">21</field>
+    </record>
+
+    <record model="ir.config_parameter" id="config_parameter_certificate_warning_threshold">
+        <field name="key">oversight.certificate_warning_threshold</field>
+        <field name="value">7</field>
+    </record>
+
+</odoo>

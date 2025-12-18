@@ -96,9 +96,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="view_mode">list,form</field>
     </record>
 
-    <menuitem id="menu_oversight_domain_name"
-        parent="menu_oversight_overview"
-        action="action_oversight_domain_name"
-        sequence="20"/>
-
 </odoo>

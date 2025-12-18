@@ -89,9 +89,4 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="context">{'search_default_filter_is_ours':1}</field>
     </record>
 
-    <menuitem id="menu_oversight_server"
-        parent="menu_oversight_setting"
-        action="action_oversight_server"
-        sequence="1"/>
-
 </odoo>

@@ -37,6 +37,8 @@ class ProbeMixinCertificate(models.AbstractModel):
         tracking=True,
     )
 
+    certificate_warning_threshold = fields.Integer()
+
     certificate_probe_last_error_message = fields.Text(readonly=True)
 
     @api.depends("certificate_expire_datetime")
@@ -50,9 +52,14 @@ class ProbeMixinCertificate(models.AbstractModel):
 
     @api.depends("certificate_expire_datetime", "certificate_probe_last_state")
     def _compute_certificate_probe_state(self):
+        icp = self.env["ir.config_parameter"].sudo()
         for certificate in self:
-            warning_limit = 25
-            if certificate.certificate_probe_last_state == "probe_undefined":
+            warning_limit = certificate.certificate_warning_threshold
+            if not warning_limit:
+                warning_limit = int(
+                    icp.get_param("oversight.certificate_warning_threshold")
+                )
+            if certificate.certificate_probe_last_state == "01_probe_undefined":
                 certificate.certificate_probe_state = "probe_undefined"
             elif certificate.certificate_day_before_expiration > warning_limit:
                 certificate.certificate_probe_state = "success"
@@ -92,7 +99,16 @@ class ProbeMixinCertificate(models.AbstractModel):
                         # pem_data in string. convert to bytes using str.encode()
                         # extract cert info from PEM format
                         cert_data = x509.load_pem_x509_certificate(str.encode(pem_data))
-                        expire_datetime = cert_data.not_valid_after_utc
+
+                        # Note: For obscur reason, on CI, 'not_valid_after_utc'
+                        # function is not available
+                        # In that case, we so use the depreated not_valid_after function
+                        if hasattr(cert_data, "not_valid_after_utc"):
+                            expire_datetime = cert_data.not_valid_after_utc.replace(
+                                tzinfo=None
+                            )
+                        else:
+                            expire_datetime = cert_data.not_valid_after
                         ssl_tls_version = ssock.version()
 
             except socket.gaierror:
@@ -125,7 +141,7 @@ class ProbeMixinCertificate(models.AbstractModel):
 
             vals = {
                 "certificate_ssl_tls_version": ssl_tls_version,
-                "certificate_expire_datetime": expire_datetime.replace(tzinfo=None),
+                "certificate_expire_datetime": expire_datetime,
             }
 
             certificate._handle_probe_ok(vals, "certificate")
