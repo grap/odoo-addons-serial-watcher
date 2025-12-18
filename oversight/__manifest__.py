@@ -3,7 +3,7 @@
 {
     "name": "Oversight",
     "summary": "Oversight Tools",
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
     "category": "Tools",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-serial-watcher",
@@ -29,5 +29,9 @@
         "demo/demo_oversight_domain_name.xml",
         "demo/demo_oversight_url.xml",
     ],
-    "external_dependencies": {"bin": ["whois"]},
+    "external_dependencies": {
+        "bin": ["whois"],
+        # special definition used by OCA to install packages
+        "deb": ["whois"],
+    },
 }
