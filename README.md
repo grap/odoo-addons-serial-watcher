@@ -17,7 +17,11 @@ This repository contains Odoo modules developped by the company GRAP to make sup
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[oversight](oversight/) | 18.0.2.0.0 |  | Oversight Tools
 
 [//]: # (end addons)
 
