@@ -20,6 +20,7 @@
         "security/ir.model.access.csv",
         "data/ir_cron.xml",
         "data/ir_config_parameter.xml",
+        "data/mail_template.xml",
         "views/view_oversight_domain_name.xml",
         "views/view_oversight_url.xml",
         "views/view_oversight_server.xml",
@@ -32,11 +33,6 @@
         "demo/demo_oversight_url.xml",
     ],
     "external_dependencies": {
-        # # See: https://github.com/dspruell/tls-probe/issues/7
-        # "python": [
-        #     "cryptography>=46.0.0",
-        #     "pyOpenSSL>=25.3.0",
-        # ],
         "bin": ["whois"],
         # special definition used by OCA to install packages
         "deb": ["whois"],

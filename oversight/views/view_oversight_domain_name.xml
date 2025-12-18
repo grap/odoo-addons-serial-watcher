@@ -12,6 +12,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="name"/>
                 <field name="registrar_expire_datetime"/>
                 <filter string="Not Updated" name="filter_not_updated" domain="[('registrar_name','=', False)]"/>
+                <filter string="Archived" name="filter_inactive" domain="[('active', '=', False)]"/>
            </search>
         </field>
     </record>
@@ -21,7 +22,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <list default_order="registrar_probe_last_state, registrar_expire_datetime">
                 <field name="name"/>
-                <field name="activity_ids" optional="show" widget="list_activity"/>
+                <field name="activity_ids" optional="hide" widget="list_activity"/>
                 <field name="registrar_name" optional="show"/>
                 <field name="registrar_expire_datetime" optional="hide"/>
                 <field name="registrar_day_before_expiration" optional="show"  widget="badge"
@@ -45,9 +46,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button string="Update Registrar Info" name="button_update_registrar_info" type="object" />
+                    <button string="Update Registrar Information" name="button_update_registrar_information" type="object" />
                 </header>
                 <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <group>
                         <group string="General Information">
                             <field name="name" readonly="id != False"/>
@@ -56,6 +58,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             <field name="registrar_name" string="Name"/>
                             <field name="registrar_creation_datetime" string="Registar Date"/>
                             <field name="registrar_expire_datetime" string="Expiration Date"/>
+                            <field name="registrar_warning_threshold" string="Warning Threshold"/>
                         </group>
                     </group>
                     <notebook>
@@ -81,19 +84,20 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-        <record id="action_oversight_domain_name_button_update_registrar_info" model="ir.actions.server">
-            <field name="name">Update Registrar Info</field>
+        <record id="action_oversight_domain_name_button_update_registrar_information" model="ir.actions.server">
+            <field name="name">Update Registrar Information</field>
             <field name="model_id" ref="oversight.model_oversight_domain_name"/>
             <field name="groups_id" eval="[(4, ref('oversight.group_manager'))]"/>
             <field name="binding_model_id" ref="oversight.model_oversight_domain_name" />
             <field name="state">code</field>
-            <field name="code">records.button_update_registrar_info()</field>
+            <field name="code">records.button_update_registrar_information()</field>
         </record>
 
     <record id="action_oversight_domain_name" model="ir.actions.act_window">
         <field name="name">Domain Names</field>
         <field name="res_model">oversight.domain.name</field>
         <field name="view_mode">list,form</field>
+        <field name="path">oversight-domain-names</field>
     </record>
 
 </odoo>

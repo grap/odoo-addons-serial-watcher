@@ -16,7 +16,7 @@ class TestMixinCertificate(TransactionCase):
         self.assertEqual(url.certificate_probe_last_state, "01_probe_undefined")
         self.assertEqual(url.certificate_probe_state, "probe_undefined")
 
-        url.button_update_cert_info()
+        url.button_update_certificate_information()
 
         self.assertTrue(url.certificate_ssl_tls_version)
         self.assertGreater(url.certificate_day_before_expiration, 0)
@@ -33,6 +33,6 @@ class TestMixinCertificate(TransactionCase):
 
         self.assertFalse(url.certificate_ssl_tls_version)
 
-        url.button_update_cert_info()
+        url.button_update_certificate_information()
 
         self.assertFalse(url.certificate_ssl_tls_version)

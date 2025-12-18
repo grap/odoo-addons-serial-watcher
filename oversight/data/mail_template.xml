@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo >
+
+    <record id="email_template_summary" model="mail.template">
+        <field name="name">Oversight: Daily Summary</field>
+        <field name="subject">Oversight: Daily Summary</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="auto_delete" eval="False"/>
+        <field name="body_html" type="html">
+            <tbody>
+                <t t-set="domain_name_probe_fails" t-value="object.oversight_get_data('domain_name_probe_fails')" />
+                <t t-set="url_probe_fails" t-value="object.oversight_get_data('url_probe_fails')" />
+                <t t-set="domain_name_probe_errors" t-value="object.oversight_get_data('domain_name_probe_errors')" />
+                <t t-set="url_probe_errors" t-value="object.oversight_get_data('url_probe_errors')" />
+                <t t-set="domain_name_probe_warnings" t-value="object.oversight_get_data('domain_name_probe_warnings')" />
+                <t t-set="url_probe_warnings" t-value="object.oversight_get_data('url_probe_warnings')" />
+
+                <!-- domain Names Probe Fails-->
+                <t t-if="domain_name_probe_fails">
+                    <h1>Echec(s) de sonde de nom de domaine</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Nom de domaine</th>
+                                <th>Détail du message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="domain_name_probe_fails" t-as="domain_name">
+                                <td><t t-out="domain_name.name" /></td>
+                                <td><t t-out="domain_name.registrar_probe_last_error_message" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- URL Probe Fails-->
+                <t t-if="url_probe_fails">
+                    <h1>Echec(s) de sonde d'URL HTTPS</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Site Web</th>
+                                <th>Détail du message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="url_probe_fails" t-as="url">
+                                <td>
+                                    <a t-att-href="'https://' + url.name">https://<t t-out="url.name" /></a>
+                                </td>
+                                <td><t t-out="url.certificate_probe_last_error_message" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- Domain Names Expiration Errors-->
+                <t t-if="domain_name_probe_errors">
+                    <h1>Expiration(s) de noms de domaine</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Nom de domaine</th>
+                                <th>Jours Restants</th>
+                                <th>Date d'expiration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="domain_name_probe_errors" t-as="domain_name">
+                                <td><t t-out="domain_name.name" /></td>
+                                <td><t t-out="domain_name.registrar_day_before_expiration"/></td>
+                                <td><t t-out="domain_name.registrar_expire_datetime"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- URL Certificates Expiration Errors-->
+                <t t-if="url_probe_errors">
+                    <h1>Expiration(s) de certificat HTTPS d'URL</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Site Web</th>
+                                <th>Jours Restants</th>
+                                <th>Date d'expiration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="url_probe_errors" t-as="url">
+                                <td>
+                                    <a t-att-href="'https://' + url.name">https://<t t-out="url.name" /></a>
+                                </td>
+                                <td><t t-out="url.certificate_day_before_expiration" /></td>
+                                <td><t t-out="url.certificate_expire_datetime" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- Domain Names Expiration warnings-->
+                <t t-if="domain_name_probe_warnings">
+                    <h1>Avertissement(s) d'expiration de noms de domaine</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Nom de domaine</th>
+                                <th>Jours Restants</th>
+                                <th>Date d'expiration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="domain_name_probe_warnings" t-as="domain_name">
+                                <td><t t-out="domain_name.name" /></td>
+                                <td><t t-out="domain_name.registrar_day_before_expiration"/></td>
+                                <td><t t-out="domain_name.registrar_expire_datetime"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <!-- URL Certificates Expiration Warnings-->
+                <t t-if="url_probe_warnings">
+                    <h1>Avertissement(s) d'expiration de certificat HTTPS d'URL</h1>
+                    <table style="width: 100%;" cellspacing="1" cellpadding="1" border="1">
+                        <thead>
+                            <tr>
+                                <th>Site Web</th>
+                                <th>Jours Restants</th>
+                                <th>Date d'expiration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="url_probe_warnings" t-as="url">
+                                <td>
+                                    <a t-att-href="'https://' + url.name">https://<t t-out="url.name" /></a>
+                                </td>
+                                <td><t t-out="url.certificate_expire_datetime" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+            </tbody>
+        </field>
+    </record>
+</odoo>

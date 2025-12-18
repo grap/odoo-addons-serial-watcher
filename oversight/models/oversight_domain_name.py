@@ -15,11 +15,21 @@ class OversightDomainName(models.Model):
 
     name = fields.Char(required=True)
 
+    active = fields.Boolean(default=True, tracking=True)
+
     url_ids = fields.One2many(
         comodel_name="oversight.url", inverse_name="domain_name_id", readonly=True
     )
 
     url_qty = fields.Integer(compute="_compute_url_qty", store=True)
+
+    _sql_constraints = [
+        (
+            "name_uniq",
+            "unique (name)",
+            "This domain name already exists.",
+        ),
+    ]
 
     @api.depends("url_ids.server_id")
     def _compute_url_qty(self):
@@ -27,8 +37,8 @@ class OversightDomainName(models.Model):
             server.url_qty = len(server.url_ids)
 
     @api.model
-    def cron_update_registrar_info(self):
-        self.search([]).button_update_registrar_info()
+    def cron_update_registrar_information(self):
+        self.search([])._probe_registrar_get_information()
 
-    def button_update_registrar_info(self):
+    def button_update_registrar_information(self):
         self._probe_registrar_get_information()

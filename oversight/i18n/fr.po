@@ -17,6 +17,184 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: oversight
+#: model:mail.template,body_html:oversight.email_template_summary
+msgid ""
+"<tbody>\n"
+"                <t t-set=\"domain_name_probe_fails\" t-value=\"object."
+"oversight_get_data('domain_name_probe_fails')\"/>\n"
+"                <t t-set=\"url_probe_fails\" t-value=\"object."
+"oversight_get_data('url_probe_fails')\"/>\n"
+"                <t t-set=\"domain_name_probe_errors\" t-value=\"object."
+"oversight_get_data('domain_name_probe_errors')\"/>\n"
+"                <t t-set=\"url_probe_errors\" t-value=\"object."
+"oversight_get_data('url_probe_errors')\"/>\n"
+"                <t t-set=\"domain_name_probe_warnings\" t-value=\"object."
+"oversight_get_data('domain_name_probe_warnings')\"/>\n"
+"                <t t-set=\"url_probe_warnings\" t-value=\"object."
+"oversight_get_data('url_probe_warnings')\"/>\n"
+"\n"
+"                <!-- domain Names Probe Fails-->\n"
+"                <t t-if=\"domain_name_probe_fails\">\n"
+"                    <h1>Echec(s) de sonde de nom de domaine</h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Nom de domaine</th>\n"
+"                                <th>Détail du message</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"domain_name_probe_fails\" t-"
+"as=\"domain_name\">\n"
+"                                <td><t t-out=\"domain_name.name\"/></td>\n"
+"                                <td><t t-out=\"domain_name."
+"registrar_probe_last_error_message\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"                <!-- URL Probe Fails-->\n"
+"                <t t-if=\"url_probe_fails\">\n"
+"                    <h1>Echec(s) de sonde d'URL HTTPS</h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Site Web</th>\n"
+"                                <th>Détail du message</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"url_probe_fails\" t-as=\"url\">\n"
+"                                <td>\n"
+"                                    <a t-att-href=\"'https://' + url."
+"name\">https://<t t-out=\"url.name\"/></a>\n"
+"                                </td>\n"
+"                                <td><t t-out=\"url."
+"certificate_probe_last_error_message\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"                <!-- Domain Names Expiration Errors-->\n"
+"                <t t-if=\"domain_name_probe_errors\">\n"
+"                    <h1>Expiration(s) de noms de domaine</h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Nom de domaine</th>\n"
+"                                <th>Jours Restants</th>\n"
+"                                <th>Date d'expiration</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"domain_name_probe_errors\" t-"
+"as=\"domain_name\">\n"
+"                                <td><t t-out=\"domain_name.name\"/></td>\n"
+"                                <td><t t-out=\"domain_name."
+"registrar_day_before_expiration\"/></td>\n"
+"                                <td><t t-out=\"domain_name."
+"registrar_expire_datetime\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"                <!-- URL Certificates Expiration Errors-->\n"
+"                <t t-if=\"url_probe_errors\">\n"
+"                    <h1>Expiration(s) de certificat HTTPS d'URL</h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Site Web</th>\n"
+"                                <th>Jours Restants</th>\n"
+"                                <th>Date d'expiration</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"url_probe_errors\" t-"
+"as=\"url\">\n"
+"                                <td>\n"
+"                                    <a t-att-href=\"'https://' + url."
+"name\">https://<t t-out=\"url.name\"/></a>\n"
+"                                </td>\n"
+"                                <td><t t-out=\"url."
+"certificate_day_before_expiration\"/></td>\n"
+"                                <td><t t-out=\"url."
+"certificate_expire_datetime\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"                <!-- Domain Names Expiration warnings-->\n"
+"                <t t-if=\"domain_name_probe_warnings\">\n"
+"                    <h1>Avertissement(s) d'expiration de noms de domaine</"
+"h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Nom de domaine</th>\n"
+"                                <th>Jours Restants</th>\n"
+"                                <th>Date d'expiration</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"domain_name_probe_warnings\" t-"
+"as=\"domain_name\">\n"
+"                                <td><t t-out=\"domain_name.name\"/></td>\n"
+"                                <td><t t-out=\"domain_name."
+"registrar_day_before_expiration\"/></td>\n"
+"                                <td><t t-out=\"domain_name."
+"registrar_expire_datetime\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"                <!-- URL Certificates Expiration Warnings-->\n"
+"                <t t-if=\"url_probe_warnings\">\n"
+"                    <h1>Avertissement(s) d'expiration de certificat HTTPS "
+"d'URL</h1>\n"
+"                    <table style=\"width: 100%;\" cellspacing=\"1\" "
+"cellpadding=\"1\" border=\"1\">\n"
+"                        <thead>\n"
+"                            <tr>\n"
+"                                <th>Site Web</th>\n"
+"                                <th>Jours Restants</th>\n"
+"                                <th>Date d'expiration</th>\n"
+"                            </tr>\n"
+"                        </thead>\n"
+"                        <tbody>\n"
+"                            <tr t-foreach=\"url_probe_warnings\" t-"
+"as=\"url\">\n"
+"                                <td>\n"
+"                                    <a t-att-href=\"'https://' + url."
+"name\">https://<t t-out=\"url.name\"/></a>\n"
+"                                </td>\n"
+"                                <td><t t-out=\"url."
+"certificate_expire_datetime\"/></td>\n"
+"                            </tr>\n"
+"                        </tbody>\n"
+"                    </table>\n"
+"                </t>\n"
+"\n"
+"            </tbody>\n"
+"        "
+msgstr ""
+
+#. module: oversight
+#: model:ir.model.constraint,message:oversight.constraint_oversight_server_ip_uniq
+msgid "A server with the same IP already exists."
+msgstr "Un serveur avec la même IP existe déjà."
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__message_needaction
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__message_needaction
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_needaction
@@ -25,6 +203,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_needaction
 msgid "Action Needed"
 msgstr "Nécessite une action"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__active
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__active
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__active
+msgid "Active"
+msgstr "Actif"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__activity_ids
@@ -67,6 +252,16 @@ msgid "Activity Type Icon"
 msgstr "Icône de type d'activité"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_search
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_search
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_search
+msgid "Archived"
+msgstr "Archivé·e"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__message_attachment_count
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__message_attachment_count
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_attachment_count
@@ -87,6 +282,11 @@ msgstr "Jours avant expiration"
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__certificate_expire_datetime
 msgid "Certificate Expire Datetime"
 msgstr "Date d'expiration du certificat"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
+msgid "Certificate Probe Check"
+msgstr "Sonde de vérification des informations du certificat"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__certificate_probe_last_error_message
@@ -118,9 +318,25 @@ msgid "Certificate Ssl Tls Version"
 msgstr "Version SSL/TlS"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_res_config_settings__certificate_warning_threshold
+msgid "Certificate Warning (in Days)"
+msgstr "Avertissement concernant le certificat (en jours)"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__certificate_warning_threshold
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__certificate_warning_threshold
+msgid "Certificate Warning Threshold"
+msgstr "Seuil pour l'avertissement du certificat"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__company_id
 msgid "Company"
 msgstr "Société"
+
+#. module: oversight
+#: model:ir.model,name:oversight.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurations"
 
 #. module: oversight
 #. odoo-python
@@ -175,7 +391,13 @@ msgid "Domain Names"
 msgstr "Noms de domaine"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid "Email Management"
+msgstr "Gestion des courriels"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Expiration Date"
 msgstr "Date d'expiration"
 
@@ -307,11 +529,13 @@ msgstr "Est à nous"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Last Error Message"
 msgstr "Dernier message d'erreur"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Last State"
 msgstr "Dernièr état"
 
@@ -451,6 +675,24 @@ msgid "Number of Actions"
 msgstr "Nombre d'actions"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid ""
+"Number of days below which there will be a warning regarding the certificate "
+"expiration date"
+msgstr ""
+"Nombre de jours avant qu'il y ait un avertissement concernant la date "
+"d'expiration du certificat"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid ""
+"Number of days below which there will be a warning regarding the registrar "
+"expiration date"
+msgstr ""
+"Nombre de jours avant qu'il y ait un avertissement concernant la date "
+"d'expiration au bureau d'enregistrement"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__message_has_error_counter
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__message_has_error_counter
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_has_error_counter
@@ -483,18 +725,32 @@ msgstr "Nombre de messages avec des erreurs d'envoi"
 #. module: oversight
 #: model:ir.module.category,name:oversight.category_oversight
 #: model:ir.ui.menu,name:oversight.menu_oversight_root
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
 msgid "Oversight"
 msgstr "Supervision"
 
 #. module: oversight
+#: model:ir.actions.server,name:oversight.cron_oversight_send_mail_ir_actions_server
+msgid "Oversight : Send Summary email"
+msgstr "Supervision : Envoyer un résumé par email"
+
+#. module: oversight
 #: model:ir.actions.server,name:oversight.cron_oversight_domain_name_update_registrar_info_ir_actions_server
 msgid "Oversight Domain Names: Update Registrar Information"
-msgstr "Supervision: Nom de domaines: Mettre à jour les informations du bureau d'enregistrement"
+msgstr ""
+"Supervision: Nom de domaines: Mettre à jour les informations du bureau "
+"d'enregistrement"
 
 #. module: oversight
 #: model:ir.actions.server,name:oversight.cron_oversight_url_update_cert_info_ir_actions_server
 msgid "Oversight URLs: Update Certification Information"
 msgstr "Supervision: URL: Mettre à jour les informations des certificats"
+
+#. module: oversight
+#: model:mail.template,name:oversight.email_template_summary
+#: model:mail.template,subject:oversight.email_template_summary
+msgid "Oversight: Daily Summary"
+msgstr "Supervision : Résumé quotidien"
 
 #. module: oversight
 #: model:ir.ui.menu,name:oversight.menu_oversight_overview
@@ -515,6 +771,21 @@ msgstr "Mixin de sonde de certificat"
 #: model:ir.model,name:oversight.model_probe_mixin_registrar
 msgid "Probe Mixin Registrar"
 msgstr "Mixin de sonde de bureau d'enregistrement"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__rating_ids
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__rating_ids
+#: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__rating_ids
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__rating_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__rating_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__rating_ids
+msgid "Ratings"
+msgstr "Évaluations"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid "Recipient of the emails"
+msgstr "Destinataire des courriels"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
@@ -553,7 +824,7 @@ msgstr "Nom du bureau"
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 msgid "Registrar Probe Check"
-msgstr "Sonde de vérification du bureu d'enregistrement bureau"
+msgstr "Sonde de vérification des informations du bureau d'enregistrement"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__registrar_probe_last_error_message
@@ -572,6 +843,17 @@ msgstr "Dernier état de la sonde du bureau d'enregistrement"
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__registrar_probe_state
 msgid "Registrar Probe State"
 msgstr "Etat (enregistrement)"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_res_config_settings__registrar_warning_threshold
+msgid "Registrar Warning (in Days)"
+msgstr "Avertissement du bureau d'enregistrement (en jours)"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__registrar_warning_threshold
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__registrar_warning_threshold
+msgid "Registrar Warning Threshold"
+msgstr "Seuil pour l'avertissement du bureau d'enregistrement"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__activity_user_id
@@ -602,6 +884,11 @@ msgid "SSLError: Unable to get certificate of '%(url)s'."
 msgstr "SSLError: Impossible d'obtenir le certificat SSL de l'URL '%(url)s'."
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid "Send Test Email"
+msgstr "Envoyer un courriel de test"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__server_id
 msgid "Server"
 msgstr "Serveur"
@@ -628,8 +915,10 @@ msgid "Services"
 msgstr "Services"
 
 #. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_res_config_settings
 #: model:ir.ui.menu,name:oversight.menu_oversight_setting
-msgid "Setting"
+#: model:ir.ui.menu,name:oversight.menu_res_config_settings
+msgid "Settings"
 msgstr "Configuration"
 
 #. module: oversight
@@ -656,6 +945,11 @@ msgstr ""
 "Planifiée : activités futures"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_res_config_settings__summary_recipient_user_id
+msgid "Summary Recipient User"
+msgstr "Utilisateur destinataire du résumé"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
 msgid "Supplier"
 msgstr "Fournisseur"
@@ -669,6 +963,21 @@ msgstr "Fournisseur"
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__technical_name
 msgid "Technical Name"
 msgstr "Nom technique"
+
+#. module: oversight
+#: model:ir.model.constraint,message:oversight.constraint_oversight_url_name_uniq
+msgid "This URL already exists."
+msgstr "Cette URL existe déjà."
+
+#. module: oversight
+#: model:ir.model.constraint,message:oversight.constraint_oversight_domain_name_name_uniq
+msgid "This domain name already exists."
+msgstr "Ce nom de domaine existe déjà."
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
+msgid "Threshold Management"
+msgstr "Gestion des seuils"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_list
@@ -716,19 +1025,19 @@ msgstr ""
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
-msgid "Update Cert info"
-msgstr "Mettre à jour le certificat"
+msgid "Update Certificate information"
+msgstr "Mettre à jour les informations du certificat"
 
 #. module: oversight
-#: model:ir.actions.server,name:oversight.action_oversight_url_button_update_cert_info
-msgid "Update Certification Info"
-msgstr "Mettre à jour le certificat"
+#: model:ir.actions.server,name:oversight.action_oversight_url_button_update_certificate_information
+msgid "Update Certification Information"
+msgstr "Mettre à jour les informations du certificat"
 
 #. module: oversight
-#: model:ir.actions.server,name:oversight.action_oversight_domain_name_button_update_registrar_info
+#: model:ir.actions.server,name:oversight.action_oversight_domain_name_button_update_registrar_information
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
-msgid "Update Registrar Info"
-msgstr "Mettre à jour le bureau d'enregistrement"
+msgid "Update Registrar Information"
+msgstr "Mettre à jour les informations du bureau d'enregistrement"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__url_ids
@@ -743,9 +1052,16 @@ msgid "Url Qty"
 msgstr "Nb URLs"
 
 #. module: oversight
+#: model:ir.model,name:oversight.model_res_users
 #: model:res.groups,name:oversight.group_user
 msgid "User"
 msgstr "Utilisateur"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
+msgid "Warning Threshold"
+msgstr "Seuil pour l'avertissement"
 
 #. module: oversight
 #: model:ir.model,name:oversight.model_oversight_server

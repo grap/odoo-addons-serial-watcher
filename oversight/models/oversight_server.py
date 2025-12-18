@@ -12,6 +12,8 @@ class OversightServer(models.Model):
 
     name = fields.Char(compute="_compute_name", store=True)
 
+    active = fields.Boolean(default=True, tracking=True)
+
     technical_name = fields.Char()
 
     services = fields.Char()
@@ -51,6 +53,14 @@ class OversightServer(models.Model):
     server_identifier = fields.Char()
 
     server_model_name = fields.Char()
+
+    _sql_constraints = [
+        (
+            "ip_uniq",
+            "unique (ip)",
+            "A server with the same IP already exists.",
+        ),
+    ]
 
     @api.depends("ip", "technical_name")
     def _compute_name(self):

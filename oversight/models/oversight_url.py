@@ -16,6 +16,8 @@ class OversightUrl(models.Model):
 
     name = fields.Char(required=True)
 
+    active = fields.Boolean(default=True, tracking=True)
+
     domain_name_id = fields.Many2one(
         comodel_name="oversight.domain.name",
         ondelete="restrict",
@@ -27,6 +29,14 @@ class OversightUrl(models.Model):
         ondelete="restrict",
         readonly=True,
     )
+
+    _sql_constraints = [
+        (
+            "name_uniq",
+            "unique (name)",
+            "This URL already exists.",
+        ),
+    ]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -64,7 +74,9 @@ class OversightUrl(models.Model):
                 continue
             domain = ".".join(self._clean_url(url.name).split(".")[-2:])
 
-            domain_name = OversightDomainName.search([("name", "=", domain)], limit=1)
+            domain_name = OversightDomainName.with_context(active_test=False).search(
+                [("name", "=", domain)], limit=1
+            )
             if not domain_name:
                 domain_name = OversightDomainName.create({"name": domain})
             url.domain_name_id = domain_name
@@ -77,7 +89,9 @@ class OversightUrl(models.Model):
                 continue
             try:
                 ip = socket.gethostbyname(self._clean_url(url.name))
-                server = OversightServer.search([("ip", "=", ip)], limit=1)
+                server = OversightServer.with_context(active_test=False).search(
+                    [("ip", "=", ip)], limit=1
+                )
                 if not server:
                     server = OversightServer.create({"ip": ip})
                 url.server_id = server
@@ -92,8 +106,8 @@ class OversightUrl(models.Model):
                 continue
 
     @api.model
-    def cron_update_cert_info(self):
+    def cron_update_certificate_information(self):
         self.search([])._probe_certificate_get_information()
 
-    def button_update_cert_info(self):
+    def button_update_certificate_information(self):
         self._probe_certificate_get_information()

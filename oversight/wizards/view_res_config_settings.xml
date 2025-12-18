@@ -8,13 +8,26 @@
             <xpath expr="//form" position="inside">
                 <app data-string="Oversight" string="Oversight" name="oversight" groups="oversight.group_manager">
                     <block title="Threshold Management" id="threshold_management">
-                        <setting id="recurring_tasks_setting" help="Number of days below which there will be a warning regarding the registrar expiration date">
+                        <setting id="setting_registrar_warning_threshold" help="Number of days below which there will be a warning regarding the registrar expiration date">
                             <field name="registrar_warning_threshold"/>
                         </setting>
-                        <setting id="task_dependencies_setting" help="Number of days below which there will be a warning regarding the certificate expiration date">
+                        <setting id="setting_certificate_warning_threshold" help="Number of days below which there will be a warning regarding the certificate expiration date">
                             <field name="certificate_warning_threshold"/>
                         </setting>
+
                     </block>
+                    <block title="Email Management" id="email_management">
+                        <setting id="setting_summary_recipient_user_id" help="Recipient of the emails">
+                            <field name="summary_recipient_user_id"/>
+                        </setting>
+                            <setting id="mail_test">
+                                <div class="content-group">
+                                    <div class="mt8">
+                                        <button name="button_oversight_send_summary_email" icon="oi-arrow-right" type="object" string="Send Test Email"/>
+                                    </div>
+                                </div>
+                            </setting>
+                        </block>
                 </app>
             </xpath>
         </field>

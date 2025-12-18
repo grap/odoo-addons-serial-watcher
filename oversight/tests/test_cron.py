@@ -10,7 +10,10 @@ class TestCron(TransactionCase):
         super().setUpClass()
 
     def test_cron_registrar(self):
-        self.env["oversight.domain.name"].cron_update_registrar_info()
+        self.env["oversight.domain.name"].cron_update_registrar_information()
 
     def test_cron_certificate(self):
-        self.env["oversight.url"].cron_update_cert_info()
+        self.env["oversight.url"].cron_update_certificate_information()
+
+    def test_cron_send_summary_email(self):
+        self.env["res.config.settings"].cron_oversight_send_summary_email()

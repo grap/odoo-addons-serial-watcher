@@ -16,7 +16,7 @@ class TestMixinRegistrar(TransactionCase):
         self.assertEqual(domain.registrar_probe_last_state, "01_probe_undefined")
         self.assertEqual(domain.registrar_probe_state, "probe_undefined")
 
-        domain.button_update_registrar_info()
+        domain.button_update_registrar_information()
 
         self.assertTrue(domain.registrar_name)
         self.assertGreater(domain.registrar_day_before_expiration, 0)
@@ -34,7 +34,7 @@ class TestMixinRegistrar(TransactionCase):
         self.assertFalse(domain.registrar_name)
         self.assertEqual(domain.registrar_probe_last_state, "01_probe_undefined")
 
-        domain.button_update_registrar_info()
+        domain.button_update_registrar_information()
 
         self.assertFalse(domain.registrar_name)
         self.assertEqual(domain.registrar_probe_last_state, "02_probe_failed")
