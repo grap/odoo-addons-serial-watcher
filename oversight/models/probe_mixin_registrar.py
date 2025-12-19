@@ -51,6 +51,8 @@ class ProbeMixinRegistrar(models.AbstractModel):
         tracking=True,
     )
 
+    registrar_warning_threshold = fields.Integer()
+
     registrar_probe_last_error_message = fields.Text(readonly=True)
 
     registrar_day_before_expiration = fields.Integer(
@@ -68,9 +70,14 @@ class ProbeMixinRegistrar(models.AbstractModel):
 
     @api.depends("registrar_expire_datetime", "registrar_probe_last_state")
     def _compute_registrar_probe_state(self):
+        icp = self.env["ir.config_parameter"].sudo()
         for registrar in self:
-            warning_limit = 25
-            if registrar.registrar_probe_last_state == "probe_undefined":
+            warning_limit = registrar.registrar_warning_threshold
+            if not warning_limit:
+                warning_limit = int(
+                    icp.get_param("oversight.registrar_warning_threshold")
+                )
+            if registrar.registrar_probe_last_state == "01_probe_undefined":
                 registrar.registrar_probe_state = "probe_undefined"
             elif registrar.registrar_day_before_expiration > warning_limit:
                 registrar.registrar_probe_state = "success"

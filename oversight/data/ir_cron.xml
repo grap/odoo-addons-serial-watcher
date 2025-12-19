@@ -9,7 +9,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Oversight Domain Names: Update Registrar Information</field>
         <field name="model_id" ref="model_oversight_domain_name" />
         <field name="state">code</field>
-        <field name="code">model.cron_update_registrar_info()</field>
+        <field name="code">model.cron_update_registrar_information()</field>
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
@@ -19,7 +19,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Oversight URLs: Update Certification Information</field>
         <field name="model_id" ref="model_oversight_url" />
         <field name="state">code</field>
-        <field name="code">model.cron_update_cert_info()</field>
+        <field name="code">model.cron_update_certificate_information()</field>
+        <field name="user_id" ref="base.user_root" />
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+
+    <record model="ir.cron" id="cron_oversight_send_mail">
+        <field name="name">Oversight : Send Summary email</field>
+        <field name="model_id" ref="model_res_config_settings" />
+        <field name="state">code</field>
+        <field name="code">model.cron_oversight_send_summary_email()</field>
         <field name="user_id" ref="base.user_root" />
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
