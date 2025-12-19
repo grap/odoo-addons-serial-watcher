@@ -14,13 +14,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             name="Overview"
             sequence="1">
 
-            <menuitem id="menu_oversight_url"
-                action="action_oversight_url"
+            <menuitem id="menu_oversight_domain_name_registrar_expiration"
+                action="action_oversight_domain_name_registrar_expiration"
                 sequence="10"/>
 
-            <menuitem id="menu_oversight_domain_name"
-                action="action_oversight_domain_name"
-                sequence="20"/>
+            <menuitem id="menu_oversight_domain_name_certificate_expiration"
+                action="action_oversight_url_certificate_expiration"
+                sequence="10"/>
 
         </menuitem>
 
@@ -34,9 +34,17 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 groups="oversight.group_manager"
                 sequence="0"/>
 
+            <menuitem id="menu_oversight_url"
+                action="action_oversight_url"
+                sequence="10"/>
+
+            <menuitem id="menu_oversight_domain_name"
+                action="action_oversight_domain_name"
+                sequence="20"/>
+
             <menuitem id="menu_oversight_server"
                 action="action_oversight_server"
-                sequence="10"/>
+                sequence="30"/>
         </menuitem>
     </menuitem>
 

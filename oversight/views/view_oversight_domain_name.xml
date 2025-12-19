@@ -20,9 +20,21 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_domain_name_list" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
-            <list default_order="registrar_probe_last_state, registrar_expire_datetime">
+            <list default_order="name">
                 <field name="name"/>
-                <field name="activity_ids" optional="hide" widget="list_activity"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
+                <field name="url_qty" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+     <record id="view_oversight_domain_name_list_registrar_expiration" model="ir.ui.view">
+        <field name="model">oversight.domain.name</field>
+        <field name="priority">500</field>
+        <field name="arch" type="xml">
+            <list default_order="registrar_probe_last_state, registrar_expire_datetime"  create="False">
+                <field name="name"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="registrar_name" optional="show"/>
                 <field name="registrar_expire_datetime" optional="hide"/>
                 <field name="registrar_day_before_expiration" optional="show"  widget="badge"
@@ -36,7 +48,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     decoration-danger="registrar_probe_last_state == '02_probe_failed'"
                     decoration-success="registrar_probe_last_state == '03_probe_ok'"
                   />
-                <field name="url_qty" optional="hide"/>
             </list>
         </field>
     </record>
@@ -97,7 +108,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="name">Domain Names</field>
         <field name="res_model">oversight.domain.name</field>
         <field name="view_mode">list,form</field>
-        <field name="path">oversight-domain-names</field>
+        <field name="path">oversight-domain-name</field>
+    </record>
+
+    <record id="action_oversight_domain_name_registrar_expiration" model="ir.actions.act_window">
+        <field name="name">Registration Expirations</field>
+        <field name="res_model">oversight.domain.name</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_oversight_domain_name_list_registrar_expiration" />
+        <field name="path">oversight-domain-name-registrar-expiration</field>
     </record>
 
 </odoo>
