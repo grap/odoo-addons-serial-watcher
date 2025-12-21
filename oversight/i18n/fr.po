@@ -773,16 +773,6 @@ msgid "Probe Mixin Registrar"
 msgstr "Mixin de sonde de bureau d'enregistrement"
 
 #. module: oversight
-#: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_server__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_url__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__rating_ids
-msgid "Ratings"
-msgstr "Évaluations"
-
-#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
 msgid "Recipient of the emails"
 msgstr "Destinataire des courriels"
@@ -856,6 +846,12 @@ msgid "Registrar Warning Threshold"
 msgstr "Seuil pour l'avertissement du bureau d'enregistrement"
 
 #. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_domain_name_registrar_expiration
+#: model:ir.ui.menu,name:oversight.menu_oversight_domain_name_registrar_expiration
+msgid "Registration Expirations"
+msgstr "Expirations d'enregistrement DNS"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_user_id
@@ -869,6 +865,12 @@ msgstr "Utilisateur responsable"
 #: model:ir.model,name:oversight.model_oversight_ssh_authentication
 msgid "SSH Authentication"
 msgstr "Authentification SSH"
+
+#. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_url_certificate_expiration
+#: model:ir.ui.menu,name:oversight.menu_oversight_domain_name_certificate_expiration
+msgid "SSH Certificate Expirations"
+msgstr "Expirations de certificat SSH"
 
 #. module: oversight
 #. odoo-python
