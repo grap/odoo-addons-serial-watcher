@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
 
-from odoo import _, models
+from odoo import _, api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -58,3 +58,27 @@ class ProbeMixin(models.AbstractModel):
         if new_vals:
             _logger.info(f"New Information for {self.name}: {new_vals}.")
             self.write(vals)
+
+    @api.model
+    def _search_probe_state(self, probe_name, operator, value):
+        if operator == "!=":
+            items = self.search([]).filtered(
+                lambda x: getattr(x, f"{probe_name}_probe_state") != value
+            )
+        elif operator == "not in":
+            items = self.search([]).filtered(
+                lambda x: getattr(x, f"{probe_name}_probe_state") not in value
+            )
+        elif operator == "=":
+            items = self.search([]).filtered(
+                lambda x: getattr(x, f"{probe_name}_probe_state") == value
+            )
+        elif operator == "in":
+            items = self.search([]).filtered(
+                lambda x: getattr(x, f"{probe_name}_probe_state") in value
+            )
+        else:
+            raise NotImplementedError(
+                _("Not implemented operator '%(operator)s'", operator=operator)
+            )
+        return [("id", "in", items.ids)]

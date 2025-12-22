@@ -12,6 +12,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="name"/>
                 <field name="registrar_expire_datetime"/>
                 <filter string="Not Updated" name="filter_not_updated" domain="[('registrar_name','=', False)]"/>
+                <filter string="With Registrar Problems" name="filter_with_registrar_problems" domain="[('registrar_probe_state','!=', 'success')]"/>
                 <filter string="Archived" name="filter_inactive" domain="[('active', '=', False)]"/>
            </search>
         </field>
@@ -20,7 +21,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
      <record id="view_oversight_domain_name_list" model="ir.ui.view">
         <field name="model">oversight.domain.name</field>
         <field name="arch" type="xml">
-            <list default_order="name">
+            <list multi_edit="1">
                 <field name="name"/>
                 <field name="activity_ids" optional="show" widget="list_activity"/>
                 <field name="url_qty" optional="show"/>
@@ -116,6 +117,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="res_model">oversight.domain.name</field>
         <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_oversight_domain_name_list_registrar_expiration" />
+        <field name="context">{'search_default_filter_with_registrar_problems':1}</field>
         <field name="path">oversight-domain-name-registrar-expiration</field>
     </record>
 

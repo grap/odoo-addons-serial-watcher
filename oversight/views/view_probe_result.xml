@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (C) 2018 - Today: GRAP (http://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="view_probe_result_search" model="ir.ui.view">
+    <field name="model">probe.result</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="probe_name"/>
+           </search>
+        </field>
+    </record>
+
+     <record id="view_probe_result_list" model="ir.ui.view">
+        <field name="model">probe.result</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="probe_datetime"/>
+                <field name="probe_name"/>
+                <field name="res_name"/>
+                <field name="state"
+                    widget="badge"
+                    decoration-danger="state == '02_ko'"
+                    decoration-success="state == '03_ok'"
+                    />
+                <field name="error_message"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_probe_result_form" model="ir.ui.view">
+        <field name="model">probe.result</field>
+        <field name="arch" type="xml">
+            <form>
+                <header/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="probe_datetime"/>
+                            <field name="probe_name"/>
+                            <field name="state"
+                                widget="badge"
+                                decoration-danger="state == '02_ko'"
+                    decoration-success="state == '03_ok'"
+/>
+                            <field name="res_name"/>
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_probe_result" model="ir.actions.act_window">
+        <field name="name">Probe Results</field>
+        <field name="res_model">probe.result</field>
+        <field name="view_mode">list,form</field>
+        <field name="path">probe-result</field>
+    </record>
+
+</odoo>

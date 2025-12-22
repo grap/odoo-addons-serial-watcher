@@ -42,6 +42,8 @@ class ProbeMixinRegistrar(models.AbstractModel):
     registrar_probe_state = fields.Selection(
         compute="_compute_registrar_probe_state",
         selection=lambda x: x._PROBE_STATE_SELECTION,
+        # search="_search_registrar_probe_state",
+        search=lambda self, *args: self._search_probe_state("registrar", *args),
     )
 
     registrar_probe_last_state = fields.Selection(
