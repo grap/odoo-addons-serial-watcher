@@ -17,6 +17,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+msgid "<span class=\"o_stat_text\">Results</span>"
+msgstr "<span class=\"o_stat_text\">Résultats</span>"
+
+#. module: oversight
 #: model:mail.template,body_html:oversight.email_template_summary
 msgid ""
 "<tbody>\n"
@@ -200,6 +205,7 @@ msgstr "Un serveur avec la même IP existe déjà."
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_needaction
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_needaction
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_needaction
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_needaction
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_needaction
 msgid "Action Needed"
 msgstr "Nécessite une action"
@@ -212,11 +218,17 @@ msgid "Active"
 msgstr "Actif"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+msgid "Active Probe"
+msgstr "Sonde Active"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__activity_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__activity_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_ids
 msgid "Activities"
 msgstr "Activités"
@@ -227,6 +239,7 @@ msgstr "Activités"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_exception_decoration
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_exception_decoration
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_exception_decoration
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_exception_decoration
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr "Activité exception décoration"
@@ -237,6 +250,7 @@ msgstr "Activité exception décoration"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_state
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_state
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_state
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_state
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_state
 msgid "Activity State"
 msgstr "Statut de l'activité"
@@ -247,6 +261,7 @@ msgstr "Statut de l'activité"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_type_icon
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_type_icon
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_type_icon
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_type_icon
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_type_icon
 msgid "Activity Type Icon"
 msgstr "Icône de type d'activité"
@@ -267,6 +282,7 @@ msgstr "Archivé·e"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_attachment_count
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_attachment_count
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_attachment_count
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_attachment_count
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_attachment_count
 msgid "Attachment Count"
 msgstr "Nombre de pièces jointes"
@@ -329,6 +345,17 @@ msgid "Certificate Warning Threshold"
 msgstr "Seuil pour l'avertissement du certificat"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_list_ping
+msgid "Check Ping"
+msgstr "Vérifier le ping"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__color
+msgid "Color"
+msgstr "Couleur"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__company_id
 msgid "Company"
 msgstr "Société"
@@ -345,18 +372,27 @@ msgid "ConnectionRefusedError: Certificate Not found on '%(url)s'."
 msgstr "ConnectionRefusedError: Certificat non trouvé pour l'URL '%(url)s'."
 
 #. module: oversight
+#: model:ir.model,name:oversight.model_res_partner
+msgid "Contact"
+msgstr "Contact"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__create_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__create_uid
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__create_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__create_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__create_uid
+#: model:ir.model.fields,field_description:oversight.field_probe_result__create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__create_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__create_date
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__create_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__create_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__create_date
+#: model:ir.model.fields,field_description:oversight.field_probe_result__create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -373,8 +409,10 @@ msgstr "Datacenter"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__display_name
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__display_name
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__display_name
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__display_name
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__display_name
+#: model:ir.model.fields,field_description:oversight.field_probe_result__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -396,6 +434,16 @@ msgid "Email Management"
 msgstr "Gestion des courriels"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__error_message
+msgid "Error Message"
+msgstr "Message d'erreur"
+
+#. module: oversight
+#: model:ir.actions.server,name:oversight.action_oversight_server_button_probe_ping_check
+msgid "Execute Ping"
+msgstr "Executer Ping"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Expiration Date"
@@ -407,6 +455,7 @@ msgstr "Date d'expiration"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_follower_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_follower_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_follower_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_follower_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_follower_ids
 msgid "Followers"
 msgstr "Abonnés"
@@ -417,6 +466,7 @@ msgstr "Abonnés"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_partner_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_partner_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_partner_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_partner_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_partner_ids
 msgid "Followers (Partners)"
 msgstr "Abonnés (Partenaires)"
@@ -427,6 +477,7 @@ msgstr "Abonnés (Partenaires)"
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__activity_type_icon
 #: model:ir.model.fields,help:oversight.field_oversight_url__activity_type_icon
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__activity_type_icon
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__activity_type_icon
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icône Font Awesome par ex. fa-tasks"
@@ -444,6 +495,7 @@ msgstr "Information Générale"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__has_message
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__has_message
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__has_message
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__has_message
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__has_message
 msgid "Has Message"
 msgstr "A un message"
@@ -451,8 +503,10 @@ msgstr "A un message"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__id
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__id
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__id
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__id
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__id
+#: model:ir.model.fields,field_description:oversight.field_probe_result__id
 msgid "ID"
 msgstr "ID"
 
@@ -462,6 +516,7 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_exception_icon
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_exception_icon
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_exception_icon
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_exception_icon
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_exception_icon
 msgid "Icon"
 msgstr "Icône"
@@ -472,6 +527,7 @@ msgstr "Icône"
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__activity_exception_icon
 #: model:ir.model.fields,help:oversight.field_oversight_url__activity_exception_icon
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__activity_exception_icon
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__activity_exception_icon
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Icône pour indiquer une activité d'exception."
@@ -482,6 +538,7 @@ msgstr "Icône pour indiquer une activité d'exception."
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__message_needaction
 #: model:ir.model.fields,help:oversight.field_oversight_url__message_needaction
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__message_needaction
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__message_needaction
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr "Si coché, de nouveaux messages demandent votre attention."
@@ -492,6 +549,7 @@ msgstr "Si coché, de nouveaux messages demandent votre attention."
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__message_has_error
 #: model:ir.model.fields,help:oversight.field_oversight_url__message_has_error
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__message_has_error
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__message_has_error
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__message_has_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Si coché, certains messages ont une erreur de livraison."
@@ -517,6 +575,7 @@ msgstr "IP"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_is_follower
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_is_follower
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_is_follower
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_is_follower
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_is_follower
 msgid "Is Follower"
 msgstr "Est un abonné"
@@ -528,13 +587,25 @@ msgid "Is Ours"
 msgstr "Est à nous"
 
 #. module: oversight
+#: model:ir.model.fields.selection,name:oversight.selection__oversight_server__ping_state__02_ko
+#: model:ir.model.fields.selection,name:oversight.selection__probe_result__state__02_ko
+msgid "KO"
+msgstr "KO"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Last Error Message"
 msgstr "Dernier message d'erreur"
 
 #. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+msgid "Last Error message"
+msgstr "Dernier message d'erreur"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Last State"
 msgstr "Dernièr état"
@@ -542,16 +613,20 @@ msgstr "Dernièr état"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__write_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__write_uid
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__write_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__write_uid
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__write_uid
+#: model:ir.model.fields,field_description:oversight.field_probe_result__write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__write_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__write_date
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__write_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__write_date
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__write_date
+#: model:ir.model.fields,field_description:oversight.field_probe_result__write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -571,6 +646,7 @@ msgstr "Responsable"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_has_error
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_has_error
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_has_error
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_has_error
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_has_error
 msgid "Message Delivery error"
 msgstr "Erreur d'envoi du message"
@@ -601,6 +677,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_ids
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_ids
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_ids
 msgid "Messages"
 msgstr "Messages"
@@ -616,6 +693,7 @@ msgstr "Coût mensuel"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__my_activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__my_activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__my_activity_date_deadline
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__my_activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr "Échéance de mon activité"
@@ -623,6 +701,7 @@ msgstr "Échéance de mon activité"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__name
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__name
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__name
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__name
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 msgid "Name"
@@ -634,6 +713,7 @@ msgstr "Nom"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_date_deadline
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_date_deadline
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Date limite de l'activité à venir"
@@ -644,6 +724,7 @@ msgstr "Date limite de l'activité à venir"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_summary
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_summary
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_summary
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_summary
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_summary
 msgid "Next Activity Summary"
 msgstr "Résumé de l'activité suivante"
@@ -654,15 +735,21 @@ msgstr "Résumé de l'activité suivante"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_type_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_type_id
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_type_id
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_type_id
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_type_id
 msgid "Next Activity Type"
 msgstr "Type d'activités à venir"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_search
-#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_search
 msgid "Not Updated"
 msgstr "Non mise à jour"
+
+#. module: oversight
+#. odoo-python
+#: code:addons/oversight/models/probe_mixin.py:0
+msgid "Not implemented operator '%(operator)s'"
+msgstr "Opérateur non implémenté '%(operator)s'"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__message_needaction_counter
@@ -670,6 +757,7 @@ msgstr "Non mise à jour"
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_needaction_counter
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_needaction_counter
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_needaction_counter
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_needaction_counter
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Nombre d'actions"
@@ -698,6 +786,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__message_has_error_counter
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__message_has_error_counter
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__message_has_error_counter
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__message_has_error_counter
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__message_has_error_counter
 msgid "Number of errors"
 msgstr "Nombre d'erreurs"
@@ -708,6 +797,7 @@ msgstr "Nombre d'erreurs"
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__message_needaction_counter
 #: model:ir.model.fields,help:oversight.field_oversight_url__message_needaction_counter
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__message_needaction_counter
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__message_needaction_counter
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr "Nombre de messages nécessitant une action"
@@ -718,9 +808,21 @@ msgstr "Nombre de messages nécessitant une action"
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__message_has_error_counter
 #: model:ir.model.fields,help:oversight.field_oversight_url__message_has_error_counter
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__message_has_error_counter
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__message_has_error_counter
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr "Nombre de messages avec des erreurs d'envoi"
+
+#. module: oversight
+#: model:ir.model.fields.selection,name:oversight.selection__oversight_server__ping_state__03_ok
+#: model:ir.model.fields.selection,name:oversight.selection__probe_result__state__03_ok
+msgid "OK"
+msgstr "OK"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_search
+msgid "Ours With Ping problem"
+msgstr "Nos Serveurs avec des problèmes de ping"
 
 #. module: oversight
 #: model:ir.module.category,name:oversight.category_oversight
@@ -742,6 +844,11 @@ msgstr ""
 "d'enregistrement"
 
 #. module: oversight
+#: model:ir.actions.server,name:oversight.cron_oversight_server_ping_ir_actions_server
+msgid "Oversight Servers: Ping"
+msgstr "Supervision des serveurs: Ping"
+
+#. module: oversight
 #: model:ir.actions.server,name:oversight.cron_oversight_url_update_cert_info_ir_actions_server
 msgid "Oversight URLs: Update Certification Information"
 msgstr "Supervision: URL: Mettre à jour les informations des certificats"
@@ -758,9 +865,50 @@ msgid "Overview"
 msgstr "Aperçu"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__partner_id
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: oversight
+#: model:ir.model.fields.selection,name:oversight.selection__probe_result__probe_name__ping
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_form
+msgid "Ping"
+msgstr "Ping"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__ping_active
+msgid "Ping Active"
+msgstr "Ping Actif"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__ping_error_message
+msgid "Ping Error Message"
+msgstr "Message d'erreur Ping"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__ping_state
+msgid "Ping State"
+msgstr "Etat du ping"
+
+#. module: oversight
+#: model:ir.model,name:oversight.model_probe_check_mixin
+msgid "Probe Check Mixin"
+msgstr "Probe Check Mixin"
+
+#. module: oversight
+#: model:ir.model,name:oversight.model_probe_mixin_ping
+msgid "Probe Check Mixin Ping"
+msgstr "Probe Check Mixin Ping"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__probe_datetime
+msgid "Probe Datetime"
+msgstr "Date et heure de la vérification"
+
+#. module: oversight
 #: model:ir.model,name:oversight.model_probe_mixin
 msgid "Probe Mixin"
-msgstr "Mixin de sonde"
+msgstr "Probe Mixin"
 
 #. module: oversight
 #: model:ir.model,name:oversight.model_probe_mixin_certificate
@@ -773,14 +921,20 @@ msgid "Probe Mixin Registrar"
 msgstr "Mixin de sonde de bureau d'enregistrement"
 
 #. module: oversight
-#: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_server__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_oversight_url__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__rating_ids
-#: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__rating_ids
-msgid "Ratings"
-msgstr "Évaluations"
+#: model:ir.model.fields,field_description:oversight.field_probe_result__probe_name
+msgid "Probe Name"
+msgstr "Nom de la sonde"
+
+#. module: oversight
+#: model:ir.model,name:oversight.model_probe_result
+msgid "Probe Result"
+msgstr "Mixin de sonde de bureau d'enregistrement"
+
+#. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_probe_result
+#: model:ir.ui.menu,name:oversight.menu_probe_result
+msgid "Probe Results"
+msgstr "Resultats des sondes"
 
 #. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_res_config_settings_form
@@ -856,19 +1010,52 @@ msgid "Registrar Warning Threshold"
 msgstr "Seuil pour l'avertissement du bureau d'enregistrement"
 
 #. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_domain_name_registrar_expiration
+#: model:ir.ui.menu,name:oversight.menu_oversight_domain_name_registrar_expiration
+msgid "Registration Expirations"
+msgstr "Expirations d'enregistrement DNS"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__res_id
+msgid "Resource ID"
+msgstr "ID de la ressource"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__res_model
+msgid "Resource Model"
+msgstr "Modèle de la ressource"
+
+#. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__res_name
+msgid "Resource Name"
+msgstr "Nom de la ressource"
+
+#. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_ssh_authentication__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_certificate__activity_user_id
+#: model:ir.model.fields,field_description:oversight.field_probe_mixin_ping__activity_user_id
 #: model:ir.model.fields,field_description:oversight.field_probe_mixin_registrar__activity_user_id
 msgid "Responsible User"
 msgstr "Utilisateur responsable"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__ping_qty
+msgid "Result Count"
+msgstr "Nombre de résultat"
+
+#. module: oversight
 #: model:ir.model,name:oversight.model_oversight_ssh_authentication
 msgid "SSH Authentication"
 msgstr "Authentification SSH"
+
+#. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_url_certificate_expiration
+#: model:ir.ui.menu,name:oversight.menu_oversight_url_certificate_expiration
+msgid "SSH Certificate Expirations"
+msgstr "Expirations de certificat SSH"
 
 #. module: oversight
 #. odoo-python
@@ -889,6 +1076,7 @@ msgid "Send Test Email"
 msgstr "Envoyer un courriel de test"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__server_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_url__server_id
 msgid "Server"
 msgstr "Serveur"
@@ -904,13 +1092,28 @@ msgid "Server Model Name"
 msgstr "Modèle du serveur"
 
 #. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_server_ping
+#: model:ir.ui.menu,name:oversight.menu_oversight_server_ping
+msgid "Server Pings"
+msgstr "Pings de serveur"
+
+#. module: oversight
 #: model:ir.actions.act_window,name:oversight.action_oversight_server
 #: model:ir.ui.menu,name:oversight.menu_oversight_server
 msgid "Servers"
 msgstr "Serveurs"
 
 #. module: oversight
+#: model:ir.model,name:oversight.model_oversight_service
+#: model:ir.model.fields,field_description:oversight.field_oversight_server__service_ids
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__service_id
+msgid "Service"
+msgstr "Service"
+
+#. module: oversight
+#: model:ir.actions.act_window,name:oversight.action_oversight_service
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__services
+#: model:ir.ui.menu,name:oversight.menu_oversight_service
 msgid "Services"
 msgstr "Services"
 
@@ -927,11 +1130,17 @@ msgid "Ssh Authentication"
 msgstr "Authentication SSH"
 
 #. module: oversight
+#: model:ir.model.fields,field_description:oversight.field_probe_result__state
+msgid "State"
+msgstr "Etat"
+
+#. module: oversight
 #: model:ir.model.fields,help:oversight.field_oversight_domain_name__activity_state
 #: model:ir.model.fields,help:oversight.field_oversight_server__activity_state
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__activity_state
 #: model:ir.model.fields,help:oversight.field_oversight_url__activity_state
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__activity_state
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__activity_state
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__activity_state
 msgid ""
 "Status based on activities\n"
@@ -990,6 +1199,7 @@ msgstr "Total"
 #: model:ir.model.fields,help:oversight.field_oversight_ssh_authentication__activity_exception_decoration
 #: model:ir.model.fields,help:oversight.field_oversight_url__activity_exception_decoration
 #: model:ir.model.fields,help:oversight.field_probe_mixin_certificate__activity_exception_decoration
+#: model:ir.model.fields,help:oversight.field_probe_mixin_ping__activity_exception_decoration
 #: model:ir.model.fields,help:oversight.field_probe_mixin_registrar__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Type d'activité d'exception enregistrée."
@@ -1024,6 +1234,12 @@ msgstr ""
 "domaine '%(domain_name)s'."
 
 #. module: oversight
+#: model:ir.model.fields.selection,name:oversight.selection__oversight_server__ping_state__01_unknown
+#: model:ir.model.fields.selection,name:oversight.selection__probe_result__state__01_unknown
+msgid "Unknown"
+msgstr "Inconnu"
+
+#. module: oversight
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Update Certificate information"
 msgstr "Mettre à jour les informations du certificat"
@@ -1042,6 +1258,9 @@ msgstr "Mettre à jour les informations du bureau d'enregistrement"
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__url_ids
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__url_ids
+#: model:ir.model.fields,field_description:oversight.field_oversight_service__url_ids
+#: model:ir.model.fields,field_description:oversight.field_res_partner__url_ids
+#: model:ir.model.fields,field_description:oversight.field_res_users__url_ids
 msgid "Url"
 msgstr "URL"
 
@@ -1062,6 +1281,21 @@ msgstr "Utilisateur"
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
 msgid "Warning Threshold"
 msgstr "Seuil pour l'avertissement"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_search
+msgid "With Certificate Problems"
+msgstr "Avec des problèmes de certificat"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_server_search
+msgid "With Ping problem"
+msgstr "Avec des problèmes de ping"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_search
+msgid "With Registrar Problems"
+msgstr "Avec des problèmes de bureau d'enregistrement"
 
 #. module: oversight
 #: model:ir.model,name:oversight.model_oversight_server

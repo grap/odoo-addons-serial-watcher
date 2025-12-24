@@ -12,6 +12,7 @@ class OversightDomainName(models.Model):
     _name = "oversight.domain.name"
     _inherit = ["probe.mixin.registrar"]
     _description = "Domain Name"
+    _order = "name"
 
     name = fields.Char(required=True)
 

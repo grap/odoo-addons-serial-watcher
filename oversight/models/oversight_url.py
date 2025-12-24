@@ -13,6 +13,7 @@ class OversightUrl(models.Model):
     _name = "oversight.url"
     _inherit = ["probe.mixin.certificate"]
     _description = "URL"
+    _order = "name"
 
     name = fields.Char(required=True)
 
@@ -28,6 +29,16 @@ class OversightUrl(models.Model):
         comodel_name="oversight.server",
         ondelete="restrict",
         readonly=True,
+    )
+
+    service_id = fields.Many2one(
+        comodel_name="oversight.service",
+        ondelete="restrict",
+        required=True,
+    )
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        ondelete="restrict",
     )
 
     _sql_constraints = [
@@ -93,7 +104,7 @@ class OversightUrl(models.Model):
                     [("ip", "=", ip)], limit=1
                 )
                 if not server:
-                    server = OversightServer.create({"ip": ip})
+                    server = OversightServer.create({"ip": ip, "ping_active": False})
                 url.server_id = server
             except socket.gaierror:
                 message = _(

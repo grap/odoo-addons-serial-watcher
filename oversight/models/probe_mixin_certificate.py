@@ -28,6 +28,7 @@ class ProbeMixinCertificate(models.AbstractModel):
     certificate_probe_state = fields.Selection(
         compute="_compute_certificate_probe_state",
         selection=lambda x: x._PROBE_STATE_SELECTION,
+        search=lambda self, *args: self._search_probe_state("certificate", *args),
     )
 
     certificate_probe_last_state = fields.Selection(
