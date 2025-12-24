@@ -8,9 +8,12 @@ class TestMixinCertificate(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.service_website = cls.env.ref("oversight.oversight_service_website")
 
     def test_certificate_correct_domain(self):
-        url = self.env["oversight.url"].create({"name": "www.les-scop.coop"})
+        url = self.env["oversight.url"].create(
+            {"name": "www.les-scop.coop", "service_id": self.service_website.id}
+        )
         self.assertFalse(url.certificate_ssl_tls_version)
         self.assertEqual(url.certificate_day_before_expiration, 0)
         self.assertEqual(url.certificate_probe_last_state, "01_probe_undefined")
@@ -29,7 +32,9 @@ class TestMixinCertificate(TransactionCase):
         self.assertEqual(url.certificate_probe_state, "warning")
 
     def test_registrar_incorrect_domain(self):
-        url = self.env["oversight.url"].create({"name": "www.total-basf.coop"})
+        url = self.env["oversight.url"].create(
+            {"name": "www.total-basf.coop", "service_id": self.service_website.id}
+        )
 
         self.assertFalse(url.certificate_ssl_tls_version)
 
