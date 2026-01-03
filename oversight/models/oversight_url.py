@@ -17,8 +17,6 @@ class OversightUrl(models.Model):
 
     name = fields.Char(required=True)
 
-    active = fields.Boolean(default=True, tracking=True)
-
     domain_name_id = fields.Many2one(
         comodel_name="oversight.domain.name",
         ondelete="restrict",
@@ -122,3 +120,24 @@ class OversightUrl(models.Model):
 
     def button_update_certificate_information(self):
         self._probe_certificate_get_information()
+
+    @api.model
+    def cron_probe_http_response_check(self):
+        self.search(
+            [("http_response_active", "=", True)]
+        ).button_probe_http_response_check()
+
+    def button_probe_http_response_check(self):
+        self._probe_http_response_check()
+
+    def action_view_probe_result_http_response(self):
+        self.ensure_one()
+        action = self.env["ir.actions.actions"]._for_xml_id(
+            "oversight.action_probe_result"
+        )
+        action["domain"] = [
+            ("res_name", "=", "oversight.server"),
+            ("probe_name", "=", "http_response"),
+            ("res_id", "in", self.ids),
+        ]
+        return action

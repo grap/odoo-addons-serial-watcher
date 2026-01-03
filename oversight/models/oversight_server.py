@@ -105,6 +105,7 @@ class OversightServer(models.Model):
         )
         action["domain"] = [
             ("res_name", "=", "oversight.server"),
+            ("probe_name", "=", "ping"),
             ("res_id", "in", self.ids),
         ]
         return action

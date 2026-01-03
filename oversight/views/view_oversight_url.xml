@@ -14,7 +14,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="service_id"/>
                 <field name="partner_id"/>
                 <filter string="With Certificate Problems" name="filter_with_certificate_problems" domain="[('certificate_probe_state','!=', 'success')]"/>
-                <filter string="Archived" name="filter_inactive" domain="[('active', '=', False)]"/>
+                <filter string="With HTTP Responses problems" name="filter_with_http_response_problems" domain="[('http_response_state','!=', '03_ok')]"/>
+
            </search>
         </field>
     </record>
@@ -89,9 +90,9 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <form>
                 <header>
                     <button string="Update Certificate information" name="button_update_certificate_information" type="object" />
+                    <button string="Check HTTP Response" name="button_probe_http_response_check" type="object" />
                 </header>
                 <sheet>
-                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <group>
                         <group string="General Information">
                             <field name="name" widget="url" readonly="id != False"/>
@@ -100,17 +101,25 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                             <field name="service_id"/>
                             <field name="partner_id"/>
                         </group>
-                        <group string="Certificate SSL">
-                            <field name="certificate_ssl_tls_version"/>
-                            <field name="certificate_expire_datetime" string="Expiration Date"/>
-                            <field name="certificate_warning_threshold" string="Warning Threshold"/>
-                        </group>
                     </group>
                     <notebook>
-                        <page name="page_probe_certificate" string="Certificate Probe Check">
-                            <group>
+                        <page name="page_probe" string="Probes Check">
+                            <group string="Certificate SSL">
+                                <field name="certificate_ssl_tls_version"/>
+                                <field name="certificate_expire_datetime" string="Expiration Date"/>
+                                <field name="certificate_warning_threshold" string="Warning Threshold"/>
                                 <field name="certificate_probe_last_state" string="Last State" />
                                 <field name="certificate_probe_last_error_message" string="Last Error Message"/>
+                            </group>
+                            <group string="HTTP Responses">
+                                <field name="http_response_active" widget="boolean_toggle" string="Active Probe"/>
+                                <field name="http_response_state" string="Last State"
+                                    widget="badge"
+                                    decoration-info="http_response_state == '01_unknown'"
+                                    decoration-danger="http_response_state == '02_ko'"
+                                    decoration-success="http_response_state == '03_ok'"/>
+                                <field name="http_response_error_message" string="Last Error message"
+                                    invisible="http_response_state == 'ok'"/>
                             </group>
                         </page>
                     </notebook>

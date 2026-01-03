@@ -3,11 +3,11 @@
 import logging
 import subprocess
 
-from odoo import models
-
-_logger = logging.getLogger(__name__)
+from odoo import fields, models
 
 from .probe_result import _PROBE_CHECK_STATE_SELECTION
+
+_logger = logging.getLogger(__name__)
 
 
 class ProbeCheckMixinPing(models.AbstractModel):

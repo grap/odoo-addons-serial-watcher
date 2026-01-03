@@ -1,12 +1,14 @@
 # Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import logging
-import subprocess
+
+import requests
 
 from odoo import fields, models
 
-_logger = logging.getLogger(__name__)
 from .probe_result import _PROBE_CHECK_STATE_SELECTION
+
+_logger = logging.getLogger(__name__)
 
 
 class ProbeCheckMixinHttpResponse(models.AbstractModel):
@@ -16,7 +18,9 @@ class ProbeCheckMixinHttpResponse(models.AbstractModel):
 
     http_response_active = fields.Boolean(default=True, tracking=True)
 
-    http_response_qty = fields.Integer("Result Count", compute="_compute_http_response_qty")
+    http_response_qty = fields.Integer(
+        "Result Count", compute="_compute_http_response_qty"
+    )
 
     http_response_state = fields.Selection(
         selection=_PROBE_CHECK_STATE_SELECTION,
@@ -31,25 +35,34 @@ class ProbeCheckMixinHttpResponse(models.AbstractModel):
         for index, http_response in enumerate(self, start=1):
             if not http_response._probe_check_active("http_response"):
                 _logger.info(
-                    f"{index}/{len(self)}" f" - SKIP HTTP Call for the url {http_response.name} ..."
+                    f"{index}/{len(self)}"
+                    f" - SKIP HTTP Call for the url {http_response.name} ..."
                 )
                 continue
 
             _logger.info(
-                f"{index}/{len(self)}" f" - Make HTTP Call and wait response for the url {http_response.name} ..."
+                f"{index}/{len(self)}"
+                f" - Make HTTP Call and wait response for the url {http_response.name} ..."
             )
-            # https://stackoverflow.com/a/32684938
-            command = ["http_response", "-c", "1", http_response.ip]
-            try:
-                result = subprocess.call(command, timeout=1)
+            # try:
+            if True:
+                result = requests.get(f"https://{http_response.name}", timeout=1)
 
-                if result == 0:
-                    url._handle_probe_ok("http_response")
+                if result.status_code == 200:
+                    http_response._handle_probe_ok("http_response")
                     continue
-                error_message = "Unreachable Server."
-            except subprocess.TimeoutExpired:
-                error_message = "Timeout Expired."
-            except Exception:
-                error_message = "Unknown error."
+                error_message = f"Bad Status Code: {result.status_code}"
+            # except requests.exceptions.ConnectionError as exception:
+            #     import pdb
 
-            url._handle_probe_error("http_response", error_message=error_message)
+            #     pdb.set_trace()
+            #     error_message = "Timeout Expired."
+            # except Exception as exception:
+            #     import pdb
+
+            #     pdb.set_trace()
+            #     error_message = "Unknown error."
+
+            # http_response._handle_probe_error(
+            #     "http_response", error_message=error_message
+            # )
