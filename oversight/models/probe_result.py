@@ -29,7 +29,14 @@ class ProbeResult(models.Model):
         required=True,
     )
 
-    probe_name = fields.Selection([("ping", "Ping")], readonly=True, required=True)
+    probe_name = fields.Selection(
+        [
+            ("ping", "Ping"),
+            ("http_response", "HTTP Response"),
+        ],
+        readonly=True,
+        required=True,
+    )
 
     state = fields.Selection(
         selection=_PROBE_CHECK_STATE_SELECTION,

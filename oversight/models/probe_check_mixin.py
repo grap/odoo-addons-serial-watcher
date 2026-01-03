@@ -11,8 +11,11 @@ class ProbeCheckMixin(models.AbstractModel):
     _name = "probe.check.mixin"
     _description = "Probe Check Mixin"
 
-    def _probe_check_active(self):
-        # TODO: implement here, time check
+    def _probe_check_active(self, probe_name):
+        self.ensure_one()
+        active_field = f"{probe_name}_active"
+        if active_field in self._fields:
+            return getattr(self, active_field)
         return True
 
     def _compute_result_qty(self, probe_name):

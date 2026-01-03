@@ -22,6 +22,10 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 action="action_oversight_url_certificate_expiration"
                 sequence="20"/>
 
+            <menuitem id="menu_oversight_url_http_response"
+                action="action_oversight_url_http_response"
+                sequence="21"/>
+
             <menuitem id="menu_oversight_server_ping"
                 action="action_oversight_server_ping"
                 sequence="30"/>

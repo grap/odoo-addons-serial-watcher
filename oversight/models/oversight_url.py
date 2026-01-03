@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 
 class OversightUrl(models.Model):
     _name = "oversight.url"
-    _inherit = ["probe.mixin.certificate"]
+    _inherit = ["probe.mixin.certificate", "probe.mixin.http.response"]
     _description = "URL"
     _order = "name"
 
