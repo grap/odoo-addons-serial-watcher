@@ -4,8 +4,6 @@
 
 from odoo import api, fields, models
 
-from .probe_result import _PROBE_CHECK_STATE_SELECTION
-
 
 class OversightServer(models.Model):
     _name = "oversight.server"
@@ -68,19 +66,6 @@ class OversightServer(models.Model):
         ),
     ]
 
-    ping_active = fields.Boolean(default=True, tracking=True)
-
-    ping_qty = fields.Integer("Result Count", compute="_compute_ping_qty")
-
-    ping_state = fields.Selection(
-        selection=_PROBE_CHECK_STATE_SELECTION,
-        readonly=True,
-        default="01_unknown",
-        tracking=True,
-    )
-
-    ping_error_message = fields.Char(readonly=True, tracking=True)
-
     @api.depends("ip", "technical_name")
     def _compute_name(self):
         for server in self:
@@ -120,6 +105,7 @@ class OversightServer(models.Model):
         )
         action["domain"] = [
             ("res_name", "=", "oversight.server"),
+            ("probe_name", "=", "ping"),
             ("res_id", "in", self.ids),
         ]
         return action

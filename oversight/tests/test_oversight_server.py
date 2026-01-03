@@ -8,10 +8,13 @@ class TestOverSightServer(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.service_website = cls.env.ref("oversight.oversight_service_website")
 
     def test_server_name(self):
         # Check that the url is well cleaned
-        new_url = self.env["oversight.url"].create({"name": "www.les-scop.coop"})
+        new_url = self.env["oversight.url"].create(
+            {"name": "www.les-scop.coop", "service_id": self.service_website.id}
+        )
 
         # Verify that a server has been created
         server = new_url.server_id

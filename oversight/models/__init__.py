@@ -3,6 +3,7 @@ from . import probe_mixin_certificate
 from . import probe_mixin_registrar
 from . import probe_check_mixin
 from . import probe_check_mixin_ping
+from . import probe_check_mixin_http_response
 
 from . import oversight_domain_name
 from . import oversight_url

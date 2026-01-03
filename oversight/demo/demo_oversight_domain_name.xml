@@ -5,8 +5,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 -->
 <odoo>
 
-    <record id="oversight_domain_name_grap_coop" model="oversight.domain.name">
-        <field name="name">grap.coop</field>
+    <record id="oversight_domain_name_framasoft_org" model="oversight.domain.name">
+        <field name="name">framasoft.org</field>
     </record>
 
 </odoo>

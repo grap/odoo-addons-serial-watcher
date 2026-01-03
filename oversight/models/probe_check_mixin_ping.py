@@ -3,7 +3,9 @@
 import logging
 import subprocess
 
-from odoo import models
+from odoo import fields, models
+
+from .probe_result import _PROBE_CHECK_STATE_SELECTION
 
 _logger = logging.getLogger(__name__)
 
@@ -13,10 +15,28 @@ class ProbeCheckMixinPing(models.AbstractModel):
     _inherit = ["mail.thread", "mail.activity.mixin", "probe.check.mixin"]
     _description = "Probe Check Mixin Ping"
 
+    ping_active = fields.Boolean(default=True, tracking=True)
+
+    ping_qty = fields.Integer("Result Count", compute="_compute_ping_qty")
+
+    ping_state = fields.Selection(
+        selection=_PROBE_CHECK_STATE_SELECTION,
+        readonly=True,
+        default="01_unknown",
+        tracking=True,
+    )
+
+    ping_error_message = fields.Char(readonly=True, tracking=True)
+
     def _probe_ping_check(self):
-        if not self._probe_check_active():
-            return
         for index, ping in enumerate(self, start=1):
+            if not ping._probe_check_active("ping"):
+                _logger.info(
+                    f"{index}/{len(self)}"
+                    f" - SKIP ping Check for the server {ping.name} ({ping.ip})."
+                )
+                continue
+
             _logger.info(
                 f"{index}/{len(self)}" f" - Pinging server {ping.name} ({ping.ip}) ..."
             )
