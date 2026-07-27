@@ -35,9 +35,10 @@
         "demo/demo_oversight_domain_name.xml",
         "demo/demo_oversight_url.xml",
     ],
-    "external_dependencies": {
-        "bin": ["whois"],
-        # special definition used by OCA to install packages
-        "deb": ["whois"],
-    },
+    "external_dependencies": {"python": ["python-whois"]},
+    # "external_dependencies": {
+    #     "bin": ["whois"],
+    #     # special definition used by OCA to install packages
+    #     "deb": ["whois"],
+    # },
 }

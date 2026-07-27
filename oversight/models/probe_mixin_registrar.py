@@ -1,31 +1,14 @@
 # Copyright (C) 2025 - Today: GRAP (http://www.grap.coop)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
+import datetime
 import logging
-import re
-import subprocess
 
-from dateutil.parser import parse
+import whois
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
-
-_REGISTRAR_REGEX = {
-    "registrar_name": [
-        r"Registrar:\s?(.*)",
-        r"registrar:\s?(.*)",
-    ],
-    "registrar_creation_datetime": [
-        r"Creation Date:\s?(.*)",
-        r"created:\s?(.*)",
-    ],
-    "registrar_expire_datetime": [
-        r"Expiry Date:\s?(.*)",
-        r"Expiration Date:\s?(.*)",
-        r"Registry Expiry Date:\s?(.*)",
-    ],
-}
 
 
 class ProbeMixinRegistrar(models.AbstractModel):
@@ -98,33 +81,50 @@ class ProbeMixinRegistrar(models.AbstractModel):
                 f" - Updating Registrar Information of {registrar.name} ..."
             )
             vals = {}
+
             try:
-                raw_result = subprocess.check_output(
-                    ["whois", registrar.name], stderr=subprocess.STDOUT, timeout=60
-                ).decode(errors="ignore")
-            except subprocess.CalledProcessError as err:
-                registrar._handle_probe_error(err.stdout.decode(), "registrar")
-                continue
+                result = whois.whois(registrar.name)
 
-            for field_name, regex_values in _REGISTRAR_REGEX.items():
-                for regex_value in regex_values:
-                    result = re.findall(regex_value, raw_result)
-                    if not result:
-                        continue
-                    if field_name.endswith("_datetime"):
-                        vals[field_name] = parse(min(result)).replace(tzinfo=None)
-                    else:
-                        vals[field_name] = min(result).strip()
+                if not any(result.values()):
+                    # In weird cases, no error is raised, if domain doesn't exist
+                    #  and the result is just a dict with all null keys
+                    # exemple : 'total-basf.coop'
+                    # We consider error anyway.
+                    registrar._handle_probe_error(
+                        "Empty dictionnary return by whois", "registrar"
+                    )
+                    continue
 
-            # Verify that parsing worked
-            if len(vals) != len(_REGISTRAR_REGEX):
-                message = _(
-                    "Unable to recover registrar Information"
-                    " for the Domain Name '%(domain_name)s'. Values found: %(values)s",
-                    domain_name=registrar.name,
-                    values=vals,
+                creation_date = expiration_date = False
+                if type(result.creation_date) is datetime.datetime:
+                    creation_date = result.creation_date
+                elif type(result.creation_date) is list:
+                    creation_date = max(result.creation_date)
+
+                if type(result.expiration_date) is datetime.datetime:
+                    expiration_date = result.expiration_date
+                elif type(result.expiration_date) is list:
+                    expiration_date = max(result.expiration_date)
+
+                vals.update(
+                    {
+                        "registrar_name": result.registrar,
+                        "registrar_creation_datetime": creation_date
+                        and creation_date.replace(tzinfo=datetime.timezone.utc).replace(
+                            tzinfo=None
+                        ),
+                        "registrar_expire_datetime": expiration_date
+                        and expiration_date.replace(
+                            tzinfo=datetime.timezone.utc
+                        ).replace(tzinfo=None),
+                    }
                 )
-                registrar._handle_probe_error(message, "registrar", data=raw_result)
+
+            except (
+                whois.exceptions.WhoisError,
+                whois.exceptions.WhoisDomainNotFoundError,
+            ) as err:
+                registrar._handle_probe_error(err, "registrar")
                 continue
 
             registrar._handle_probe_ok(vals, "registrar")
