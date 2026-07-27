@@ -8,11 +8,12 @@ class TestOverSightUrl(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.demo_service = cls.env.ref("oversight.oversight_service_website")
 
     def test_correct_url(self):
         # Check that the url is well cleaned
         new_url = self.env["oversight.url"].create(
-            {"name": "https://www.les-scop.coop/"}
+            {"name": "https://www.les-scop.coop/", "service_id": self.demo_service.id}
         )
         self.assertEqual(new_url.name, "www.les-scop.coop")
 
@@ -27,7 +28,9 @@ class TestOverSightUrl(TransactionCase):
 
     def test_incorrect_url(self):
         # Check that the url is well cleaned
-        new_url = self.env["oversight.url"].create({"name": "NOT A VALID URL"})
+        new_url = self.env["oversight.url"].create(
+            {"name": "NOT A VALID URL", "service_id": self.demo_service.id}
+        )
         # Verify that a domain has NOT been created
         self.assertFalse(new_url.domain_name_id)
 
@@ -37,7 +40,10 @@ class TestOverSightUrl(TransactionCase):
     def test_unexisting_url(self):
         # Check that the url is well cleaned
         new_url = self.env["oversight.url"].create(
-            {"name": "https://xxx.not-an-existing-url.bidouille/"}
+            {
+                "name": "https://xxx.not-an-existing-url.bidouille/",
+                "service_id": self.demo_service.id,
+            }
         )
         self.assertEqual(new_url.name, "xxx.not-an-existing-url.bidouille")
 

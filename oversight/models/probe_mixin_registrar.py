@@ -85,6 +85,17 @@ class ProbeMixinRegistrar(models.AbstractModel):
             try:
                 result = whois.whois(registrar.name)
 
+                if not any(result.values()):
+                    # In weird cases, no error is raised, if domain doesn't exist
+                    #  and the result is just a dict with all null keys
+                    # exemple : 'total-basf.coop'
+                    # We consider error anyway.
+                    registrar._handle_probe_error(
+                        "Empty dictionnary return by whois", "registrar"
+                    )
+                    continue
+
+                creation_date = expiration_date = False
                 if type(result.creation_date) is datetime.datetime:
                     creation_date = result.creation_date
                 elif type(result.creation_date) is list:
@@ -109,7 +120,10 @@ class ProbeMixinRegistrar(models.AbstractModel):
                     }
                 )
 
-            except whois.exceptions.WhoisError as err:
+            except (
+                whois.exceptions.WhoisError,
+                whois.exceptions.WhoisDomainNotFoundError,
+            ) as err:
                 registrar._handle_probe_error(err, "registrar")
                 continue
 
