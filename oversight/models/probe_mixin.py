@@ -13,7 +13,8 @@ class ProbeMixin(models.AbstractModel):
     _description = "Probe Mixin"
 
     _PROBE_STATE_SELECTION = [
-        ("probe_undefined", "Undefined"),
+        ("probe_undefined", "Probe undefined"),
+        ("probe_failed", "Probe failed"),
         ("error", "Error"),
         ("warning", "Warning"),
         ("success", "Success"),
@@ -21,7 +22,7 @@ class ProbeMixin(models.AbstractModel):
 
     _PROBE_LAST_STATE_SELECTION = [
         ("01_probe_undefined", "Undefined"),
-        ("02_probe_failed", "Error"),
+        ("02_probe_failed", "Failed"),
         ("03_probe_ok", "OK"),
     ]
 

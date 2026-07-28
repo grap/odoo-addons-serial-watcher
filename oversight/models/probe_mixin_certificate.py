@@ -62,6 +62,8 @@ class ProbeMixinCertificate(models.AbstractModel):
                 )
             if certificate.certificate_probe_last_state == "01_probe_undefined":
                 certificate.certificate_probe_state = "probe_undefined"
+            elif certificate.certificate_probe_last_state == "02_probe_failed":
+                certificate.certificate_probe_state = "probe_failed"
             elif certificate.certificate_day_before_expiration > warning_limit:
                 certificate.certificate_probe_state = "success"
             elif (
