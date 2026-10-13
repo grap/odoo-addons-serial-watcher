@@ -15,7 +15,7 @@ class OversightUrl(models.Model):
     _description = "URL"
     _order = "name"
 
-    name = fields.Char(required=True)
+    name = fields.Char(string="URL", required=True)
 
     active = fields.Boolean(default=True, tracking=True)
 
@@ -122,3 +122,6 @@ class OversightUrl(models.Model):
 
     def button_update_certificate_information(self):
         self._probe_certificate_get_information()
+
+    def button_update_server_id(self):
+        self._compute_server_id()

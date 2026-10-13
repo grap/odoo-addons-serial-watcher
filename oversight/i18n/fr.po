@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-27 10:39+0000\n"
-"PO-Revision-Date: 2026-07-27 10:39+0000\n"
+"POT-Creation-Date: 2026-10-13 07:56+0000\n"
+"PO-Revision-Date: 2026-10-13 07:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -670,7 +670,6 @@ msgstr "Échéance de mon activité"
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__name
 #: model:ir.model.fields,field_description:oversight.field_oversight_server__name
 #: model:ir.model.fields,field_description:oversight.field_oversight_service__name
-#: model:ir.model.fields,field_description:oversight.field_oversight_url__name
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 msgid "Name"
 msgstr "Nom"
@@ -1174,8 +1173,9 @@ msgstr "Type d'activité d'exception enregistrée."
 
 #. module: oversight
 #: model:ir.model,name:oversight.model_oversight_url
+#: model:ir.model.fields,field_description:oversight.field_oversight_url__name
 msgid "URL"
-msgstr "URL"
+msgstr "Nom"
 
 #. module: oversight
 #: model:ir.actions.act_window,name:oversight.action_oversight_url
@@ -1212,6 +1212,11 @@ msgstr "Mettre à jour les informations du certificat"
 #: model_terms:ir.ui.view,arch_db:oversight.view_oversight_domain_name_form
 msgid "Update Registrar Information"
 msgstr "Mettre à jour les informations du bureau d'enregistrement"
+
+#. module: oversight
+#: model_terms:ir.ui.view,arch_db:oversight.view_oversight_url_form
+msgid "Update Server information"
+msgstr "Mettre à jour les informations du serveur"
 
 #. module: oversight
 #: model:ir.model.fields,field_description:oversight.field_oversight_domain_name__url_ids
