@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[oversight](oversight/) | 18.0.2.0.1 |  | Oversight Tools
+[oversight](oversight/) | 18.0.2.1.0 |  | Oversight Tools
 
 [//]: # (end addons)
 
