@@ -3,7 +3,7 @@
 {
     "name": "Oversight Server Specifications",
     "summary": "Oversight Tools",
-    "version": "18.0.0.0.1",
+    "version": "18.0.0.1.0",
     "category": "Tools",
     "author": "GRAP",
     "website": "https://github.com/grap/odoo-addons-serial-watcher",

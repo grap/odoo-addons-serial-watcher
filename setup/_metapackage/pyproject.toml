@@ -1,8 +1,9 @@
 [project]
 name = "odoo-addons-grap-odoo-addons-serial-watcher"
-version = "18.0.20251218.0"
+version = "18.0.20261016.0"
 dependencies = [
     "odoo-addon-oversight==18.0.*",
+    "odoo-addon-oversight_server_specifications==18.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",

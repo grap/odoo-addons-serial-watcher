@@ -21,7 +21,8 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[oversight](oversight/) | 18.0.2.1.0 |  | Oversight Tools
+[oversight](oversight/) | 18.0.2.2.0 |  | Oversight Tools
+[oversight_server_specifications](oversight_server_specifications/) | 18.0.0.1.0 |  | Oversight Tools
 
 [//]: # (end addons)
 
