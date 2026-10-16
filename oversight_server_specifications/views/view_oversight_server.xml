@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Copyright (C) 2026 - Today: GRAP (https://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <!-- FORM -->
+    <record id="view_oversight_server_form_view" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="inherit_id" ref="oversight.view_oversight_server_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="server_spec" string="Server specifications">
+                    <group>
+                        <field name="os"/>
+                        <field name="ram"/>
+                        <field name="hard_drive_capacity"/>
+                        <field name="hard_drive_type"/>
+                        <field name="cpu"/>
+                        <field name="cpu_note"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- LIST -->
+    <record id="view_oversight_server_list_view" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="inherit_id" ref="oversight.view_oversight_server_list" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_ours']" position="after">
+                <field name="os" optional="hide"/>
+                <field name="ram" optional="hide"/>
+                <field name="hard_drive_capacity" optional="hide"/>
+                <field name="hard_drive_type" optional="hide"/>
+                <field name="cpu" optional="hide"/>
+                <field name="cpu_note" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

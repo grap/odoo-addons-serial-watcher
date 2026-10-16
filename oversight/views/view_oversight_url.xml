@@ -74,12 +74,13 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <form>
                 <header>
                     <button string="Update Certificate information" name="button_update_certificate_information" type="object" />
+                    <button string="Update Server information" name="button_update_server_id" type="object" />
                 </header>
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <group>
                         <group string="General Information">
-                            <field name="name" widget="url" readonly="id != False"/>
+                            <field name="name" widget="url"/>
                             <field name="domain_name_id"/>
                             <field name="server_id"/>
                             <field name="service_id"/>
