@@ -43,12 +43,18 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     decoration-success="registrar_probe_state == 'success'"
                     decoration-warning="registrar_probe_state == 'warning'"
                     decoration-danger="registrar_probe_state == 'error'"
-                    />
-                <field name="registrar_probe_last_state" optional="show" widget="badge"
+                />
+                <field name="registrar_probe_state" optional="show" widget="badge"
+                    decoration-muted="registrar_probe_state == 'probe_undefined'"
+                    decoration-danger="registrar_probe_state in ('error', 'probe_failed')"
+                    decoration-warning="registrar_probe_state == 'warning'"
+                    decoration-success="registrar_probe_state == 'success'"
+                />
+                <field name="registrar_probe_last_state" optional="hide" widget="badge"
                     decoration-muted="registrar_probe_last_state == '01_probe_undefined'"
                     decoration-danger="registrar_probe_last_state == '02_probe_failed'"
                     decoration-success="registrar_probe_last_state == '03_probe_ok'"
-                  />
+                />
             </list>
         </field>
     </record>

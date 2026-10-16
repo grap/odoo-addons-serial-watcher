@@ -64,6 +64,8 @@ class ProbeMixinRegistrar(models.AbstractModel):
                 )
             if registrar.registrar_probe_last_state == "01_probe_undefined":
                 registrar.registrar_probe_state = "probe_undefined"
+            elif registrar.registrar_probe_last_state == "02_probe_failed":
+                registrar.registrar_probe_state = "probe_failed"
             elif registrar.registrar_day_before_expiration > warning_limit:
                 registrar.registrar_probe_state = "success"
             elif (
