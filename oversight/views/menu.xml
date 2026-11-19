@@ -28,9 +28,27 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
         </menuitem>
 
+        <menuitem id="menu_oversight_server"
+            name="Servers"
+            sequence="10">
+
+            <menuitem id="menu_oversight_server_services"
+                action="action_oversight_server_services"
+                sequence="10"/>
+
+            <menuitem id="menu_oversight_server_specifications"
+                action="action_oversight_server_specifications"
+                sequence="20"/>
+
+            <menuitem id="menu_oversight_server_softwares"
+                action="action_oversight_server_softwares"
+                sequence="20"/>
+
+        </menuitem>
+
         <menuitem id="menu_oversight_setting"
             name="Settings"
-            sequence="10">
+            sequence="100">
 
             <menuitem
                 id="menu_res_config_settings"
@@ -49,10 +67,6 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <menuitem id="menu_oversight_domain_name"
                 action="action_oversight_domain_name"
                 sequence="210"/>
-
-            <menuitem id="menu_oversight_server"
-                action="action_oversight_server"
-                sequence="220"/>
 
             <menuitem id="menu_probe_result"
                 action="action_probe_result"

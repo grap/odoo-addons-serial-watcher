@@ -18,14 +18,15 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-     <record id="view_oversight_server_list" model="ir.ui.view">
+    <!-- Servers -->
+    <record id="view_oversight_server_services" model="ir.ui.view">
         <field name="model">oversight.server</field>
         <field name="arch" type="xml">
             <list multi_edit="1">
                 <field name="name"/>
                 <field name="ip" optional="hide"/>
                 <field name="technical_name" optional="hide"/>
-                <field name="services" optional="hide"/>
+                <field name="services" optional="show"/>
                 <field name="service_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                 <field name="activity_ids" optional="hide" widget="list_activity"/>
                 <field name="invoice_partner_id" optional="show"/>
@@ -36,6 +37,50 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                 <field name="server_model_name" optional="hide"/>
 
                 <field name="url_qty" optional="show"/>
+                <field name="is_ours" widget="boolean_toggle" optional="hide"/>
+
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_oversight_server_spec" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1">
+                <field name="name"/>
+                <field name="ip" optional="hide"/>
+                <field name="technical_name" optional="hide"/>
+                <field name="services" optional="hide"/>
+                <field name="service_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
+                <field name="data_center" optional="hide"/>
+                <field name="server_identifier" optional="hide"/>
+                <field name="server_model_name" optional="hide"/>
+
+                <field name="url_qty" optional="show"/>
+                <field name="is_ours" widget="boolean_toggle" optional="hide"/>
+
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_oversight_server_softwares" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="arch" type="xml">
+            <list multi_edit="1">
+                <field name="name"/>
+                <field name="ip" optional="hide"/>
+                <field name="technical_name" optional="hide"/>
+                <field name="services" optional="hide"/>
+                <field name="service_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="activity_ids" optional="show" widget="list_activity"/>
+                <field name="data_center" optional="hide"/>
+                <field name="server_identifier" optional="hide"/>
+                <field name="server_model_name" optional="hide"/>
+
+                <field name="url_qty" optional="hide"/>
                 <field name="is_ours" widget="boolean_toggle" optional="hide"/>
 
                 <field name="currency_id" column_invisible="1"/>
@@ -146,11 +191,36 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         <field name="code">records.button_probe_ping_check()</field>
     </record>
 
+    <!-- Servers -->
     <record id="action_oversight_server" model="ir.actions.act_window">
         <field name="name">Servers</field>
         <field name="res_model">oversight.server</field>
         <field name="view_mode">list,form</field>
         <field name="path">oversight-server</field>
+    </record>
+
+    <record id="action_oversight_server_services" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">oversight.server</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_is_ours':1}</field>
+        <field name="view_id" ref="view_oversight_server_services" />
+    </record>
+
+    <record id="action_oversight_server_specifications" model="ir.actions.act_window">
+        <field name="name">Technical specifications</field>
+        <field name="res_model">oversight.server</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_is_ours':1}</field>
+        <field name="view_id" ref="view_oversight_server_spec" />
+    </record>
+
+    <record id="action_oversight_server_softwares" model="ir.actions.act_window">
+        <field name="name">Softwares</field>
+        <field name="res_model">oversight.server</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_is_ours':1}</field>
+        <field name="view_id" ref="view_oversight_server_softwares" />
     </record>
 
     <record id="action_oversight_server_ping" model="ir.actions.act_window">
