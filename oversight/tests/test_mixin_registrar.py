@@ -10,7 +10,7 @@ class TestMixinRegistrar(TransactionCase):
         super().setUpClass()
 
     def test_registrar_correct_domain(self):
-        domain = self.env["oversight.domain.name"].create({"name": "les-scop.coop"})
+        domain = self.env["oversight.domain.name"].create({"name": "grap.coop"})
         self.assertFalse(domain.registrar_name)
         self.assertEqual(domain.registrar_day_before_expiration, 0)
         self.assertEqual(domain.registrar_probe_last_state, "01_probe_undefined")
