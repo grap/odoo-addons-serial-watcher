@@ -5,9 +5,9 @@ from random import randint
 from odoo import api, fields, models
 
 
-class OversightServerBdd(models.Model):
-    _name = "oversight.server.bdd"
-    _description = "Server Bdd"
+class OversightServerSoftware(models.Model):
+    _name = "oversight.server.software"
+    _description = "Server software"
 
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
@@ -19,5 +19,5 @@ class OversightServerBdd(models.Model):
 
     @api.depends("name", "version")
     def _compute_display_name(self):
-        for bdd in self:
-            bdd.display_name = str(bdd.name) + " " + str(bdd.version)
+        for software in self:
+            software.display_name = str(software.name) + " " + str(software.version)

@@ -6,8 +6,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 <odoo>
 
     <!-- FORM -->
-    <record id="view_oversight_server_bdd_form" model="ir.ui.view">
-        <field name="model">oversight.server.bdd</field>
+    <record id="view_oversight_server_software_form" model="ir.ui.view">
+        <field name="model">oversight.server.software</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -23,8 +23,8 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
     </record>
 
     <!-- LIST -->
-    <record id="view_oversight_server_bdd_list" model="ir.ui.view">
-        <field name="model">oversight.server.bdd</field>
+    <record id="view_oversight_server_software_list" model="ir.ui.view">
+        <field name="model">oversight.server.software</field>
         <field name="arch" type="xml">
             <list multi_edit="1">
                 <field name="name"/>

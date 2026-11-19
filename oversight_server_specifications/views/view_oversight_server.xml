@@ -33,7 +33,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
                     <group>
                         <field name="reverse_proxy"/>
                         <field name="has_php"/>
-                        <field name="bdd" options="{'color_field': 'color'}" widget="many2many_tags"/>
+                        <field name="software" options="{'color_field': 'color'}" widget="many2many_tags"/>
                     </group>
                 </page>
             </xpath>
@@ -63,7 +63,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <xpath expr="//field[@name='is_ours']" position="after">
                 <field name="has_php" optional="show"/>
                 <field name="reverse_proxy" optional="show"/>
-                <field name="bdd" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="software" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
             </xpath>
         </field>
     </record>

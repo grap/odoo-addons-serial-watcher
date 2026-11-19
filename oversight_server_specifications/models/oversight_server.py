@@ -24,4 +24,4 @@ class OversightServer(models.Model):
         [("nginx", "Nginx"), ("apache", "Apache")],
         default="nginx",
     )
-    bdd = fields.Many2many(comodel_name="oversight.server.bdd")
+    software = fields.Many2many(comodel_name="oversight.server.software")
