@@ -31,6 +31,7 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
             <xpath expr="//notebook" position="inside">
                 <page name="server_softwares" string="Softwares">
                     <group>
+                        <field name="os"/>
                         <field name="reverse_proxy"/>
                         <field name="has_php"/>
                         <field name="software" options="{'color_field': 'color'}" widget="many2many_tags"/>
