@@ -15,5 +15,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/view_oversight_server.xml",
+        "views/view_oversight_server_software.xml",
+        "views/menu.xml",
     ],
 }

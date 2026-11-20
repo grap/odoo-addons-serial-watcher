@@ -17,3 +17,11 @@ class OversightServer(models.Model):
     os = fields.Many2one(comodel_name="oversight.server.os")
     cpu = fields.Many2one(comodel_name="oversight.server.cpu")
     cpu_note = fields.Integer(related="cpu.note")
+
+    # Softwares
+    has_php = fields.Boolean()
+    reverse_proxy = fields.Selection(
+        [("nginx", "Nginx"), ("apache", "Apache")],
+        default="nginx",
+    )
+    software = fields.Many2many(comodel_name="oversight.server.software")

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Copyright (C) 2026 - Today: GRAP (https://www.grap.coop)
+License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+
+    <record id="action_server_software" model="ir.actions.act_window">
+        <field name="name">Softwares and versions</field>
+        <field name="path">oversight-server-software</field>
+        <field name="res_model">oversight.server.software</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_is_ours':1}</field>
+    </record>
+
+    <menuitem
+        id="menu_server_software"
+        name="Softwares and versions"
+        parent="oversight.menu_oversight_setting"
+        action="action_server_software"
+        sequence="220"
+    />
+
+</odoo>

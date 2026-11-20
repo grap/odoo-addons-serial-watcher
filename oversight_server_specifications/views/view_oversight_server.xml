@@ -24,19 +24,49 @@ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
         </field>
     </record>
 
-    <!-- LIST -->
-    <record id="view_oversight_server_list_view" model="ir.ui.view">
+    <record id="view_oversight_server_form_softwares" model="ir.ui.view">
         <field name="model">oversight.server</field>
-        <field name="inherit_id" ref="oversight.view_oversight_server_list" />
+        <field name="inherit_id" ref="oversight.view_oversight_server_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='is_ours']" position="after">
-                <field name="os" optional="hide"/>
-                <field name="ram" optional="hide"/>
-                <field name="hard_drive_capacity" optional="hide"/>
-                <field name="hard_drive_type" optional="hide"/>
-                <field name="cpu" optional="hide"/>
-                <field name="cpu_note" optional="hide"/>
+            <xpath expr="//notebook" position="inside">
+                <page name="server_softwares" string="Softwares">
+                    <group>
+                        <field name="os"/>
+                        <field name="reverse_proxy"/>
+                        <field name="has_php"/>
+                        <field name="software" options="{'color_field': 'color'}" widget="many2many_tags"/>
+                    </group>
+                </page>
             </xpath>
         </field>
     </record>
+
+    <!-- LIST -->
+    <record id="view_oversight_server_list_view" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="inherit_id" ref="oversight.view_oversight_server_spec" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_ours']" position="after">
+                <field name="os" optional="show"/>
+                <field name="ram" optional="show"/>
+                <field name="hard_drive_capacity" optional="show"/>
+                <field name="hard_drive_type" optional="show"/>
+                <field name="cpu" optional="show"/>
+                <field name="cpu_note" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_oversight_server_list_softwares" model="ir.ui.view">
+        <field name="model">oversight.server</field>
+        <field name="inherit_id" ref="oversight.view_oversight_server_softwares" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_ours']" position="after">
+                <field name="has_php" optional="show"/>
+                <field name="reverse_proxy" optional="show"/>
+                <field name="software" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
