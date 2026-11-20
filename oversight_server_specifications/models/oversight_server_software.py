@@ -11,7 +11,7 @@ class OversightServerSoftware(models.Model):
 
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
-    version = fields.Float()
+    version = fields.Char()
     color = fields.Integer(default=lambda x: x._default_color(), aggregator=False)
 
     def _default_color(self):
